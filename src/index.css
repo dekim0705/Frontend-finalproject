@@ -3,6 +3,7 @@ body {
   font-family: "Pretendard", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -15,6 +16,6 @@ code {
   --hover-color: #FFF8FA;
   --input-color: #F9F9F9;
   --input-text-color: #818087;
-  --line-color: #C8C8C8;
+  --line-color: #eee;
   --hover-extra-color: #66002F;
 }

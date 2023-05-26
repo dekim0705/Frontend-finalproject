@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "../components/common/Navbar";
+import AppLayout from "../components/common/AppLayout";
 
 const MainPage = () => {
 
   return (
     <>
-      <Navbar />
+      <AppLayout />
     </>
   );
 }
