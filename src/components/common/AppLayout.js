@@ -1,20 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "./Header";
 import Navbar from "./Navbar";
 import Rank from "./Rank";
+import MainContent from "./MainContent";
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: start;
 `;
-const AppLayout = () => {
+const AppLayout = ({ children }) => {
 
   return (
     <Container>
       <Navbar />
-      <Header />
+      <MainContent>{children}</MainContent>
       <Rank />
     </Container>
   );

@@ -8,7 +8,7 @@ const StyledRank = styled.div`
   position: fixed;
   background-color: #fff;
   z-index: 100;
-  right: 80px;
+  right: 63px;
 `;
 
 const Container = styled.div`

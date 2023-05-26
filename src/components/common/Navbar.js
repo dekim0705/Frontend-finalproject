@@ -13,12 +13,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 15%;
+  width: 20%;
   height: 100%;
   border-right: 1px solid var(--line-color);
   background-color: #fff;
   position: fixed;
-  left: 80px;
+  left: 34px;
   z-index: 100;
 `;
 

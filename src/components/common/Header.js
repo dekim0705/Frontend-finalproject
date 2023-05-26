@@ -5,13 +5,12 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchIcon from '@mui/icons-material/Search';
 
 const StyledHeader = styled.div`
-  width: 55%;
   height: fit-content;
-  padding-top: 30px;
   background-color: #fff;
   position: sticky;
   top: 0;
   z-index: 100;
+  margin: auto;
 `;
 
 const Container = styled.div`
@@ -44,10 +43,12 @@ const SearchWrapper = styled.div`
 
 const AlarmIcon = styled(NotificationsNoneIcon)`
   color: var(--point-color);
+  cursor: pointer;
 `;
 
 const Search = styled(SearchIcon)`
   color: var(--point-color);
+  cursor: pointer;
 `;
 
 const Header = () => {
