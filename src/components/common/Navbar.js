@@ -20,6 +20,9 @@ const Container = styled.div`
   position: fixed;
   left: 34px;
   z-index: 100;
+  @media screen and (max-width:768px) {
+    visibility: hidden;
+  }
 `;
 
 const StyledLink = styled(Link)`

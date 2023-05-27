@@ -9,6 +9,9 @@ const StyledRank = styled.div`
   background-color: #fff;
   z-index: 100;
   right: 63px;
+  @media screen and (max-width:768px) {
+    visibility: hidden;
+  }
 `;
 
 const Container = styled.div`

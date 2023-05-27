@@ -10,6 +10,9 @@ const Container = styled.div`
   width: 55%;
   padding-top: 30px;
   gap: 15px;
+  @media screen and (max-width:768px) {
+    width: 100%;
+  }
 `;
 
 const MainContent = (props) => {
