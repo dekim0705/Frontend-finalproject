@@ -17,6 +17,7 @@ const Container = styled.div`
 const StyledImage = styled.div`
   width: 238px;
   height: 50px;
+  cursor: pointer;
   img {
     width: 100%;
     height: auto;

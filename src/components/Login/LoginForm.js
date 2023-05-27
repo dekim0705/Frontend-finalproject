@@ -20,12 +20,13 @@ const StyledButton = styled.button`
   font-size: 1.4em;
   opacity: 50%;
   border-radius: 8px;
+  cursor: pointer;
   &:hover {
     opacity: 100%;
   }
 `;
 
-const StyledFindAccountLink = styled(Link)`
+const StyledChangePasswordLink = styled(Link)`
   align-self: flex-end;
   color: var(--point-color);
   text-decoration: underline;
@@ -83,9 +84,9 @@ const LoginForm = () => {
             },
           }}
         />
-        <StyledFindAccountLink to="/findaccount">
-          내 계정 찾기🙂
-        </StyledFindAccountLink>
+        <StyledChangePasswordLink to="/password">
+          비밀번호 재설정🔒
+        </StyledChangePasswordLink>
         <StyledButton>로 그 인</StyledButton>
       </Container>
     </Box>
