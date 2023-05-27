@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledCity = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   width: 60%;
-  justify-content: space-around;
   gap: 10px;
-  flex-wrap: wrap;
   margin: auto;
 
   li {
@@ -16,6 +15,7 @@ const StyledCity = styled.div`
     font-weight: bold;
     cursor: pointer;
     list-style: none;
+    text-align: center;
   }
   li:hover {
     background-color: var(--hover-extra-color);
@@ -23,6 +23,9 @@ const StyledCity = styled.div`
   }
 
   @media screen and (max-width:768px) {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
     width: 75%;
   }
 `;

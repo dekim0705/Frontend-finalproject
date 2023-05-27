@@ -6,6 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import miniLogo from '../../resource/오늘의 데이트 심볼.png';
 
 const StyledHeader = styled.div`
+  width: 100%;
+  padding: 20px 0;
   height: fit-content;
   background-color: #fff;
   position: sticky;
@@ -46,7 +48,7 @@ const SearchWrapper = styled.div`
 
   input {
     width: 250px;
-    height: 25px;
+    height: 50px;
     border-radius: 12px;
     padding: 10px;
     border: none;
