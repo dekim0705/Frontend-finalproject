@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 const StyledCity = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  width: 60%;
+  grid-template-columns: repeat(6, 1fr);
+  width: 70%;
   gap: 10px;
   margin: auto;
+  margin-bottom: 10px;
 
   li {
     padding: 15px 28px;
@@ -40,10 +41,18 @@ const City = () => {
       <li>대전</li>
       <li>강원</li>
       <li>대구</li>
+      <li>광주</li>
       <li>부산</li>
-      <li>제주</li>
+      <li>울산</li>
+      <li>세종</li>
+      <li>충북</li>
+      <li>충남</li>
       <li>경북</li>
+      <li>경남</li>
+      <li>전북</li>
       <li>전남</li>
+      <li>제주</li>
+      <li>전체</li>
     </StyledCity>
   );
 }
