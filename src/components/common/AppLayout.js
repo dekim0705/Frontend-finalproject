@@ -9,14 +9,17 @@ const Container = styled.div`
   justify-content: center;
   align-items: start;
 `;
+
 const AppLayout = ({ children }) => {
 
   return (
-    <Container>
-      <Navbar />
-      <MainContent>{children}</MainContent>
-      <Rank />
-    </Container>
+    <>
+      <Container>
+        <Navbar />
+        <MainContent>{children}</MainContent>
+        <Rank />
+      </Container>
+    </>
   );
 }
 

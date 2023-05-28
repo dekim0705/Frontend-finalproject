@@ -7,11 +7,11 @@ const Container = styled.div`
   background-color: #fff;
   top: 90px;
   position: sticky;
-  z-index: 10;
+  z-index: 5;
   @media screen and (max-width:768px) {
     position: sticky;
-    top: 140px;
-    z-index: 250;
+    top: 150px;
+    z-index: 5;
   }
 `;
 

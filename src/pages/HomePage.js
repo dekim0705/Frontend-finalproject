@@ -16,16 +16,16 @@ const PostWrapper = styled.div`
 const HomePage = () => {
 
   return (
-      <AppLayout>
-        <Ad />
-        <City />
-        <PostWrapper>
-          <CityPost />
-          <CityPost />
-          <CityPost />
-          <CityPost />
-        </PostWrapper>
-      </AppLayout>
+    <AppLayout>
+      <Ad />
+      <City />
+      <PostWrapper>
+        <CityPost />
+        <CityPost />
+        <CityPost />
+        <CityPost />
+      </PostWrapper>
+    </AppLayout>
   );
 }
 
