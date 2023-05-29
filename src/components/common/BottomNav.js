@@ -1,4 +1,5 @@
 import React from "react";
+import {  useNavigate, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
@@ -30,12 +31,13 @@ const Container = styled.div`
 `;
 
 const BottomNav = () => {
+  const nav = useNavigate();
 
   return (
     <Container>
-      <div className="icon"><ArrowBackIosNewIcon sx={{ fontSize: "25px" }} /></div>
-      <div className="icon"><img src={home} alt="" /></div>
-      <div className="icon"><PersonPinIcon sx={{ fontSize: "30px" }} /></div>
+      <div className="icon" onClick={() => nav(-1)}><ArrowBackIosNewIcon sx={{ fontSize: "25px" }} /></div>
+      <div className="icon" onClick={() => nav("/")}><img src={home} alt="" /></div>
+      <div className="icon" onClick={() => nav("/mypage")}><PersonPinIcon sx={{ fontSize: "30px" }} /></div>
     </Container>
   );
 }

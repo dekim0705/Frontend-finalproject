@@ -22,6 +22,9 @@ const StyledImage = styled.div`
     width: 100%;
     height: fit-content;
   }
+  @media screen and (max-width:768px) {
+    width: 100%;
+  }
 `;
 
 const Ad = () => {
