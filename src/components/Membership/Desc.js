@@ -10,13 +10,14 @@ const Container = styled.div`
   border-radius: 15px;
   margin: 0 auto;
   color: var(--text-color);
+  box-shadow: 3px 3px 3px #999;
   .title {
     padding: 15px;
     align-self: flex-start;
     font-weight: bold;
     font-size: 1.4em;
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 90%;
   }
 `;
@@ -24,7 +25,7 @@ const Container = styled.div`
 const StyledMembership = styled.div`
   display: flex;
   justify-content: space-between;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column;
   }
 `;
@@ -37,7 +38,7 @@ const Version = styled.div`
   gap: 10px;
   padding: 15px;
   width: 50%;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
   h1 {
@@ -82,9 +83,7 @@ const Version = styled.div`
   }
 `;
 
-
 const Desc = () => {
-
   return (
     <Container>
       <div className="title">멤버십</div>
@@ -106,6 +105,6 @@ const Desc = () => {
       </StyledMembership>
     </Container>
   );
-}
+};
 
 export default Desc;
