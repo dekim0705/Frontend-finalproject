@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import Ad from "../components/Home/Ad";
 import City from "../components/Home/City";
 import CityPost from "../components/Home/CityPost";
+import BottomNav from "../components/common/BottomNav";
 
 const PostWrapper = styled.div`
   width: 100%;
@@ -14,18 +15,23 @@ const PostWrapper = styled.div`
 `;
 
 const HomePage = () => {
+  // 📌 추후 멤버십 유무에 따라 광고 노출 여부 결정할 예정
+  const [showAd, setShowAd] = useState(true);
 
   return (
-    <AppLayout>
-      <Ad />
-      <City />
-      <PostWrapper>
-        <CityPost />
-        <CityPost />
-        <CityPost />
-        <CityPost />
-      </PostWrapper>
-    </AppLayout>
+    <>
+      <AppLayout>
+        {showAd && <Ad />}
+        <City />
+        <PostWrapper>
+          <CityPost />
+          <CityPost />
+          <CityPost />
+          <CityPost />
+        </PostWrapper>
+      </AppLayout>
+      <BottomNav />
+    </>
   );
 }
 

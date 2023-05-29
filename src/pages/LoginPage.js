@@ -16,12 +16,14 @@ const Container = styled.div`
 const LoginPage = () => {
 
   return (
-    <Container>
-      <LoginLogo />
-      <LoginForm />
-      <KakaoLogin />
-      <JoinForm />
-    </Container>
+    <>
+      <Container>
+        <LoginLogo />
+        <LoginForm />
+        <KakaoLogin />
+        <JoinForm />
+      </Container>
+    </>
   );
 }
 
