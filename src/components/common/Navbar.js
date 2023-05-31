@@ -36,7 +36,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: var(--text-color);
   &:hover {
-    color: var(--point-color);
+    color: var(--hover-extra-color);
   }
 `;
 
