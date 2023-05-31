@@ -1,6 +1,6 @@
 import React from "react";
 
-const KakaoPay = () => {
+const ContentField = () => {
 
   return (
     <>
@@ -8,4 +8,4 @@ const KakaoPay = () => {
   );
 }
 
-export default KakaoPay;
+export default ContentField;

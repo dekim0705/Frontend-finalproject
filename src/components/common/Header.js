@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import profile from '../../resource/profile.jpeg'
 import miniLogo from '../../resource/오늘의 데이트 심볼.png';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import MemberDropDown from "./MemberDropDown";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -32,12 +32,6 @@ const Container = styled.div`
   .mini {
     width: 40px;
     display: none;
-  }
-  
-  .profile {
-    border-radius: 100%;
-    width: 40px;
-    height: 40px;
   }
   @media screen and (max-width:768px) {
     flex-wrap: wrap;
@@ -115,7 +109,7 @@ const Header = () => {
       <StyledHeader>
         <Container>
           <img className="mini" src={miniLogo} alt="" onClick={toggleDrawer(true)} />
-          <img className="profile" src={profile} alt="사용자 프로필" />
+          <MemberDropDown />
           <AlarmIcon sx={{ fontSize: "2.5rem" }} />
           <SearchWrapper>
             <input placeholder="어디로 데이트를 가시나요?" type="text" />

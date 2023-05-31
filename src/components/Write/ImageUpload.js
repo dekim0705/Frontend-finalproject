@@ -1,6 +1,6 @@
 import React from "react";
 
-const KakaoPay = () => {
+const ImageUpload = () => {
 
   return (
     <>
@@ -8,4 +8,4 @@ const KakaoPay = () => {
   );
 }
 
-export default KakaoPay;
+export default ImageUpload;

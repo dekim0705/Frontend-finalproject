@@ -26,11 +26,8 @@ const AuthorHeader = styled.div`
   gap: 8px;
 `;
 const AuthorInfo = styled.div`
-  h1 {
-    font-weight: 600;
-    font-size: 1.1em;
-  }
   p {
+    padding-top: 4px;
     color: var(--input-text-color);
     font-size: 0.75em;
   }
@@ -44,8 +41,8 @@ const PostTitle = styled.div`
     font-size: 1.3em;
   }
   p {
-    font-size: 0.9em;
-    font-weight: 400;
+    font-size: 1.1em;
+    font-weight: 500;
   }
 `;
 const StyledThumbnail = styled.div`

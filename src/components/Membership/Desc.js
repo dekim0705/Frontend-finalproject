@@ -61,10 +61,7 @@ const Version = styled.div`
     font-weight: 500;
   }
   p {
-    font-size: 1.1em;
-    font-weight: 500;
-    letter-spacing: -1.8px;
-    word-spacing: 2px;
+    font-size: 1em;
   }
   .wrapper {
     display: flex;

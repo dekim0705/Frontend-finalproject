@@ -61,12 +61,12 @@ const Navbar = () => {
               sx={{ fontSize: "2.3rem" }} />
             <p>핀 만들기</p>
           </StyledLink>
-          <StyledLink to="membership">
+          <StyledLink to="/membership">
             <CreditCardIcon
               sx={{ fontSize: "2.3rem" }} />
             <p>멤버십</p>
           </StyledLink>
-          <StyledLink to="contact">
+          <StyledLink to="/contact">
             <QuestionAnswerIcon
               sx={{ fontSize: "2.3rem" }} />
             <p>고객센터</p>
