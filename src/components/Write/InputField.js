@@ -25,6 +25,12 @@ const Container = styled.div`
     flex-direction: column;
     gap: 10px;
   }
+  @media screen and (max-width:768px) {
+    width: 90%;
+    .wrapper {
+      flex-direction: column;
+    }
+  }
 `;
 
 const InputField = () => {

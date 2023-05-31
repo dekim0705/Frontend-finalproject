@@ -23,6 +23,10 @@ const SelectWrapper = styled.div`
   width: 90%;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width:768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
 
 const WriteForm = () => {
