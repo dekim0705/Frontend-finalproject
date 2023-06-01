@@ -19,6 +19,7 @@ const Container = styled.div`
   flex-direction: column;
   margin: auto;
   gap: 8px;
+  margin-bottom: 20px;
   input {
     border: none;
     height: 40px;

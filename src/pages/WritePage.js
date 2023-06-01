@@ -4,6 +4,8 @@ import AppLayout from "../components/common/AppLayout";
 import BottomNav from "../components/common/BottomNav";
 import WriteForm from "../components/Write/WriteForm";
 import RouteByKakao from "../components/Write/RouteByKakao";
+import ContentField from "../components/Write/ContentField";
+import PlaceTag from "../components/Write/PlaceTag";
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +20,8 @@ const WritePage = () => {
       <AppLayout>
         <WriteForm />
         <RouteByKakao />
+        <ContentField />
+        <PlaceTag />
       </AppLayout>
       <BottomNav />
     </Container>

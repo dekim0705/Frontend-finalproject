@@ -8,6 +8,9 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: start;
+  @media screen and (max-width:768px) {
+    margin-bottom: 100px;
+  }
 `;
 
 const AppLayout = ({ children }) => {
