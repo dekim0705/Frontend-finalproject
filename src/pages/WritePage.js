@@ -8,6 +8,7 @@ import RouteByKakao from "../components/Write/RouteByKakao";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  color: var(--text-color);
 `;
 
 const WritePage = () => {

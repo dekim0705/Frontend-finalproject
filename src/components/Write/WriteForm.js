@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 25px;
+  margin-bottom: 20px;
   p {
     /* 본문 텍스트 */
     font-size: 1em;

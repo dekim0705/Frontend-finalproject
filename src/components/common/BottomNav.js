@@ -13,6 +13,7 @@ const Container = styled.div`
   position: fixed;
   bottom: 0;
   background-color: #F9F9F9;
+  z-index: 100;
   @media screen and (min-width:768px) {
     display: none;
   }

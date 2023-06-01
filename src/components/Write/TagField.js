@@ -1,6 +1,6 @@
 import React from "react";
 
-const TagField = () => {
+const PlaceTag = () => {
 
   return (
     <>
@@ -8,4 +8,4 @@ const TagField = () => {
   );
 }
 
-export default TagField;
+export default PlaceTag;

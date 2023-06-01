@@ -43,8 +43,8 @@ const InputField = () => {
       </div>
       <div className="wrapper">
         <div className="form">
-          <label htmlFor="detailRegion">상세 지역 *</label>
-          <input type="text" id="detailRegion" placeholder="예) 서울시 중구" required />
+          <label htmlFor="district">상세 지역 *</label>
+          <input type="text" id="district" placeholder="예) 서울시 중구" required />
         </div>
         <div className="form">
           <label htmlFor="comment1">한 줄 평 - 1</label>
