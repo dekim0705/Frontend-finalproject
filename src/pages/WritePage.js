@@ -13,6 +13,24 @@ const Container = styled.div`
   color: var(--text-color);
 `;
 
+const StyledButton = styled.button`
+  align-self: flex-end;
+  margin-right: 50px;
+  width: 150px;
+  height: 50px;
+  border: none;
+  background-color: var(--point-color);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.4em;
+  opacity: 50%;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    opacity: 100%;
+  }
+`;
+
 const WritePage = () => {
 
   return (
@@ -22,6 +40,7 @@ const WritePage = () => {
         <RouteByKakao />
         <ContentField />
         <PlaceTag />
+        <StyledButton>등록</StyledButton>
       </AppLayout>
       <BottomNav />
     </Container>
