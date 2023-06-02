@@ -26,6 +26,9 @@ const AuthorHeader = styled.div`
   gap: 8px;
 `;
 const AuthorInfo = styled.div`
+  h1 {
+    font-size: 0.9em;
+  }
   p {
     padding-top: 4px;
     color: var(--input-text-color);

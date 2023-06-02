@@ -33,7 +33,7 @@ const Title = styled.h1`
 const RankItem = styled.div`
   width: 100%;
   display: flex;
-  gap: 5px;
+  gap: 1px;
   align-self: flex-start;
   align-items: flex-start;
   padding: 10px;

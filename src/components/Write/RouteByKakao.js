@@ -54,6 +54,7 @@ const RouteByKakao = () => {
     };
 
     const mapObj = new window.kakao.maps.Map(container.current, options);
+    mapObj.setDraggable(true);
     setMap(mapObj);
 
     window.kakao.maps.event.addListener(mapObj, "click", (mouseEvent) => {
@@ -118,6 +119,7 @@ const RouteByKakao = () => {
         const firstPlace = places[0];
         const latLng = new window.kakao.maps.LatLng(firstPlace.y, firstPlace.x);
         addMarker(latLng, map, clickMarkerIndex, setClickMarkerIndex);
+        map.setCenter(latLng);
       }
     } catch (error) {
       console.error(error);
@@ -146,7 +148,7 @@ const RouteByKakao = () => {
       </div>
       <div
         id="map"
-        style={{ height: "300px" }}
+        style={{ height: "450px" }}
         ref={container}
       ></div>
     </RouteContainer>

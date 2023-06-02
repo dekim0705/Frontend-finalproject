@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import miniLogo from '../../resource/오늘의 데이트 심볼.png';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import SearchIcon from '@mui/icons-material/Search';
 import Drawer from '@mui/material/Drawer';
 import { Box } from "@mui/material";
 import List from '@mui/material/List';
@@ -11,6 +10,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import MemberDropDown from "./MemberDropDown";
+import SearchIcon from '../../resource/header_search.svg';
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -45,7 +45,7 @@ const Container = styled.div`
 const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 8px;
 
   input {
     width: 250px;
@@ -55,14 +55,12 @@ const SearchWrapper = styled.div`
     border: none;
     background-color: var(--input-color);
   }
+  img {
+    width: 30px;
+  }
 `;
 
 const AlarmIcon = styled(NotificationsNoneIcon)`
-  color: var(--point-color);
-  cursor: pointer;
-`;
-
-const Search = styled(SearchIcon)`
   color: var(--point-color);
   cursor: pointer;
 `;
@@ -113,7 +111,7 @@ const Header = () => {
           <AlarmIcon sx={{ fontSize: "2.5rem" }} />
           <SearchWrapper>
             <input placeholder="어디로 데이트를 가시나요?" type="text" />
-            <Search sx={{ fontSize: "2.5rem" }} />
+            <img src={SearchIcon} alt="" />
           </SearchWrapper>
         </Container>
       </StyledHeader>
