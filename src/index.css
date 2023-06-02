@@ -9,7 +9,8 @@ body {
   font-family: "Pretendard", sans-serif;
 }
 textarea:focus, input:focus {
-  outline: 1px solid #FF62AD;
+  /* outline: 1px solid #FF62AD; */
+  outline: none;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

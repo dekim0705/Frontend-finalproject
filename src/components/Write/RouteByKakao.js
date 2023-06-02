@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import { Container } from "../../util/WriteFormStyle";
 import marker01 from "../../resource/pin_icon/01.png";
 import marker02 from "../../resource/pin_icon/02.png";
 import marker03 from "../../resource/pin_icon/03.png";
@@ -13,13 +14,7 @@ import marker08 from "../../resource/pin_icon/08.png";
 import marker09 from "../../resource/pin_icon/09.png";
 import marker10 from "../../resource/pin_icon/10.png";
 
-const Container = styled.div`
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  gap: 8px;
-  margin-bottom: 20px;
+const RouteContainer = styled(Container)`
   input {
     border: none;
     height: 40px;
@@ -27,18 +22,6 @@ const Container = styled.div`
     border-radius: 4px;
     padding: 5px 10px;
     width: 40%;
-  }
-  h1 {
-    font-size: 1.5em;
-    font-weight: 700;
-  }
-  p {
-    font-size: 0.8em;
-    color: var(--input-text-color);
-    span {
-      color: var(--point-color);
-      font-weight: bold;
-    }
   }
   .wrapper {
     display: flex;
@@ -148,7 +131,7 @@ const RouteByKakao = () => {
   };
 
   return (
-    <Container>
+    <RouteContainer>
       <h1>📍경로 만들기</h1>
       <p>경로는 <span>최대 10개</span>까지 만들 수 있습니다.</p>
       <div className="wrapper">
@@ -166,7 +149,7 @@ const RouteByKakao = () => {
         style={{ height: "300px" }}
         ref={container}
       ></div>
-    </Container>
+    </RouteContainer>
   );
 };
 
