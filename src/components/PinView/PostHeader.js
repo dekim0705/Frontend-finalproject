@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Container } from "../../util/ViewFormStyle";
 import profileImg from "../../resource/profile.jpeg";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -7,17 +8,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 90%;
-  margin: auto;
-  color: var(--text-color);
-  border-bottom: 1px solid var(--line-color);
-  padding-bottom: 10px;
-`;
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -46,6 +36,9 @@ const Wrapper = styled.div`
   h1 {
     font-size: 1.2em;
     font-weight: bold;
+  }
+  .iconWrapper {
+    cursor: pointer;
   }
 `;
 
@@ -93,7 +86,7 @@ const PostHeader = () => {
         </div>
         <div className="form">
           <ShareIcon style={{ color: '#FF62AD'}} />
-          <p style={{ color: '#FF62AD', fontWeight: 'bold' }}>공유하기</p>
+          <p style={{ color: '#FF62AD', fontWeight: 'bold', cursor: 'pointer' }}>공유하기</p>
         </div>
       </PostDetailInfo>
       <PostConcept>

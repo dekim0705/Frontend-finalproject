@@ -36,7 +36,7 @@ const RouteContainer = styled(Container)`
 
 const RouteByKakao = () => {
   const markerImages = [marker01, marker02, marker03, marker04, marker05, marker06, marker07, marker08, marker09, marker10];
-  const container = useRef(null);
+  const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [lines, setLines] = useState([]);
@@ -53,7 +53,7 @@ const RouteByKakao = () => {
       level: 3,
     };
 
-    const mapObj = new window.kakao.maps.Map(container.current, options);
+    const mapObj = new window.kakao.maps.Map(mapRef.current, options);
     mapObj.setDraggable(true);
     setMap(mapObj);
 
@@ -147,9 +147,8 @@ const RouteByKakao = () => {
         </Box>
       </div>
       <div
-        id="map"
         style={{ height: "450px" }}
-        ref={container}
+        ref={mapRef}
       ></div>
     </RouteContainer>
   );

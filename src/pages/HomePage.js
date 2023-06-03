@@ -1,10 +1,17 @@
 import React, {  } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 // import Ad from "../components/Home/Ad";
 import City from "../components/Home/City";
 import CityPost from "../components/Home/CityPost";
 import BottomNav from "../components/common/BottomNav";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    max-width: 1470px;
+    margin: 0 auto;
+  }
+`;
 
 const PostWrapper = styled.div`
   width: 100%;
@@ -22,6 +29,7 @@ const HomePage = () => {
     <>
       <AppLayout>
         {/* {showAd && <Ad />} */}
+        <GlobalStyle />
         <City />
         <PostWrapper>
           <CityPost />

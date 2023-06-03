@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledRank = styled.div`
-  width: 18%;
+  width: 16%;
   border-left: 1px solid var(--line-color);
   height: 100%;
   position: fixed;
@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 1.6em;
+  font-size: 1.4em;
   font-weight: 900;
   background-color: var(--input-color);
   padding: 20px;
