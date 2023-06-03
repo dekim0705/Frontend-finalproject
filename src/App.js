@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './util/ScrollToTop';
 import { createGlobalStyle } from "styled-components";
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -25,6 +26,7 @@ function App() {
     <>
     <GlobalStyle />
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />

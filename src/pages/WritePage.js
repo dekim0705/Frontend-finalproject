@@ -19,7 +19,7 @@ const StyledButton = styled.button`
   width: 150px;
   height: 50px;
   border: none;
-  background-color: var(--point-color);
+  background-color: var(--input-text-color);
   color: #fff;
   font-weight: 900;
   font-size: 1.4em;
@@ -27,6 +27,7 @@ const StyledButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   &:hover {
+    background-color: var(--point-color);
     opacity: 100%;
   }
 `;
