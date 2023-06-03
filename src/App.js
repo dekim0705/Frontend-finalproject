@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage';
 import MembershipPage from './pages/MembershipPage';
 import WritePage from './pages/WritePage';
 import PinViewPage from './pages/PinViewPage';
+import JoinPage from './pages/JoinPage';
+import MyPage from './pages/MyPage';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -34,6 +36,8 @@ function App() {
           <Route path='/membership' element={<MembershipPage />} />
           <Route path='/write' element={<WritePage />} />
           <Route path='/view' element={<PinViewPage />} />
+          <Route path='/join' element={<JoinPage />} />
+          <Route path='/mypage' element={<MyPage />} />
         </Routes>
       </Router>
     </>
