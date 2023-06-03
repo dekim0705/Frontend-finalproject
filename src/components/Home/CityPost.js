@@ -39,6 +39,7 @@ const PostTitle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
+  cursor: pointer;
   h1 {
     font-weight: 800;
     font-size: 1.3em;
@@ -49,6 +50,7 @@ const PostTitle = styled.div`
   }
 `;
 const StyledThumbnail = styled.div`
+  cursor: pointer;
   img {
     width: 100%;
     height: 350px;
