@@ -1,7 +1,12 @@
 import { TextField } from '@mui/material';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+import styled from '@emotion/styled'
 
-const StyledTextField = styled(TextField)`
+
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: (prop) =>
+    prop !== 'isValid' && prop !== 'errorColor',
+})`
   width: 100%;
   .MuiOutlinedInput-root {
     border-radius: 8px;
