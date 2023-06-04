@@ -5,7 +5,7 @@ import styled from "styled-components";
 const ContentContainer = styled(Container)`
   textarea {
     padding: 20px;
-    border: 1.5px solid #eee;
+    border: 1.5px solid var(--line-color);
     font-size: 1em;
   }
 `;
