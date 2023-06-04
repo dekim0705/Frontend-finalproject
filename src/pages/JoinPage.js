@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Symbol from '../components/Join/Symbol';
 import { ColumnWrapper } from '../components/Join/Wrappers';
 import Button from '../components/Join/Button';
+import Agreement from '../components/Join/Agreement';
 
 const StyledContainer = styled.div`
   margin: 20px auto;
@@ -71,7 +72,7 @@ const JoinPage = () => {
 
   return (
     <StyledContainer gap="30px">
-      <ColumnWrapper>
+      <ColumnWrapper alignItems='center' justifyContent='center'>
         <Symbol />
         <StyledH1>회원가입</StyledH1>
       </ColumnWrapper>
@@ -123,6 +124,7 @@ const JoinPage = () => {
         isValid={isEmail}
         errorColor="#66002f"
       />
+      <Agreement />
       <Button>가 입 하 기</Button>
     </StyledContainer>
   );
