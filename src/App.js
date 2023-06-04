@@ -9,6 +9,9 @@ import WritePage from './pages/WritePage';
 import PinViewPage from './pages/PinViewPage';
 import JoinPage from './pages/JoinPage';
 import MyPage from './pages/MyPage';
+import FestivalPage from './pages/FestivalPage'
+import ContactPage from './pages/ContactPage'
+import AdiminPage from './pages/AdminPage'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -38,6 +41,9 @@ function App() {
           <Route path='/view' element={<PinViewPage />} />
           <Route path='/join' element={<JoinPage />} />
           <Route path='/mypage' element={<MyPage />} />
+          <Route path='/contact' element={<ContactPage />} />
+          <Route path='/festival' element={<FestivalPage />} />
+          <Route path='/admin' element={<AdiminPage />} />
         </Routes>
       </Router>
     </>
