@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { Container } from "../../util/ViewFormStyle";
 import profileImg from "../../resource/profile.jpeg";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ReportBlockDropdown from "../../util/ReportBlockDropdown";
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -38,6 +38,7 @@ const Wrapper = styled.div`
     font-weight: bold;
   }
   .iconWrapper {
+    display: flex;
     cursor: pointer;
   }
 `;
@@ -70,7 +71,7 @@ const PostHeader = () => {
           <h1>서울의 고즈넉한 한옥 즐기기</h1>
           <div className="iconWrapper">
             <BookmarkBorderIcon />
-            <MoreVertIcon />
+            <ReportBlockDropdown />
           </div>
         </Wrapper>
         <p>서울시 중구</p>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ReportBlockDropdown from "../../util/ReportBlockDropdown";
 import profileImg from "../../resource/profile.jpeg";
 
 const StyledContainer = styled(Container)`
@@ -42,7 +43,7 @@ const ReplyList = () => {
       <StyledReplyForm>
         <div className="subContainer">
           <h1>닉네임이들어간다구요</h1>
-          <MoreVertIcon sx={{fontSize: '1.1em', cursor: 'pointer' }} />
+          <ReportBlockDropdown />
         </div>
         <p className="writeDate">3분전</p>
         <p className="content">재미있었어요 추천합니다! 근데 집에 돌아갈 때 버스 차편 잘 보고 가시는 것을 추천드립니다. 막차가 일찍 끊겨요.</p>
