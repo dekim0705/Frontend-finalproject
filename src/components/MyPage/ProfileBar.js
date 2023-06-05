@@ -11,9 +11,7 @@ const ProfileBar = () => {
       <ColumnWrapper alignItems='center' gap='20px'>
         <UserProfile />
         <ShortcutBar />
-
       </ColumnWrapper>
-
     </Container>
   );
 }

@@ -15,12 +15,18 @@ const ShortcutLink = styled(Link)`
     background-color: var(--hover-color);
     border-radius: 8px;
   }
+  @media screen and (max-width:768px) {
+    margin-bottom: 4px;
+    display: none;
+  }
 `;
 
 const Icon = styled.img`
   width: 40px;
-  color: #eee;  
   padding-top: 8px;
+  @media screen and (max-width:768px) {
+    padding-top: 4px;
+}
 `;
 
 const Title = styled.p`
@@ -28,12 +34,16 @@ const Title = styled.p`
   font-size: 0.2rem;
   margin-bottom: 8px;
   padding-bottom: 2px;
+  @media screen and (max-width:768px) {
+    display: none;
+}
+
 `;
 
 const ShortcutBar = () => {
 
   return(
-  <RowWrapper gap='4px'>
+  <RowWrapper gap='4px' justifyContent='center'>
     <ShortcutLink to='/mypage/bookmarks'>
       <Icon src={Bookmark} alt='북마크 아이콘' />
       <Title>북마크</Title>

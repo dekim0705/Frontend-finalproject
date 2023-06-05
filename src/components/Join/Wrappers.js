@@ -7,11 +7,11 @@ export const ColumnWrapper = styled.div(
     flexDirection: 'column',
     gap: props.gap || '',
     width: props.width || '100%',
+    alignItems: props.alignItems || '',
+    justifyContent: props.justifyContent || '',
     '@media screen and (max-width:768px)': {
       width: props.responsiveWidth || '80%',
     },
-    alignItems: props.alignItems || '',
-    justifyContent: props.justifyContent || '',
   })
 );
 
@@ -20,7 +20,7 @@ export const RowWrapper = styled.div(
     margin: '0 auto',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: props.justifyContent || 'flex-start',
     '@media screen and (max-width:768px)': {
       width: '80%',
     },
