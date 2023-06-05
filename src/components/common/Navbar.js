@@ -52,7 +52,7 @@ const Navbar = () => {
               sx={{ fontSize: "2.3rem" }} />
             <p>홈</p>
           </StyledLink>
-          <StyledLink to="/event">
+          <StyledLink to="/festival">
             <ExploreIcon 
               sx={{ fontSize: "2.3rem" }} />
             <p>지역 행사</p>

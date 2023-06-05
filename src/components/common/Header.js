@@ -82,7 +82,7 @@ const Header = () => {
           <ListItemText primary={'🏠 홈'} sx={{ color: '#2e2e2e' }}  />
         </ListItem>
         <Divider />
-        <ListItem key={'event'} component={Link} to="/event">
+        <ListItem key={'event'} component={Link} to="/festival">
           <ListItemText primary={'🏝️ 지역행사'} sx={{ color: '#2e2e2e' }} />
         </ListItem>
         <Divider />
@@ -94,7 +94,7 @@ const Header = () => {
           <ListItemText primary={'💲 멤버십'} sx={{ color: '#2e2e2e' }} />
         </ListItem>
         <Divider />
-        <ListItem key={'contact'} components={Link} to="/contact">
+        <ListItem key={'contact'} component={Link} to="/contact">
           <ListItemText primary={'📞 고객센터'} sx={{ color: '#2e2e2e' }} />
         </ListItem>
         <Divider />
