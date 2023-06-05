@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const StyledButton = styled.button`
-  width: 238px;
+  width: 250px;
   height: 50px;
   border: none;
   background-color: var(--point-color);
