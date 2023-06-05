@@ -8,11 +8,21 @@ const PfImg = styled.img`
   width: 180px;
   height: 180px;
   border-radius: 50%;
+  text-align: center;
+  @media screen and (max-width:768px) {
+    margin: 6px auto;
+    width: 110px;
+    height: 110px;
+  }
 `;
 const Nickname = styled.h1`
   color: var(--text-color);  
   font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: 700;
+  @media screen and (max-width:768px) {
+    font-size: 1.4rem;
+    margin-top: -12px;
+  }
 `;
 const Membership = styled.img`
   width: 30px;
@@ -20,15 +30,25 @@ const Membership = styled.img`
   position: absolute;
   margin-left: 170px;
   margin-top: 200px;
+  @media screen and (max-width:768px) {
+    width: 20px;
+    height: 20px;
+    margin-left: 130px;
+    margin-top: 120px;
+  }
 `;
 const Comment = styled.p`
   color: var(--text-color);  
   font-size: 0.8rem;
   margin-top: -16px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--line-color);
+  border-bottom: 2px solid var(--line-color);
+  @media screen and (max-width:768px) {
+    padding-bottom: 4px;
+    border: none;
+    padding-bottom: 0;
+  }
 `;
-
 
 const UserProfile = () => {
 
