@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ReportBlockDropdown from "../../util/ReportBlockDropdown";
 import profileImg from "../../resource/profile.jpeg";
 

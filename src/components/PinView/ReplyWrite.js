@@ -26,7 +26,7 @@ const StyledReplyForm = styled.div`
   textarea {
     width: 100%;
     border: 1.5px solid var(--line-color);
-    border-radius: 8px;
+    border-radius: 4px;
     height: 70px;
     padding: 10px;
   }
