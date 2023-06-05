@@ -10,7 +10,7 @@ const ChatRoomContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 500px;
-  min-height: 95vh; 
+  min-height: 80vh; 
   height: fit-content; 
   border: 3px solid var(--point-color);
   padding: 20px;
@@ -21,7 +21,7 @@ const ChatRoomContainer = styled.div`
 
   @media screen and (max-width:768px) {
     max-width: 80%;
-    min-height: 80vh; 
+    min-height: 70vh; 
   }
 
 `;

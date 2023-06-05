@@ -1,7 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import LoginLogo from "../components/Login/LoginLogo";
 import EmailForm from "../components/ResetPwd/EmailForm";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    max-width: 1470px;
+    margin: 0 auto;
+  }
+`;
 
 const Container = styled.div`
   width: 30%;
@@ -22,10 +29,13 @@ const Container = styled.div`
 const ResetPwdPage = () => {
 
   return (
-    <Container>
-      <LoginLogo />
-      <EmailForm />
-    </Container>
+    <>
+      <GlobalStyle />
+      <Container>
+        <LoginLogo />
+        <EmailForm />
+      </Container>
+    </>
   );
 }
 
