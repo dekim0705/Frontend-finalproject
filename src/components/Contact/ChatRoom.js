@@ -9,8 +9,8 @@ const ChatRoomContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 550px;
-  min-height: 90vh; 
+  width: 500px;
+  min-height: 95vh; 
   height: fit-content; 
   border: 3px solid var(--point-color);
   padding: 20px;
@@ -21,6 +21,7 @@ const ChatRoomContainer = styled.div`
 
   @media screen and (max-width:768px) {
     max-width: 80%;
+    min-height: 80vh; 
   }
 
 `;
@@ -30,19 +31,19 @@ const ChatRoomHeader = styled.div`
   top: 0px;
   left: 0;
   width: 100%;
-  height: 85px;
+  height: 70px;
   background: var(--point-color);
   border-radius: 25px 25px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  font-size: 1.7rem;
+  font-size: 1.3rem;
   font-weight: bold;
   padding: 0 30px;
   @media screen and (max-width:768px) {
-    height: 65px;
-    font-size: 1.1rem;
+    height: 55px;
+    font-size: 1rem;
     padding: 0 25px;
   }
 `;
@@ -51,7 +52,7 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   color: white;
-  font-size: 2.3rem;
+  font-size: 2rem;
   cursor: pointer;
   @media screen and (max-width:768px) {
     font-size: 1.3rem;
@@ -63,10 +64,10 @@ const ChatMessageContainer = styled.div`
   flex-direction: column;
   overflow-y: auto; 
   max-height: calc(80vh - 250px);
-  margin-top: 100px;
+  margin-top: 80px;
   margin-bottom: 150px;
   @media screen and (max-width:768px) {
-  margin-top: 60px;
+  margin-top: 50px;
   }
 `;
 
@@ -75,17 +76,17 @@ const MessageContainer = styled.div`
   align-items: flex-start;
   justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
   margin-bottom: 20px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   @media screen and (max-width:768px) {
   width: 95%;
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-bottom: 10px;
   }
 `;
 
 const ProfileImage = styled.img`
-  width: 70px;
-  height: 60px;
+  width: 50px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 13px;
   @media screen and (max-width:768px) {
@@ -102,6 +103,9 @@ const Message = styled.div`
   color: #000;
   border-radius: ${({ isUser }) => (isUser ? "25px 25px 0px 25px" : "0px 25px 25px 25px")};
   max-width: 400px;
+  @media screen and (max-width:768px) {
+  padding: 16px;
+  }
 `;
 
 const MenuContainer = styled.div`
@@ -111,22 +115,20 @@ const MenuContainer = styled.div`
   position: absolute;
   bottom: 85px;
   width: 100%;
-  @media (max-width: 768px) {
-    flex-wrap: wrap;
-  }
 `;
 
 const MenuButton = styled.button`
-  padding: 14px 20px;
+  padding: 13px 18px;
   border-radius: 30px;
-  margin-right: 6px; 
+  margin: 0px 3px 9px 3px; 
   border: 1px solid var(--point-color);
   background-color: #fff;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
 
   @media (max-width: 768px) {
-    font-size: 1rem;
-    padding: 10px, 16px;
+    font-size: 0.8rem;
+    padding: 9px 14px;
     margin-bottom: 5px;
     border-radius: 25px;
   }
@@ -139,16 +141,22 @@ const InputContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 20px;
 
   input {
-    height: 60px;
+    height: 50px;
     border-radius: 25px;
-    padding: 10px;
+    padding: 20px;
     border: none;
     background-color: var(--input-color);
     width: 93%; 
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+
+    @media (max-width: 768px) {
+    font-size: 0.9rem;
+    height: 50px;
+    padding: 20px;
+  }
   }
 `;
 const SendButton = styled.button`
@@ -161,6 +169,7 @@ const SendButton = styled.button`
   border-radius: 50%;
   width: 45px;
   height: 45px;
+  margin-left: 5px;
   cursor: pointer;
 
   &:hover {
@@ -175,7 +184,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     const startMessage = {
-      text: "안녕하세요. 오늘의 데이트 고객센터 챗봇입니다. 무엇을 도와드릴까요?",
+      text: "안녕하세요! \n오늘의 데이트 고객센터 챗봇입니다. 원하시는 메뉴를 선택해주세요. 😊 ",
       isUserMessage: false,
     };
     setMessages([startMessage]);
@@ -207,13 +216,13 @@ const ChatRoom = () => {
     switch (menuName) {
       case "이용가이드":
         return 1;
-      case "광고문의":
-        return 2;
       case "멤버십":
+        return 2;
+      case "광고문의":
         return 3;
-      case "신고":
+      case "신고문의":
         return 4;
-      case "기타":
+      case "기타문의":
         return 5;
       default:
         return 0;
@@ -225,11 +234,11 @@ const ChatRoom = () => {
       case 1:
         return "이용가이드에 대한 답변입니다.";
       case 2:
-        return <> 광고 신청 절차 및 관련 자세한 문의사항은 <br /> 아래 이메일로 연락주시면 도움을 드리겠습니다. <br /> <bold>todaysdate@naver.com</bold> </>
+        return <>멤버십 관련 답변</>
       case 3:
-        return "멤버십문의에 대한 답변입니다.";
+        return <> 광고 신청 절차 및 관련 자세한 문의사항은 <br /> 아래 이메일로 연락주시면 도움을 드리겠습니다. <br /> <bold>todaysdate@naver.com</bold> </>
       case 4:
-        return "신고문의에 대한 답변입니다.";
+        return <> [신고문의] <br/>부적절한 게시물이나 댓글을 신고할 수 있는 절차에 대해 안내해드리겠습니다. 블라블라 <br/> 신고할 게시물 오른쪽 상단에 점 세개를 누르시고, 신고하기를 누르면 처리됩니다. </>
       case 5:
         return "기타문의에 대한 답변입니다.";
       default:
@@ -268,10 +277,10 @@ const ChatRoom = () => {
       </ChatMessageContainer>
       <MenuContainer>
         <MenuButton onClick={() => handleMenuSelect("이용가이드")}>이용가이드</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("광고문의")}>광고문의</MenuButton>
         <MenuButton onClick={() => handleMenuSelect("멤버십")}>멤버십</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("신고")}>신고</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("기타")}>기타</MenuButton>
+        <MenuButton onClick={() => handleMenuSelect("광고문의")}>광고문의</MenuButton>
+        <MenuButton onClick={() => handleMenuSelect("신고문의")}>신고문의</MenuButton>
+        <MenuButton onClick={() => handleMenuSelect("기타문의")}>기타문의</MenuButton>
       </MenuContainer>
       <InputContainer>
       <input type="text" />
