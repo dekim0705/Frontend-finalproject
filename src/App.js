@@ -13,6 +13,8 @@ import FestivalPage from './pages/FestivalPage'
 import ContactPage from './pages/ContactPage'
 import AdiminPage from './pages/AdminPage'
 import ResetPwdPage from './pages/ResetPwdPage';
+import FestivalDetailPage from './pages/FestivalDetailPage';
+
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -46,6 +48,7 @@ function App() {
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/festival' element={<FestivalPage />} />
           <Route path='/admin' element={<AdiminPage />} />
+          <Route path='/festival-info' element={<FestivalDetailPage />} />
         </Routes>
       </Router>
     </>
