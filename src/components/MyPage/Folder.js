@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const StyledFolder = styled(Link)`
   display: flex;
@@ -13,37 +12,32 @@ const StyledFolder = styled(Link)`
   border-radius: 15px;
   text-decoration: none;
   background-color: var(--hover-color);
-  margin: 0 auto;
+  margin: 0;
   cursor: pointer;
   box-shadow: 3px 3px 3px #999;
-  width: ${({ width }) => width || '280px'};
+  width: ${({ width }) => width || '40%'};
   height: ${({ height }) => height || '140px'};
   &:hover {
     border: 3px solid #FF62AD;
   }
   @media screen and (max-width: 768px) {
-    width: 90%;
-    height: 50px;
-    flex-direction: row;
+    width: 130px;
+    height: 130px;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0;
-    border: none;
-    box-shadow: none;
-    background-color: transparent;
-    &:active {
-      background-color: var(--hover-color);
-      outline: none;
-    }
-    &:hover {
-    border: none;
-    }
+    justify-content: center;
+    margin: 6px auto;
+    gap: 4px;
   }
 `;
 
 const FolderIcon = styled.img`
   width: 40px;
   height: 40px;
+  @media screen and (max-width: 768px) {
+    align-self: center;
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const FolderTitle = styled.h1`
@@ -52,9 +46,8 @@ const FolderTitle = styled.h1`
   line-height: 1.8rem;
   font-weight: 700;
   @media screen and (max-width: 768px) {
-    margin-left: 30px;
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 700;
   }
 `;
 
@@ -67,25 +60,12 @@ const FolderDescription = styled.p`
   }
 `;
 
-const ChevronIconWrapper = styled.div`
-  display: none;
-  @media screen and (max-width: 768px) {
-    margin-left: auto;
-    display: block;
-
-
-  }
-`;
-
 const Folder = ({ icon, title, to, desc}) => {
 
   return(
     <StyledFolder to={to}>
       <FolderIcon src={icon} alt={icon} />
-      <FolderTitle>{title}</FolderTitle>
-      <ChevronIconWrapper>
-        <ChevronRightIcon />
-      </ChevronIconWrapper>      
+      <FolderTitle>{title}</FolderTitle>     
       <FolderDescription>{desc}</FolderDescription>
     </StyledFolder>
   );

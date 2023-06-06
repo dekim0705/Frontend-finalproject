@@ -1,19 +1,18 @@
 import React from 'react';
 import ProfileBar from '../components/MyPage/ProfileBar';
-import Header from '../components/common/Header';
 import Folder from '../components/MyPage/Folder';
 import styled from 'styled-components';
 import BookmarkIcon from '../resource/mypage_icon/bookmark-heart.svg';
 import PinIcon from '../resource/mypage_icon/pin.svg';
 import ReplyIcon from '../resource/mypage_icon/reply.svg';
 import SettingIcon from '../resource/mypage_icon/settings2.svg';
+import AppLayout from '../components/common/AppLayout';
 
 const ProfileContainer = styled.div`
   margin: 80px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 100px;
   @media screen and (max-width:768px) {
     width: 80%;
     flex-direction: column;
@@ -24,20 +23,20 @@ const ProfileContainer = styled.div`
 
 const FolderContainer = styled.div`
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 40px;
-  width: 700px;
+  gap: 38px;
+  width: 60%;
+  justify-content: flex-end;
   @media screen and (max-width:768px) {
-    width: 84%;
-    gap: 4px;
+    width: 92%;
+    gap: 8px;
   }
 `;
 
 const MyPage = () => {
   return(
     <>
-      <Header />
+      <AppLayout>
       <ProfileContainer>
         <ProfileBar />
           <FolderContainer>
@@ -67,6 +66,7 @@ const MyPage = () => {
           />
           </FolderContainer>           
       </ProfileContainer>
+      </AppLayout>
     </>
   );
 }
