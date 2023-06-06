@@ -7,7 +7,7 @@ import Container from './Container';
 const ProfileBar = () => {
 
   return(
-    <Container width='300px' height='400px'>
+    <Container width='28%' height='400px'>
       <ColumnWrapper alignItems='center' gap='20px'>
         <UserProfile />
         <ShortcutBar />
