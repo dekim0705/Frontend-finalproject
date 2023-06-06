@@ -42,7 +42,7 @@ function App() {
           <Route path='/write' element={<WritePage />} />
           <Route path='/view' element={<PinViewPage />} />
           <Route path='/join' element={<JoinPage />} />
-          <Route path='/mypage' element={<MyPage />} />
+          <Route path='/mypage/*' element={<MyPage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/festival' element={<FestivalPage />} />
           <Route path='/admin' element={<AdiminPage />} />
