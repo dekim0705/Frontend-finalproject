@@ -64,6 +64,14 @@ const Line = styled.hr`
   width: 100%;
   margin: 20px 0;
 `;
+const Title = styled.h1`
+  font-size: 1.3rem; 
+  margin-left : 10px;
+  width: 100%;
+  padding-left: 30px;
+  font-weight: bold;
+`;
+
 
 const FestivalSummary = () => {
 
@@ -99,6 +107,7 @@ const FestivalSummary = () => {
         </div>
       </Summary>
       <Line />
+      <Title>위치</Title>
     </Container>
     
   );
