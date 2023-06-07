@@ -6,7 +6,7 @@ const MapContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 20px;
 `;
 
 const TitleLink = styled(Link)`
@@ -46,6 +46,7 @@ const Table = styled.table`
 export const Button = styled.button`
   margin: 10px 0 0 10px;
   align-self: flex-start;
+  line-height: 1.4rem;
   background-color: var(--line-color);
   border: 1px solid var(--hover-color);
   border-radius: 6px;

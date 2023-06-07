@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
+  margin: 10px 0;
   color: var(--text-color);
   text-decoration: none;
   position: relative;
   font-size: 1.2rem;
   font-weight: ${({ isActive }) => (isActive ? 'bold' : 'normal')};
-
   &:hover {
     font-weight: bold;
   }

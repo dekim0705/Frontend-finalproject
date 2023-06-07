@@ -4,14 +4,23 @@ import styled from 'styled-components';
 import { RowWrapper } from '../Join/Wrappers';
 import { Button } from'./PinList';
 
+const ParentContainer = styled.div`
+  margin: 20px auto;
+`;
+
 const MapContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--line-color);
+  padding: 10px 0;
   gap: 10px;
+  margin: 0 auto;
 `;
 
 const TitleLink = styled(Link)`
-  margin-left: 6rem;
+  margin-left: 1.8rem;
   text-decoration: none;
   color: var(--text-color);
   &:hover {
@@ -20,7 +29,7 @@ const TitleLink = styled(Link)`
 `;
 
 const Content = styled.p`
-  margin-left: 6rem;
+  margin-left: 1.8rem;
   font-size: 0.9rem;
   color: var(--input-text-color);
 `;
@@ -38,6 +47,7 @@ const Date = styled.p`
 `;
 
 const Checkbox = styled.input`
+  margin-bottom: -2px;
   appearance: none;
   width: 15px;
   height: 15px;
@@ -47,6 +57,19 @@ const Checkbox = styled.input`
   transition: border-color 0.4s ease-in-out;
   &:checked {
     background-color: var(--point-color);
+  }
+`;
+
+const SelectAllButton = styled.button`
+  margin: 10px 0 0 -8px;
+  align-self: flex-start;
+  line-height: 1.4rem;
+  background-color: var(--line-color);
+  border: 1px solid var(--hover-color);
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--hover-color);
   }
 `;
 
@@ -62,7 +85,7 @@ const ReplyList = () => {
     {
       replyNum: 2,
       title: "부산으로 당일치기 데이트 왔어요 >< ",
-      content: "부산갈매기",
+      content: "제가 부산에 갔을때는 말이죠, 기러기가 제 새우깡을 먹어서 너무 놀랐던 기억이있는데요 어쩌구~ 부산 회 맛있죠~ 기러기 무서워요! ",
       date: "23.06.06",
     },
     {
@@ -118,43 +141,42 @@ const ReplyList = () => {
   };
 
   const handleDeleteReplies = () => {
-    console.log('핀 삭제 ! ')
+    console.log('댓글 삭제 ! ')
   };
 
   return (
-    <>
-      <MapContainer>
-        {userReplies.map((reply) => (
-          <div key={reply.replyNum}>
-            <MapContainer>
-              <RowWrapper>
-                <Checkbox
-                  type="checkbox"
-                  checked={isReplySelected(reply.replyNum)}
-                  onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
-                />
-                <Author>자바광팬아님</Author>
-                <Date> {reply.date}</Date>
-              </RowWrapper>
-              <TitleLink className="ellipsis" to={`/mypage`}>
-                {reply.content}
-              </TitleLink>
-              <Content>원문제목: {reply.title}</Content>
+    <ParentContainer>
+      {userReplies.map((reply) => (
+        <div key={reply.replyNum}>
+          <MapContainer>
+            <RowWrapper alignItems="start" margin="0">
+              <Checkbox
+                type="checkbox"
+                checked={isReplySelected(reply.replyNum)}
+                onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
+              />
+              <Author>자바광팬아님</Author>
+              <Date> {reply.date}</Date>
+            </RowWrapper>
+            <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
+            <Content>원문제목: {reply.title}</Content>
             </MapContainer>
-          </div>
-        ))}
-        <RowWrapper>
+        </div>
+      ))}
+      <RowWrapper margin="0">
+        <SelectAllButton>
           <Checkbox
             type="checkbox"
             checked={selectAll}
             onChange={handleSelectAllChange}
           />
-          <Button onClick={handleDeleteReplies}>
-            삭제
-          </Button>
-        </RowWrapper>
-      </MapContainer>
-    </>
+          전체선택
+        </SelectAllButton>
+        <Button onClick={handleDeleteReplies}>
+          삭제
+        </Button>
+      </RowWrapper>
+    </ParentContainer>
   );
 };
 
