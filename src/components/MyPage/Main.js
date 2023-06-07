@@ -1,13 +1,3 @@
-// import React from 'react';
-// import ProfileBar from '../components/MyPage/ProfileBar';
-// import Folder from '../components/MyPage/Folder';
-// import styled from 'styled-components';
-// import BookmarkIcon from '../resource/mypage_icon/bookmark-heart.svg';
-// import PinIcon from '../resource/mypage_icon/pin.svg';
-// import ReplyIcon from '../resource/mypage_icon/reply.svg';
-// import SettingIcon from '../resource/mypage_icon/settings2.svg';
-// import AppLayout from '../components/common/AppLayout';
-
 import ProfileBar from './ProfileBar';
 import Folder from './Folder';
 import styled from 'styled-components';
@@ -15,7 +5,6 @@ import BookmarkIcon from '../../resource/mypage_icon/bookmark-heart.svg'
 import PinIcon from '../../resource/mypage_icon/pin.svg';
 import ReplyIcon from '../../resource/mypage_icon/reply.svg';
 import SettingIcon from '../../resource/mypage_icon/settings2.svg';
-import AppLayout from '../common/AppLayout';
 
 const ProfileContainer = styled.div`
   margin: 80px auto;
@@ -45,7 +34,6 @@ const FolderContainer = styled.div`
 const MyPageMain = () => {
   return(
     <>
-      <AppLayout>
       <ProfileContainer>
         <ProfileBar />
           <FolderContainer>
@@ -75,7 +63,6 @@ const MyPageMain = () => {
           />
           </FolderContainer>           
       </ProfileContainer>
-      </AppLayout>
     </>
   );
 }
