@@ -5,7 +5,7 @@ import NavLink from './NavLink';
 import { RowWrapper } from '../Join/Wrappers';
 import LogoText from '../../resource/오늘의 데이트 로고 문자.svg';
 
-const Text = styled.p`
+export const Text = styled.p`
   font-size: 1.6rem;
   text-align: center;
   @media screen and (max-width: 768px) {
