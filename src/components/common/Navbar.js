@@ -74,7 +74,6 @@ const Navbar = () => {
           </StyledLink>
         </ul>
       </Container>
-      <PushAlert />
     </>
   );
 }
