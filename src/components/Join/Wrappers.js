@@ -17,7 +17,7 @@ export const ColumnWrapper = styled.div(
 
 export const RowWrapper = styled.div(
   props => ({
-    margin: '0 auto',
+    margin: props.margin || '0 auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: props.justifyContent || 'flex-start',
