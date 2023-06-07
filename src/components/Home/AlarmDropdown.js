@@ -9,6 +9,9 @@ const StyledWrapper = styled.div`
   padding: 1em;
   gap: 20px;
   color: var(--text-color);
+  @media screen and (max-width:768px) {
+    width: fit-content;
+  }
 `;
 
 const AlarmListContainer = styled.div`
@@ -23,6 +26,7 @@ const AlarmListContainer = styled.div`
   .subcontainer {
     display: flex;
     align-items: center;
+    
   }
   .circle {
     width: 8px;

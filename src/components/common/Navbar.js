@@ -7,7 +7,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PushAlert from "../Home/PushAlert";
 
 const Container = styled.div`
   display: flex;
@@ -72,13 +72,9 @@ const Navbar = () => {
               sx={{ fontSize: "2.3rem" }} />
             <p>고객센터</p>
           </StyledLink>
-          <StyledLink to="/view">
-            <QuestionMarkIcon
-              sx={{ fontSize: "2.3rem" }} />
-            <p>임시 뷰 페이지</p>
-          </StyledLink>
         </ul>
       </Container>
+      <PushAlert />
     </>
   );
 }
