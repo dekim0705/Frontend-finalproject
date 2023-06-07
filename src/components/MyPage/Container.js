@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 const StyledContainer = styled.div`
+  margin: ${({ margin }) => margin || ''};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,10 +10,10 @@ const StyledContainer = styled.div`
   box-shadow: 3px 3px 3px #999;
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '100%'};
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    height: 30%;
-  }
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      height: 30%;
+    }
 `;
 
 const Container = ({ width, height, ...props }) => {
