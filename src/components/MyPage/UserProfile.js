@@ -3,19 +3,19 @@ import styled from 'styled-components';
 import ProfileImage from '../../resource/profile.jpeg';
 import Star from '../../resource/membership_star.svg';
 
-const PfImg = styled.img`
+export const PfImg = styled.img`
   margin-top: 1rem;
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  text-align: center;
+  /* text-align: center; */
   @media screen and (max-width:768px) {
     margin: 6px auto;
     width: 110px;
     height: 110px;
   }
 `;
-const Nickname = styled.h1`
+export const Nickname = styled.h1`
   color: var(--text-color);  
   font-size: 1.8rem;
   font-weight: 700;
@@ -24,7 +24,7 @@ const Nickname = styled.h1`
     margin-top: -12px;
   }
 `;
-const Membership = styled.img`
+export const Membership = styled.img`
   width: 30px;
   height: 30px;
   position: absolute;
