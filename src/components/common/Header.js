@@ -4,6 +4,7 @@ import styled from "styled-components";
 import miniLogo from '../../resource/오늘의 데이트 심볼.png';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Drawer from '@mui/material/Drawer';
+import { Popover } from "@mui/material";
 import { Box } from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import MemberDropDown from "./MemberDropDown";
 import SearchIcon from '../../resource/header_search.svg';
+import AlarmDropdown from "../Home/AlarmDropdown";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -66,6 +68,12 @@ const AlarmIcon = styled(NotificationsNoneIcon)`
 `;
 
 const Header = () => {
+  // 알람 드롭다운 상태 관리
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClose = () => setAnchorEl(null);
+
+  // Drawer 상태 관리
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = (open) => e => {
     setIsOpen(open);
@@ -108,7 +116,10 @@ const Header = () => {
         <Container>
           <img className="mini" src={miniLogo} alt="" onClick={toggleDrawer(true)} />
           <MemberDropDown />
-          <AlarmIcon sx={{ fontSize: "2.5rem" }} />
+          <AlarmIcon
+            sx={{ fontSize: "2.5rem" }}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+          />
           <SearchWrapper>
             <input placeholder="어디로 데이트를 가시나요?" type="text" />
             <img src={SearchIcon} alt="" />
@@ -121,6 +132,21 @@ const Header = () => {
         onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      >
+        <AlarmDropdown />
+      </Popover>
     </>
   );
 }
