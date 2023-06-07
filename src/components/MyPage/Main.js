@@ -56,7 +56,7 @@ const MyPageMain = () => {
             desc="내가 찜해둔 모든 게시글을 볼 수 있어요!"
           />
           <Folder 
-            to='/mypage/settings'
+            to='/mypage/settings/membership'
             icon={SettingIcon} 
             title="나의 설정" 
             desc="나의 정보와 알림 설정을 관리할 수 있어요! "
