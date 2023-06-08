@@ -7,7 +7,6 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import PushAlert from "../Home/PushAlert";
 
 const Container = styled.div`
   display: flex;

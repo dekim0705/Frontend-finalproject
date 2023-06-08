@@ -1,6 +1,5 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import "../../reactToast.css";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,6 +25,15 @@ const StyledLink = styled(Link)`
   font-size: 0.85em;
 `;
 
+const StyledToastContainer = styled(ToastContainer)`
+  &&&.Toastify__toast-container {
+    width: 420px;
+  }
+  .Toastify__progress-bar {
+    background-color: var(--point-color);
+  }
+`;
+
 const PushAlert = () => {
   const notify = () => toast.info(
     <StyledMsg>
@@ -39,8 +47,8 @@ const PushAlert = () => {
 
   return (
     <div>
-      <button onClick={notify}>Notify !</button>
-      <ToastContainer />
+      <button onClick={notify}>테스트</button>
+      <StyledToastContainer />
     </div>
   );
 }
