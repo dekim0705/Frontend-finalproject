@@ -125,7 +125,7 @@ const UserManagement = () => {
     },
   ];
 
-  const [userPosts] = useState(dummyData); 
+  const [users] = useState(dummyData); 
   const [selectedPosts, setSelectedPosts] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -138,7 +138,7 @@ const UserManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((user) => user.userNum);
+      const allPostNums = users.map((user) => user.userNum);
       setSelectedPosts(allPostNums);
     } else {
       setSelectedPosts([]);
@@ -159,8 +159,8 @@ const UserManagement = () => {
     }
   };
   
-  const handleDeletePosts = () => {
-    console.log('핀 삭제 ! ')
+  const handleDeleteUsers = () => {
+    console.log('회원 삭제 ! ')
   };
 
   return (
@@ -204,12 +204,12 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((user) => (
+            {users.map((user) => (
               <tr key={user.userNum}>
                 <td>
                 <Checkbox
-                checked={isUserSelected(user.replyNum)}
-                onChange={(event) => handleCheckboxChange(event, user.replyNum)}
+                checked={isUserSelected(user.userNum)}
+                onChange={(event) => handleCheckboxChange(event, user.userNum)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -229,7 +229,7 @@ const UserManagement = () => {
             ))}
           </tbody>
         </Table>
-        <Button onClick={handleDeletePosts}>
+        <Button onClick={handleDeleteUsers}>
           삭제
         </Button>
       </Container>

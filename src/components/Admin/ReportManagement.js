@@ -80,8 +80,8 @@ const ReportManagement = () => {
 
   ];
   
-  const [userPosts] = useState(dummyData); 
-  const [selectedPosts, setSelectedPosts] = useState([]); 
+  const [reports] = useState(dummyData); 
+  const [selectedReports, setSelectedReports] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -94,30 +94,29 @@ const ReportManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((report) => report.reportNum);
-      setSelectedPosts(allPostNums);
+      const allPostNums = reports.map((report) => report.reportNum);
+      setSelectedReports(allPostNums);
     } else {
-      setSelectedPosts([]);
+      setSelectedReports([]);
     }
   };
 
-  // 게시글 선택 여부
-  const isPostSelected = (reportNum) => {
-    return selectedPosts.includes(reportNum);
+  const isReportSelected = (reportNum) => {
+    return selectedReports.includes(reportNum);
   };
 
-  // 체크박스 선택 함수
+
   const handleCheckboxChange = (event, reportNum) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, reportNum]);
-      console.log(selectedPosts);
+      setSelectedReports((prevSelected) => [...prevSelected, reportNum]);
+      console.log(selectedReports);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== reportNum));
+      setSelectedReports((prevSelected) => prevSelected.filter((id) => id !== reportNum));
     }
   };
   
-  const handleDeletePosts = () => {
-    console.log('게시물 삭제 ! ')
+  const handleConfirm = () => {
+    console.log('신고 확인 ! ')
   };
 
   return (
@@ -147,11 +146,11 @@ const ReportManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((report) => (
+            {reports.map((report) => (
               <tr key={report.reportNum}>
                 <td>
                 <Checkbox
-                checked={isPostSelected(report.reportNum)}
+                checked={isReportSelected(report.reportNum)}
                 onChange={(event) => handleCheckboxChange(event, report.reportNum)}
                  {...label} 
                  sx={{
@@ -171,7 +170,7 @@ const ReportManagement = () => {
             ))}
           </tbody>
         </Table>
-        <Button onClick={handleDeletePosts}>
+        <Button onClick={handleConfirm}>
           확인
         </Button>
       </Container>

@@ -122,7 +122,7 @@ const ReplyManagement = () => {
     // 검색 기능 구현 예정
   };
 
-  // 전체 선택 체크박스 변경 이벤트 핸들러
+ 
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
@@ -134,8 +134,7 @@ const ReplyManagement = () => {
     }
   };
 
-  // 게시글 선택 여부
-  const isPostSelected = (replyNum) => {
+  const isReplieSelected = (replyNum) => {
     return selectedreplies.includes(replyNum);
   };
 
@@ -196,7 +195,7 @@ const ReplyManagement = () => {
               <tr key={post.replyNum}>
                 <td>
                 <Checkbox
-                checked={isPostSelected(post.replyNum)}
+                checked={isReplieSelected(post.replyNum)}
                 onChange={(event) => handleCheckboxChange(event, post.replyNum)}
                  {...label} 
                  sx={{
