@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox'; 
@@ -13,13 +14,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 60px 0px;
-
 `;
 
 const SearchContainer = styled.div`
   padding : 10px;
   margin-bottom: 20px;
-
 
   input {
     border: none;
@@ -35,16 +34,20 @@ const SearchContainer = styled.div`
     display: flex;
     align-items: center;
   }
-  @media screen and (max-width:768px) {
-    input {
-      width: 100%;
-    }
-  }
   `;
 
 const Title = styled.h1`
   font-size: 1.6rem;
   padding : 40px 20px 30px;
+`;
+
+const TitleLink = styled(Link)`
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: normal;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 
@@ -54,13 +57,13 @@ const Table = styled.table`
     background-color : #f5f5f5;
   }
   th,td {
-    padding: 2px;
+    padding: 1px;
     border-bottom: 1px solid var(--line-color);
     text-align: center;
   }
   th {
     font-weight: bold;
-    /* background-color: #FFA8D2;  */
+    padding: 2px;
   }
 `;
 
@@ -79,58 +82,44 @@ const Table = styled.table`
 `;
 
 
-const UserManagement = () => {
+const ReplyManagement = () => {
   
 
   const dummyData = [
     {
-      userNum: 1,
+      replyNum: 1,
       nickname: "겨울잠자는중",
-      email: "user1@naver.com",
+      content: "재밌었어요! 추천합니다~",
       date: "2023/06/06",
-      membership: "Y",
-      block: ''
     },
     {
-      userNum: 2,
-      nickname: "자바광팬아님",
-      email: "user2@naver.com",
-      date: "2023/06/06",
-      membership: "Y",
-      block: '겨울잠자는중'
-    },
-    {
-      userNum: 3,
-      nickname: "짱구는못말려",
-      email: "user3@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: ''
-    },
-    {
-      userNum: 4,
-      nickname: "닉네임입니당",
-      email: "user4@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: '짱구는못말려'
-    },
-    {
-      userNum: 5,
+      replyNum: 2,
       nickname: "겨울잠자는중",
-      email: "user5@naver.com",
+      content: "댓글 내용 블라블라",
       date: "2023/06/06",
-      membership: "Y",
-      block: ''
     },
+    {
+      replyNum: 3,
+      nickname: "겨울잠자는중",
+      content: "댓글 내용 블라블라~",
+      date: "2023/06/06",
+    },
+    {
+      replyNum: 4,
+      nickname: "겨울잠자는중",
+      content: "댓글 내용 블라블라~",
+      date: "2023/06/06",
+    },
+
   ];
 
-  const [userPosts] = useState(dummyData); 
-  const [selectedPosts, setSelectedPosts] = useState([]);
+  const [replies] = useState(dummyData); 
+  const [selectedreplies, setSelectedReplies] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearch = () => {
-    // 검색 기능 구현 로직
+    // 검색 기능 구현 예정
   };
 
   // 전체 선택 체크박스 변경 이벤트 핸들러
@@ -138,41 +127,42 @@ const UserManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((user) => user.userNum);
-      setSelectedPosts(allPostNums);
+      const allReply = replies.map((reply) => reply.replyNum);
+      setSelectedReplies(allReply);
     } else {
-      setSelectedPosts([]);
+      setSelectedReplies([]);
     }
   };
 
-  const isUserSelected = (userNum) => {
-    return selectedPosts.includes(userNum);
+  // 게시글 선택 여부
+  const isPostSelected = (replyNum) => {
+    return selectedreplies.includes(replyNum);
   };
 
   // 체크박스 선택 함수
-  const handleCheckboxChange = (event, userNum) => {
+  const handleCheckboxChange = (event, replyNum) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, userNum]);
-      console.log(selectedPosts);
+      setSelectedReplies((prevSelected) => [...prevSelected, replyNum]);
+      console.log(selectedreplies);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== userNum));
+      setSelectedReplies((prevSelected) => prevSelected.filter((id) => id !== replyNum));
     }
   };
   
   const handleDeletePosts = () => {
-    console.log('핀 삭제 ! ')
+    console.log('댓글 삭제 ! ')
   };
 
   return (
     <>
       <Container>
-        <Title>회원 관리</Title>
+        <Title>댓글 관리</Title>
         <SearchContainer>
           <div className="wrapper">
             <input
               type="text"
               onKeyDown={handleSearch}
-              placeholder="회원 번호 / 닉네임 "
+              placeholder="작성자 / 댓글 내용"
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
               <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
@@ -183,7 +173,7 @@ const UserManagement = () => {
           <thead>
             <tr>
               <th>
-              <Checkbox
+                <Checkbox
                   checked={selectAll}
                   onChange={handleSelectAllChange}
                   {...label} 
@@ -195,21 +185,19 @@ const UserManagement = () => {
                     }}
                 />
               </th>
-              <th>회원번호</th>
-              <th>닉네임</th>
-              <th>이메일</th>
-              <th>가입일자</th>
-              <th>멤버십</th>
-              <th>차단회원</th>
+              <th>댓글 번호</th>
+              <th>댓글 내용</th>
+              <th>작성자</th>
+              <th>작성일</th>
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((user) => (
-              <tr key={user.userNum}>
+            {replies.map((post) => (
+              <tr key={post.replyNum}>
                 <td>
                 <Checkbox
-                checked={isUserSelected(user.replyNum)}
-                onChange={(event) => handleCheckboxChange(event, user.replyNum)}
+                checked={isPostSelected(post.replyNum)}
+                onChange={(event) => handleCheckboxChange(event, post.replyNum)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -219,12 +207,14 @@ const UserManagement = () => {
                    }}
                    />
                 </td>
-                <td>{user.userNum}</td>
-                <td>{user.nickname}</td>
-                <td>{user.email}</td>
-                <td>{user.date}</td>
-                <td>{user.membership}</td>
-                <td>{user.block}</td>
+                <td>{post.replyNum}</td>
+                <td>
+                <TitleLink >
+                      {post.content}
+                </TitleLink>
+                </td>
+                <td>{post.nickname}</td>
+                <td>{post.date}</td>
               </tr>
             ))}
           </tbody>
@@ -235,6 +225,6 @@ const UserManagement = () => {
       </Container>
     </>
   );
-            };  
+};  
 
-export default UserManagement;
+export default ReplyManagement;

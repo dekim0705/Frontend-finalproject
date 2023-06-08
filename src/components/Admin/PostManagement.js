@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
-
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -13,13 +13,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 60px 0px;
-
 `;
 
 const SearchContainer = styled.div`
   padding : 10px;
   margin-bottom: 20px;
-
 
   input {
     border: none;
@@ -44,15 +42,21 @@ const SearchContainer = styled.div`
 
 const Title = styled.h1`
   font-size: 1.6rem;
-  padding : 40px 20px 30px;
+  padding : 40px 20px 10px;
+  margin-bottom: 20px;
 `;
 
+const TitleLink = styled(Link)`
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: normal;
+`;
 
 const Table = styled.table`
   width: 100%;
-  tbody :hover {
+  /* tbody :hover {
     background-color : #f5f5f5;
-  }
+  } */
   th,td {
     padding: 2px;
     border-bottom: 1px solid var(--line-color);
@@ -84,53 +88,44 @@ const UserManagement = () => {
 
   const dummyData = [
     {
-      userNum: 1,
+      postNum: 1,
       nickname: "겨울잠자는중",
-      email: "user1@naver.com",
+      title: "한옥마을에서 한복 입고 데이트~",
       date: "2023/06/06",
-      membership: "Y",
-      block: ''
     },
     {
-      userNum: 2,
-      nickname: "자바광팬아님",
-      email: "user2@naver.com",
-      date: "2023/06/06",
-      membership: "Y",
-      block: '겨울잠자는중'
-    },
-    {
-      userNum: 3,
-      nickname: "짱구는못말려",
-      email: "user3@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: ''
-    },
-    {
-      userNum: 4,
-      nickname: "닉네임입니당",
-      email: "user4@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: '짱구는못말려'
-    },
-    {
-      userNum: 5,
+      postNum: 2,
       nickname: "겨울잠자는중",
-      email: "user5@naver.com",
+      title: "한옥마을에서 한복 입고 데이트~",
       date: "2023/06/06",
-      membership: "Y",
-      block: ''
+    },
+    {
+      postNum: 3,
+      nickname: "겨울잠자는중",
+      title: "한옥마을에서 한복 입고 데이트~",
+      date: "2023/06/06",
+    },
+    {
+      postNum: 4,
+      nickname: "겨울잠자는중",
+      title: "한옥마을에서 한복 입고 데이트~",
+      date: "2023/06/06",
+    },
+    {
+      postNum: 5,
+      nickname: "겨울잠자는중",
+      title: "한옥마을에서 한복 입고 데이트~",
+      date: "2023/06/06",
     },
   ];
 
-  const [userPosts] = useState(dummyData); 
-  const [selectedPosts, setSelectedPosts] = useState([]);
+  const [userPosts] = useState(dummyData); // 회원의 모든 게시글
+  const [selectedPosts, setSelectedPosts] = useState([]); // 선택되는 게시글
   const [selectAll, setSelectAll] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearch = () => {
-    // 검색 기능 구현 로직
+    // 검색 기능 구현 예정
   };
 
   // 전체 선택 체크박스 변경 이벤트 핸들러
@@ -138,24 +133,25 @@ const UserManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((user) => user.userNum);
+      const allPostNums = userPosts.map((post) => post.postNum);
       setSelectedPosts(allPostNums);
     } else {
       setSelectedPosts([]);
     }
   };
 
-  const isUserSelected = (userNum) => {
-    return selectedPosts.includes(userNum);
+  // 게시글 선택 여부
+  const isPostSelected = (postNum) => {
+    return selectedPosts.includes(postNum);
   };
 
   // 체크박스 선택 함수
-  const handleCheckboxChange = (event, userNum) => {
+  const handleCheckboxChange = (event, postNum) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, userNum]);
+      setSelectedPosts((prevSelected) => [...prevSelected, postNum]);
       console.log(selectedPosts);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== userNum));
+      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== postNum));
     }
   };
   
@@ -166,13 +162,14 @@ const UserManagement = () => {
   return (
     <>
       <Container>
-        <Title>회원 관리</Title>
+        <Title>게시글 관리</Title>
+        {/* <Line /> */}
         <SearchContainer>
           <div className="wrapper">
             <input
               type="text"
               onKeyDown={handleSearch}
-              placeholder="회원 번호 / 닉네임 "
+              placeholder="글번호/ 제목/ 작성자 "
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
               <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
@@ -195,21 +192,19 @@ const UserManagement = () => {
                     }}
                 />
               </th>
-              <th>회원번호</th>
-              <th>닉네임</th>
-              <th>이메일</th>
-              <th>가입일자</th>
-              <th>멤버십</th>
-              <th>차단회원</th>
+              <th>글 번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((user) => (
-              <tr key={user.userNum}>
+            {userPosts.map((post) => (
+              <tr key={post.postNum}>
                 <td>
                 <Checkbox
-                checked={isUserSelected(user.replyNum)}
-                onChange={(event) => handleCheckboxChange(event, user.replyNum)}
+                checked={isPostSelected(post.postNum)}
+                onChange={(event) => handleCheckboxChange(event, post.postNum)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -219,12 +214,14 @@ const UserManagement = () => {
                    }}
                    />
                 </td>
-                <td>{user.userNum}</td>
-                <td>{user.nickname}</td>
-                <td>{user.email}</td>
-                <td>{user.date}</td>
-                <td>{user.membership}</td>
-                <td>{user.block}</td>
+                <td>{post.postNum}</td>
+                <td>
+                <TitleLink >
+                      {post.title}
+                </TitleLink>
+                </td>
+                <td>{post.nickname}</td>
+                <td>{post.date}</td>
               </tr>
             ))}
           </tbody>
