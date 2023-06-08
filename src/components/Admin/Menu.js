@@ -20,9 +20,9 @@ const Container = styled.div`
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
-justify-content:center;
+  justify-content:center;
   font-size: 1.3em;
-  font-weight: 800;
+  font-weight: bold;
   cursor: pointer;
   padding: 25px 18px 25px 18px;
   text-decoration: none;

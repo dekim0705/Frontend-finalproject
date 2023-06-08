@@ -46,7 +46,7 @@ function App() {
           <Route path='/mypage/*' element={<MyPage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/festival' element={<FestivalPage />} />
-          <Route path='/admin' element={<AdiminPage />} />
+          <Route path='/admin/*' element={<AdiminPage />} />
           <Route path='/festival-info' element={<FestivalDetailPage />} />
         </Routes>
       </Router>
