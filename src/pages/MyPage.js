@@ -6,6 +6,7 @@ import PinListPage from '../components/MyPage/PinListMain';
 import ReplyListPage from '../components/MyPage/ReplyListMain';
 import Membership from '../components/MyPage/Membership';
 import Notification from '../components/MyPage/Notification';
+import MembershipTest from '../components/MyPage/MembershipTest';
 
 const MyPage = () => {
 
@@ -16,7 +17,7 @@ const MyPage = () => {
           <Route index path="/" element={<MyPageMain />} />
           <Route index path="pin-list" element={<PinListPage />} />
           <Route index path="replies" element={<ReplyListPage />} />
-          <Route index path="settings/membership" element={<Membership />} />
+          <Route index path="settings/membership" element={<MembershipTest />} />
           <Route index path="settings/notification" element={<Notification />} />
           
         </Routes>  
