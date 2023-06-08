@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const ColumnWrapper = styled.div(
   props => ({
-    margin: '0 auto',
+    margin: props.margin || '0 auto',
     display: 'flex',
     flexDirection: 'column',
     gap: props.gap || '',
