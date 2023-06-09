@@ -9,6 +9,11 @@ const TotalCountContainer = styled.div`
   .label {
     font-size: 1rem;
     font-weight: 400;
+    @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    width: 90px;
+    margin: -4px 0 0 -14px;
+    }
   }
 `;
 
