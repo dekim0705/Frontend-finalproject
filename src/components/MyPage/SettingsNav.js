@@ -15,6 +15,18 @@ const SettingsNav = () => {
   );
 };
 
+export const BookmarkNav = () => {
+  const location = useLocation();
+
+  return(
+    <>
+      <RowWrapper gap="10px" margin='0 0 0 1rem'>
+        <NavLink to='/mypage/bookmarks' label='북마크' isActive={location.pathname === '/mypage/bookmarks'}/>
+      </RowWrapper>
+    </>
+  );
+}
+
 export const EditInfoNav = () => {
   const location = useLocation();
 
