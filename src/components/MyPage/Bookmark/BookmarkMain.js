@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BookmarkNav } from '../SettingsNav';
-import BookmarkFolder from './BookmarkFolder';
+import BookmarkFolder, { AddFolderContainer } from './BookmarkFolder';
 import AddCircle from '../../../resource/mypage_icon/add-circle.svg'
 import { Button } from'../PinList';
 import { RowWrapper } from '../../Join/Wrappers';
 
 const FolderContainer = styled.div`
+  width: 90%;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 4rem;
   @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 2rem auto;
+    gap: 2rem;
+
   }
 `;
 
@@ -64,9 +68,10 @@ const ModalOverlay = styled.div`
   z-index: 200;
 `;
 
-const BookmarkPage = () => {
+const BookmarkPage = ( ) => {
   const [showModal, setShowModal] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+  const [folders, setFolders] = useState([]);
 
   const handleAddFolder = () => {
     setShowModal(true);
@@ -82,16 +87,30 @@ const BookmarkPage = () => {
   };
 
   const handleCreateFolder = () => {
-    console.log(`새로운 폴더 이름 : ${newFolderName}`);
+    const newFolder = {
+      id: folders.length + 1,
+      name: newFolderName,
+    };
+    setFolders([...folders, newFolder]);
+    setNewFolderName('');
     handleCloseModal();
   };
-
+  
   return(
     <>
       <BookmarkNav />
       <FolderContainer>
-        <BookmarkFolder />
-        <BookmarkFolder><AddIcon src={AddCircle} alt='폴더 추가' onClick={handleAddFolder} /></BookmarkFolder>
+      <BookmarkFolder folderName="북마크폴더1" />
+      <BookmarkFolder folderName="북마크폴더2" />
+      <BookmarkFolder folderName="북마크폴더3" />
+      <BookmarkFolder folderName="북마크폴더4" />
+      <BookmarkFolder folderName="북마크폴더5" />
+        {folders.map((folder) => (
+          <BookmarkFolder key={folder.id} folderName={folder.name} />
+        ))}
+        <AddFolderContainer>
+          <AddIcon src={AddCircle} alt='폴더 추가' onClick={handleAddFolder} />
+        </AddFolderContainer>
       </FolderContainer>
       {showModal && (
         <>
