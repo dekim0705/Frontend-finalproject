@@ -8,6 +8,7 @@ import Membership from '../components/MyPage/Membership';
 import Notification from '../components/MyPage/Notification';
 import EditInfo from '../components/MyPage/EditInfo';
 import EditPwd from '../components/MyPage/EditPwd';
+import BookmarkPage from '../components/MyPage/Bookmark/BookmarkMain';
 
 const MyPage = () => {
 
@@ -18,6 +19,7 @@ const MyPage = () => {
           <Route index path="/" element={<MyPageMain />} />
           <Route index path="pin-list" element={<PinListPage />} />
           <Route index path="replies" element={<ReplyListPage />} />
+          <Route index path="bookmarks" element={<BookmarkPage />} />
           <Route index path="settings/membership" element={<Membership />} />
           <Route index path="settings/notification" element={<Notification />} />
           <Route index path="settings/information" element={<Notification />} />
