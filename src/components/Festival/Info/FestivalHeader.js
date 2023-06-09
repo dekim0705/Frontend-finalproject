@@ -11,13 +11,15 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 100%; 
+  margin: 0 auto;
+  width: 95%; 
   justify-content: space-between;
-  padding: 20px 60px;
+  padding: 15px 45px;
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0px 50px ;
+    padding: 0px 30px ;
+    width: 90%;
   }
 `;
 

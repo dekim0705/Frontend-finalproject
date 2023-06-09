@@ -7,14 +7,18 @@ import { Link } from 'react-router-dom';
 
 const Line = styled.hr`
   width: 100%;
-  margin: 20px 0;
+  margin: 50px 0;
 `;
+
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 10px 30px; 
+  padding: 10px 0px; 
+  width: 90%;
   margin: 0 auto; 
+  align-items: center;
+  padding : 10px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -25,7 +29,7 @@ const Desc = styled.h1`
   font-size: 1.4rem; 
   margin-left : 10px;
   width: 100%;
-  padding-left: 30px;
+  margin-bottom: 20px;
   font-weight: bold;
 `;
 
@@ -35,8 +39,7 @@ const ItemContainer = styled.div`
   position: relative;
   justify-content : center;
   border-radius: 15px;
-  height: 320px;
-  padding-bottom: 40px; 
+  height: auto;
  
   @media (max-width: 768px) {
     width: 80%;
@@ -51,7 +54,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 180px;
+  height: 200px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
@@ -84,7 +87,7 @@ const StyledLink = styled(Link)`
 `;
 const Thumbnail = styled.img`
   width: 100%;
-  height: 180px;
+  height: 200px;
   border-radius: 15px;
   margin-bottom: 10px;
 `;
@@ -129,9 +132,10 @@ const Recommend = () => {
 
   return (
     <>
-     <Line/>
-    <Desc>이런 축제도 추천해요!</Desc>
+
     <Container>
+    <Line/>
+    <Desc>이런 축제도 추천해요!</Desc>
       {dummyData.slice(0, 3).map((item) => (
         <Item key={item.id} item={item} />
       ))}

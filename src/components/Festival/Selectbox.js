@@ -18,12 +18,34 @@ const theme = createTheme({
         root: {
           "& fieldset": {
             borderColor: "#FF62AD",
+            "&:hover": {
+              borderColor: "#FF62AD",
+            },
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#FF62AD",
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#FF62AD",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#FF62AD",
           },
         },
       },
     },
   },
 });
+
+
+
+
 
 const SelectBox = () => {
   const [city, setCity] = useState("");
