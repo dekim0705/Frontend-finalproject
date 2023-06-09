@@ -1,6 +1,6 @@
 import React from "react";
 import AppLayout from "../components/common/AppLayout";
-import Map from "../components/Festival/Info/Map";
+import FestivalMap from "../components/Festival/Info/FestivalMap";
 import BottomNav from "../components/common/BottomNav";
 import FestivalHeader from "../components/Festival/Info/FestivalHeader";
 import FestivalCarousel from "../components/Festival/Info/FestivalCarousel";
@@ -17,7 +17,7 @@ const FestivalDetailPage = () => {
       <FestivalHeader/>
       <FestivalCarousel/>
       <FestivalSummary/>
-      <Map/>
+      <FestivalMap/>
       <Recommend/>
       </AppLayout>
      <BottomNav/>

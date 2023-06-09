@@ -1,6 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
 import thumbnail from '../../resource/축제썸네일.jpg';
+import thumbnail2 from '../../resource/축제썸네일2.png';
+import thumbnail3 from '../../resource/축제썸네일3.jpg';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -95,7 +97,7 @@ const FestivalItem = ({ item }) => (
   <ItemContainer>
     <Thumbnail src={item.thumbnail} alt={item.title} />
     <Overlay>
-      <StyledLink to={`/festival/${item.postNum}`}>상세보기</StyledLink>
+    <StyledLink to="/festival/info">상세보기</StyledLink>
     </Overlay>
     <Title>{item.title}</Title>
     <Duration>{item.duration}</Duration>
@@ -115,28 +117,28 @@ const FestivalContainer = () => {
     },
     {
       id: 2,
-      thumbnail: thumbnail,
+      thumbnail: thumbnail2,
       title: "형산강 연등문화축제",
       duration: "2023년 6월 10일 - 6월 15일",
       location: "경상북도 경주시"
     },
     {
       id: 3,
-      thumbnail: thumbnail,
+      thumbnail: thumbnail3,
       title: "형산강 연등문화축제",
       duration: "2023년 6월 10일 - 6월 15일",
       location: "경상북도 경주시"
     },
     {
       id: 4,
-      thumbnail: thumbnail,
+      thumbnail: thumbnail3,
       title: "형산강 연등문화축제",
       duration: "2023년 6월 10일 - 6월 15일",
       location: "경상북도 경주시"
     },
     {
       id: 5,
-      thumbnail: thumbnail,
+      thumbnail: thumbnail2,
       title: "형산강 연등문화축제",
       duration: "2023년 6월 10일 - 6월 15일",
       location: "경상북도 경주시"

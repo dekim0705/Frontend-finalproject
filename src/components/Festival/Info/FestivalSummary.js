@@ -12,9 +12,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
   padding-top: 20px;
-
 `;
 
 const Description = styled.p`
@@ -62,13 +61,14 @@ const InfoItem = styled.div`
 `;
 const Line = styled.hr`
   width: 100%;
-  margin: 20px 0;
+  margin: 40px 0;
 `;
 const Title = styled.h1`
-  font-size: 1.3rem; 
+  font-size: 1.4rem; 
   margin-left : 10px;
-  width: 100%;
-  padding-left: 30px;
+  width: 90%;
+  padding-left: 25px;
+  padding-bottom: 10px;
   font-weight: bold;
 `;
 
@@ -107,7 +107,7 @@ const FestivalSummary = () => {
         </div>
       </Summary>
       <Line />
-      <Title>위치</Title>
+      <Title>행사 위치</Title>
     </Container>
     
   );

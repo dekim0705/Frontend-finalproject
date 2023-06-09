@@ -32,8 +32,11 @@ const PopupContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  padding: 10px;
+  /* padding: 25px 40px; */
   margin-bottom: 20px;
+  /* background-color: #fff;
+  border-radius: 10px; */
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); */
 
   input {
     border: none;
@@ -42,8 +45,8 @@ const SearchContainer = styled.div`
     border: 1px solid var(--point-color);
     border-radius: 4px;
     padding: 15px 10px;
-    width: 240px;
-    margin-right: 5px;
+    width: 280px;
+    margin-right: 8px;
   }
 
   .wrapper {
@@ -51,6 +54,7 @@ const SearchContainer = styled.div`
     align-items: center;
   }
 `;
+
 
 const DetailButton = () => {
   const [showPopup, setShowPopup] = useState(false);
