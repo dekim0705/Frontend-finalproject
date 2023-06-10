@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import ProfileBar2 from '../ProfileBar2';
+import { PinReplyNav } from '../Navs';
 
 const MapContainer = styled.div`
   width: 100%;
@@ -134,6 +136,8 @@ const PinList = () => {
 
   return (
     <>
+      <ProfileBar2 />
+      <PinReplyNav />
       <MapContainer>
           <Table>
             <thead>

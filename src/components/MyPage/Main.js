@@ -1,5 +1,5 @@
 import ProfileBar from './ProfileBar';
-import Folder from './Folder';
+import Folder from './MyBookmark/Folder';
 import styled from 'styled-components';
 import BookmarkIcon from '../../resource/mypage_icon/bookmark-heart.svg'
 import PinIcon from '../../resource/mypage_icon/pin.svg';

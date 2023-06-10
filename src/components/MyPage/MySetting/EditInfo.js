@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PfImg } from './UserProfile';
-import ProfileImage from '../../resource/profile.jpeg';
-import MuiTextField from '../Join/TextField';
-import Button from '../Join/Button';
-import SettingsNav, { EditInfoNav } from './SettingsNav';
-import { ColumnWrapper } from '../Join/Wrappers';
+import { PfImg } from '../UserProfile';
+import ProfileImage from '../../../resource/profile.jpeg';
+import MuiTextField from '../../Join/TextField';
+import Button from '../../Join/Button';
+import { EditInfoNav, SettingsNav } from '../Navs';
+import { ColumnWrapper } from '../../Join/Wrappers';
 import Withdraw from './Withdraw';
 
 export const Container = styled.div`

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { BookmarkNav } from '../SettingsNav';
+import { BookmarkNav } from '../Navs';
 import BookmarkFolder, { AddFolderContainer } from './BookmarkFolder';
 import AddCircle from '../../../resource/mypage_icon/add-circle.svg'
-import { Button } from'../PinList';
+import { Button } from'../MyPinReply/PinList';
 import { RowWrapper } from '../../Join/Wrappers';
 
 const FolderContainer = styled.div`

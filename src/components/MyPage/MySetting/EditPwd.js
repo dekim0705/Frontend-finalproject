@@ -1,16 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Container } from './EditInfo'
-import MuiTextField from '../Join/TextField';
-import Button from '../Join/Button';
-import SettingsNav, { EditInfoNav } from './SettingsNav';
-import { ColumnWrapper } from '../Join/Wrappers';
+import MuiTextField from '../../Join/TextField';
+import Button from '../../Join/Button';
+import { EditInfoNav, SettingsNav } from '../Navs';
+import { ColumnWrapper } from '../../Join/Wrappers';
 
 const EditPwd = () => {
 
   return(
     <>
-      <SettingsNav />
+    <SettingsNav />
       <Container>
         <EditInfoNav />
         <ColumnWrapper gap="2rem" width="60%" alignItems="center" margin="20px 0 0 0">

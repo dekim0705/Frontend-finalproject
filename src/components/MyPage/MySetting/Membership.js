@@ -1,9 +1,8 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import NavLink from './NavLink';
-import { RowWrapper } from '../Join/Wrappers';
-import LogoText from '../../resource/오늘의 데이트 로고 문자.svg';
+import LogoText from '../../../resource/오늘의 데이트 로고 문자.svg';
+import { SettingsNav } from '../Navs';
 
 export const Text = styled.p`
   font-size: 1.6rem;
@@ -52,7 +51,6 @@ const LogoImg = styled.img`
 `;
 
 const Membership = () => {
-  const location = useLocation();
   const isMembership = true; // 멤버십 회원 여부 설정
 
   const membershipText = isMembership ? (
@@ -118,11 +116,7 @@ const Membership = () => {
 
   return(
     <>
-      <RowWrapper gap="10px">
-        <NavLink to='/mypage/settings/membership' label='멤버십 설정' isActive={location.pathname === '/mypage/settings/membership'}/>
-        <NavLink to='/mypage/settings/notification' label='알림 설정' isActive={location.pathname === '/mypage/settings/notification'}/>
-        <NavLink to='/mypage/settings/info' label='정보 수정' isActive={location.pathname === '/mypage/settings/info'}/>
-      </RowWrapper>
+      <SettingsNav />
       <TextContainer>{membershipText}</TextContainer>
     </>
   );

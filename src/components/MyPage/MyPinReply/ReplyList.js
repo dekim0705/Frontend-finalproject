@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { RowWrapper } from '../Join/Wrappers';
+import { RowWrapper } from '../../Join/Wrappers';
 import { Button } from'./PinList';
+import ProfileBar2 from '../ProfileBar2';
+import { PinReplyNav } from '../Navs';
 
 const ParentContainer = styled.div`
   margin: 20px auto;
@@ -145,6 +147,9 @@ const ReplyList = () => {
   };
 
   return (
+    <>
+    <ProfileBar2 />
+    <PinReplyNav />
     <ParentContainer>
       {userReplies.map((reply) => (
         <div key={reply.replyNum}>
@@ -177,6 +182,8 @@ const ReplyList = () => {
         </Button>
       </RowWrapper>
     </ParentContainer>
+    </>
+
   );
 };
 
