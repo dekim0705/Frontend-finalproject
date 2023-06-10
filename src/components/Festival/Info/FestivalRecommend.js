@@ -15,7 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 10px 0px; 
-  width: 90%;
+  width: 85%;
   margin: 0 auto; 
   align-items: center;
   padding : 10px;
@@ -54,7 +54,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 200px;
+  height: 180px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
@@ -87,7 +87,7 @@ const StyledLink = styled(Link)`
 `;
 const Thumbnail = styled.img`
   width: 100%;
-  height: 200px;
+  height: 180px;
   border-radius: 15px;
   margin-bottom: 10px;
 `;

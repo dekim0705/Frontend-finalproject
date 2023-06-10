@@ -6,6 +6,7 @@ import FestivalHeader from "../components/Festival/Info/FestivalHeader";
 import FestivalCarousel from "../components/Festival/Info/FestivalCarousel";
 import FestivalSummary from "../components/Festival/Info/FestivalSummary";
 import Recommend from "../components/Festival/Info/FestivalRecommend";
+import Carousel from "../components/Festival/Info/Carousel";
 
 
 
@@ -15,7 +16,8 @@ const FestivalDetailPage = () => {
     <>
     <AppLayout>
       <FestivalHeader/>
-      <FestivalCarousel/>
+      <Carousel/>
+      {/* <FestivalCarousel/> */}
       <FestivalSummary/>
       <FestivalMap/>
       <Recommend/>

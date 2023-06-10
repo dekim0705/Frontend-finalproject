@@ -32,11 +32,11 @@ const PopupContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  /* padding: 25px 40px; */
+  padding: 25px 40px;
   margin-bottom: 20px;
-  /* background-color: #fff;
-  border-radius: 10px; */
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
   input {
     border: none;
