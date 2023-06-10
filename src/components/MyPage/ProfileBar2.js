@@ -5,7 +5,7 @@ import ProfileImage from '../../resource/profile.jpeg';
 import Star from '../../resource/membership_star.svg';
 import Container from './Container';
 import { ColumnWrapper, RowWrapper } from '../Join/Wrappers';
-import Counts from './Counts';
+import Counts from './MyPinReply/Counts';
 
 const PfImg2 = styled(PfImg)`
   width: 100px;
@@ -54,17 +54,17 @@ const ProfileBar2= () => {
       <Container width='60%'>
         <RowWrapper gap='10px'>
           <PfImg2 src={ProfileImage} alt='프로필 이미지'/>
-<ColumnWrapper gap='6px'>
-            <RowWrapper>
-              <Nickname2>자바광팬아님</Nickname2>
-              <Membership src={Star} alt='멤버쉽 이미지'/>
-            </RowWrapper>
-            <RowWrapper width="50vw">
-              <Counts count={totalPins} label="총 게시물 "/>
-              <Divider>|</Divider>
-              <Counts count={totalReplies} label="총 댓글 " />
-            </RowWrapper>
-</ColumnWrapper>
+            <ColumnWrapper gap='6px'>
+              <RowWrapper>
+                <Nickname2>자바광팬아님</Nickname2>
+                <Membership src={Star} alt='멤버쉽 이미지'/>
+              </RowWrapper>
+              <RowWrapper width="50vw">
+                <Counts count={totalPins} label="총 게시물 "/>
+                <Divider>|</Divider>
+                <Counts count={totalReplies} label="총 댓글 " />
+              </RowWrapper>
+            </ColumnWrapper>
         </RowWrapper>
       </Container>
     </ColumnWrapper>

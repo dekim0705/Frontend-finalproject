@@ -2,14 +2,15 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import MyPageMain from '../components/MyPage/Main';
 import AppLayout from '../components/common/AppLayout';
-import PinListPage from '../components/MyPage/PinListMain';
-import ReplyListPage from '../components/MyPage/ReplyListMain';
-import Membership from '../components/MyPage/Membership';
-import Notification from '../components/MyPage/Notification';
-import EditInfo from '../components/MyPage/EditInfo';
-import EditPwd from '../components/MyPage/EditPwd';
-import BookmarkPage from '../components/MyPage/Bookmark/BookmarkMain';
-import BookmarkDetailPage from '../components/MyPage/Bookmark/BookmarkDetail';
+import PinList from '../components/MyPage/MyPinReply/PinList';
+import ReplyList from '../components/MyPage/MyPinReply/ReplyList';
+import Membership from '../components/MyPage/MySetting/Membership';
+import Notification from '../components/MyPage/MySetting/Notification';
+import EditInfo from '../components/MyPage/MySetting/EditInfo';
+import EditPwd from '../components/MyPage/MySetting/EditPwd';
+import BookmarkPage from '../components/MyPage/MyBookmark/BookmarkMain';
+import BookmarkDetailPage from '../components/MyPage/MyBookmark/BookmarkDetail';
+import BottomNav from "../components/common/BottomNav";
 
 const MyPage = () => {
 
@@ -18,8 +19,8 @@ const MyPage = () => {
       <AppLayout>
         <Routes>
           <Route index path="/" element={<MyPageMain />} />
-          <Route index path="pin-list" element={<PinListPage />} />
-          <Route index path="replies" element={<ReplyListPage />} />
+          <Route index path="pin-list" element={<PinList />} />
+          <Route index path="replies" element={<ReplyList />} />
           <Route index path="bookmarks" element={<BookmarkPage />} />
           <Route index path="bookmarks/:folderName" element={<BookmarkDetailPage />} />
           <Route index path="settings/membership" element={<Membership />} />
@@ -29,6 +30,7 @@ const MyPage = () => {
           <Route index path="settings/info/password" element={<EditPwd />} />
         </Routes>  
       </AppLayout>  
+      <BottomNav />
     </>
   );
 }
