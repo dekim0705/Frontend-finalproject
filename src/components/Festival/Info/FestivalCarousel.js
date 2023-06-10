@@ -41,14 +41,14 @@ const Window = styled.div`
 const Flexbox = styled.div`
   display: flex;
   transition: transform 0.3s ease-out;
-  transform: ${({ current, imgSize }) => `translateX(-${current * (100 / imgSize)}%)`};
+  transform: ${({ current, imgSize }) => `translateX(-${current * (100 / imgSize * 2)}%)`};
   @media (max-width: 600px) {
     transform: ${({ current }) => `translateX(-${current * 100}%)`};
   }
 `;
 
 const Img = styled.img`
-  width: 31.5%;
+  width: 31.3%;
   height: 180px;
   object-fit: cover;
   margin: 0px 7px;
@@ -96,7 +96,7 @@ const Carousel = () => {
     imgSize.current = images.length;
   }, []);
 
-  const images = [thumbnail, thumbnail2, thumbnail3];
+  const images = [thumbnail, thumbnail2, thumbnail3,thumbnail, thumbnail2, thumbnail3 ];
 
   return (
     <Container>
