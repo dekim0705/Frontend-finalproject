@@ -39,6 +39,9 @@ const NavList = styled.ul`
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  &.pin_reply {
+    margin-top: 1rem;
+  }
 `;
 
 const NavListItem = styled.li``;
@@ -109,7 +112,7 @@ const PinReplyNav = () => {
   const location = useLocation();
   return(
     <Wrapper>
-      <NavList>
+      <NavList className='pin_reply'>
         <NavListItem>
           <NavLink to='/mypage/pin-list' label='내 게시글' isActive={location.pathname === '/mypage/pin-list'} />
         </NavListItem>  

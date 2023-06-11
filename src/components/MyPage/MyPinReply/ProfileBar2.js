@@ -1,11 +1,11 @@
 import React from 'react';
-import { PfImg, Nickname } from './UserProfile';
+import { PfImg, Nickname } from '../UserProfile';
 import styled from 'styled-components';
-import ProfileImage from '../../resource/profile.jpeg';
-import Star from '../../resource/membership_star.svg';
-import Container from './Container';
-import { ColumnWrapper, RowWrapper } from '../Join/Wrappers';
-import Counts from './MyPinReply/Counts';
+import ProfileImage from '../../../resource/profile.jpeg';
+import Star from '../../../resource/membership_star.svg';
+import Container from '../Container';
+import { ColumnWrapper, RowWrapper } from '../../Join/Wrappers';
+import Counts from './Counts';
 
 const PfImg2 = styled(PfImg)`
   width: 100px;
