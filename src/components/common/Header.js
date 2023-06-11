@@ -121,7 +121,7 @@ const Header = () => {
             onClick={(event) => setAnchorEl(event.currentTarget)}
           />
           <SearchWrapper>
-            <input placeholder="어디로 데이트를 가시나요?" type="text" />
+            <input placeholder="어떤 데이트를 찾으시나요?" type="text" />
             <img src={SearchIcon} alt="" />
           </SearchWrapper>
         </Container>

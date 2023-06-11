@@ -28,7 +28,7 @@ const Schedule = () => {
               id: 'uncontrolled-native',
             }}
           >
-            <option value={10}>당일 여행</option>
+            <option value={10}>당일 치기</option>
             <option value={20}>1박 2일</option>
             <option value={30}>2박 3일</option>
           </NativeSelect>
