@@ -163,7 +163,6 @@ const UserManagement = () => {
     <>
       <Container>
         <Title>게시글 관리</Title>
-        {/* <Line /> */}
         <SearchContainer>
           <div className="wrapper">
             <input

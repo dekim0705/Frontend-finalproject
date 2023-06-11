@@ -49,40 +49,94 @@ cursor: pointer;
   background-color: var(--hover-color);
 }
 `;
+const PopupContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+`;
 
+
+const PopupContent = styled.p`
+  margin-bottom: 30px;
+`;
+
+const TextBox = styled.textarea`
+  width: 100%;
+  height: 100px;
+  resize: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+`;
+
+const Email = styled.div`
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+`;
+
+const PopupCloseButton = styled.button`
+  padding: 5px 10px;
+  background-color: var(--point-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+const PopupTitle = styled.p`
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+`;
 
 const InquiryManagement = () => {
   const dummyData = [
     {
       inquiryNum: 1,
-      content: "문의합니다.",
+      content: "문의합니다!! 안녕하세요 ~~~~ 이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ",
       nickname: "겨울잠자는중",
       date: "2023/06/06",
+      email: "user1@gmail.com",
     },
     {
       inquiryNum: 2,
-      content: "문의합니다.",
+      content: "문의합니다.이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ",
       nickname: "리액트흑흑",
       date: "2023/06/06",
+      email: "user1@gmail.com",
     },
     {
       inquiryNum: 3,
-      content: "문의해요!!",
+      content: "문의해요!! ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\n 문의입니당 ㅇㅇㅇㅇㅇㅇ",
       nickname: "자바광팬아님",
       date: "2023/06/06",
+      email: "user1@gmail.com",
     },
-    {
-      inquiryNum: 4,
-      content: "문의합니다릴라",
-      nickname: "짱구는못말려",
-      date: "2023/06/06",
-    },
+
 
   ];
   
   const [inquiries] = useState(dummyData); 
   const [selectedInquiry, setSelectedInquiry] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [Details, setDetails] = useState(null);
+
 
 
   const handleSelectAllChange = (event) => {
@@ -112,6 +166,16 @@ const InquiryManagement = () => {
   
   const handleConfirm = () => {
     console.log('문의 확인 ! ')
+  };
+
+  const handleInquiryContentClick = (inquiry) => {
+    setDetails(inquiry);
+    setPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+    setDetails(null);
   };
 
   return (
@@ -157,8 +221,9 @@ const InquiryManagement = () => {
                    />
                 </td>
                 <td>{inquiry.inquiryNum}</td>
-                <td> {inquiry.content}
-                </td>
+                <td onClick={() => handleInquiryContentClick(inquiry)} style={{ cursor: 'pointer' }}>
+            {inquiry.content.length > 15 ? `${inquiry.content.substring(0, 15)}···` : inquiry.content} 
+               </td>
                 <td>{inquiry.nickname}</td>
                 <td>{inquiry.date}</td>
               </tr>
@@ -169,8 +234,26 @@ const InquiryManagement = () => {
           확인
         </Button>
       </Container>
+      {popupVisible && (
+        <PopupContainer>
+          {Details && (
+            <>
+              <PopupContent>
+                <PopupTitle>문의 내용</PopupTitle>
+                <TextBox readOnly value={Details.content} />
+              </PopupContent>
+              <PopupContent>
+                <PopupTitle>회원 이메일</PopupTitle>
+                <Email>{Details.email}</Email>
+              </PopupContent>
+            </>
+          )}
+          <PopupCloseButton onClick={closePopup}>닫기</PopupCloseButton>
+        </PopupContainer>
+      )}
     </>
   );
-                  };  
+};
+
 
 export default InquiryManagement;
