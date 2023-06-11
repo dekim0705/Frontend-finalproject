@@ -6,9 +6,9 @@ import AddCircle from '../../../resource/mypage_icon/add-circle.svg'
 import { Button } from'../MyPinReply/PinListWeb';
 import { RowWrapper } from '../../Join/Wrappers';
 
-const FolderContainer = styled.div`
+export const FolderContainer = styled.div`
   width: 90%;
-  margin: 0 auto;
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -17,7 +17,7 @@ const FolderContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto;
+    margin: 1rem auto;
     gap: 2rem;
   }
 `;
