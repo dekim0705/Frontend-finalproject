@@ -75,16 +75,24 @@ const SettingsNav = () => {
 
 const BookmarkNav = ({encodedFolderName, folderName }) => {
   const location = useLocation();
+  const isBookmarkDetailPage = location.pathname.startsWith('/mypage/bookmarks/');
 
   return (
     <Wrapper className='start_nav'>
       <NavList>
         <NavListItem>
           <NavLink to='/mypage/bookmarks' label='나의 북마크' isActive={location.pathname.startsWith('/mypage/bookmarks')}/>
-        </NavListItem>          
-        <NavListItem>
-          <NavLink to={`/mypage/bookmarks/${encodedFolderName}`} label={folderName} isActive={location.pathname === `/mypage/bookmarks/${encodedFolderName}`}/>
-        </NavListItem>        
+        </NavListItem>    
+        {isBookmarkDetailPage && <ChevronRightIcon />}
+        {isBookmarkDetailPage && (
+          <NavListItem>
+            <NavLink
+              to={`/mypage/bookmarks/${encodedFolderName}`}
+              label={folderName}
+              isActive={location.pathname === `/mypage/bookmarks/${encodedFolderName}`}
+            />
+          </NavListItem>
+        )}  
       </NavList>  
     </Wrapper>
   );
