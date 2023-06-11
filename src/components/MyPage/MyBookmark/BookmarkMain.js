@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BookmarkNav } from '../Navs';
 import BookmarkFolder, { AddFolderContainer } from './BookmarkFolder';
 import AddCircle from '../../../resource/mypage_icon/add-circle.svg'
-import { Button } from'../MyPinReply/PinList';
+import { Button } from'../MyPinReply/PinListWeb';
 import { RowWrapper } from '../../Join/Wrappers';
 
 const FolderContainer = styled.div`
@@ -19,7 +19,6 @@ const FolderContainer = styled.div`
     justify-content: center;
     margin: 2rem auto;
     gap: 2rem;
-
   }
 `;
 

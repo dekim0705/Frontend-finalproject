@@ -1,78 +1,32 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { RowWrapper } from '../../Join/Wrappers';
-import { Button } from'./PinList';
-import ProfileBar2 from '../ProfileBar2';
+import ProfileBar2 from './ProfileBar2';
 import { PinReplyNav } from '../Navs';
+import { StyledCheckbox, Button, TitleLink } from './PinListWeb';
+import { RowWrapper, MapContainer, SelectAllButton } from './PinListMobile';
 
 const ParentContainer = styled.div`
-  margin: 20px auto;
-`;
-
-const MapContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--line-color);
-  padding: 10px 0;
-  gap: 10px;
-  margin: 0 auto;
-`;
-
-const TitleLink = styled(Link)`
-  margin-left: 1.8rem;
-  text-decoration: none;
-  color: var(--text-color);
-  &:hover {
-    text-decoration: underline;
+  width: 70%;
+  margin: 1rem auto;
+  .content_align, .author_date {
+    margin-left: 3rem;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80%;  
+    .author_date {
+      display: none;
+    }
   }
 `;
 
-const Content = styled.p`
-  margin-left: 1.8rem;
-  font-size: 0.9rem;
+const Content = styled.span`
+  font-size: 0.8rem;
   color: var(--input-text-color);
 `;
 
-const Author = styled.p`
-  font-size: 0.9rem;
-  color: var(--text-color);
-  font-weight: bold;
-  margin-left: 0.4rem;
-  padding-right: 0.4rem;
-`;
-
-const Date = styled.p`
+const StyledP = styled.span`
   font-size: 0.8rem;
-`;
-
-const Checkbox = styled.input`
-  margin-bottom: -2px;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border: 1px solid var(--point-color);
-  border-radius: 2px;
-  outline: none;
-  transition: border-color 0.4s ease-in-out;
-  &:checked {
-    background-color: var(--point-color);
-  }
-`;
-
-const SelectAllButton = styled.button`
-  margin: 10px 0 0 -8px;
-  align-self: flex-start;
-  line-height: 1.4rem;
-  background-color: var(--line-color);
-  border: 1px solid var(--hover-color);
-  border-radius: 6px;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--hover-color);
-  }
+  color: var(--text-color);
 `;
 
 const ReplyList = () => {
@@ -154,36 +108,37 @@ const ReplyList = () => {
       {userReplies.map((reply) => (
         <div key={reply.replyNum}>
           <MapContainer>
-            <RowWrapper alignItems="start" margin="0">
-              <Checkbox
+            <RowWrapper>
+              <StyledCheckbox
                 type="checkbox"
                 checked={isReplySelected(reply.replyNum)}
                 onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
               />
-              <Author>자바광팬아님</Author>
-              <Date> {reply.date}</Date>
+              <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
             </RowWrapper>
-            <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
-            <Content>원문제목: {reply.title}</Content>
+            <Content className='content_align'>원문제목: {reply.title}</Content>
+            <RowWrapper className='author_date' gap='1rem'>
+              <StyledP>자바광팬아님</StyledP>
+              <StyledP>{reply.date}</StyledP>
+            </RowWrapper>
             </MapContainer>
         </div>
       ))}
-      <RowWrapper margin="0">
+      <RowWrapper gap="1rem">
         <SelectAllButton>
-          <Checkbox
+          <StyledCheckbox
             type="checkbox"
             checked={selectAll}
             onChange={handleSelectAllChange}
           />
-          전체선택
+          <p>전체선택</p>
         </SelectAllButton>
         <Button onClick={handleDeleteReplies}>
           삭제
         </Button>
       </RowWrapper>
     </ParentContainer>
-    </>
-
+  </>
   );
 };
 
