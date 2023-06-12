@@ -152,7 +152,7 @@ const InquiryManagement = () => {
 
   ];
   
-  const [inquiries] = useState(dummyData); 
+  const [inquiries, setInquiries] = useState(dummyData);
   const [selectedInquiry, setSelectedInquiry] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -186,7 +186,17 @@ const InquiryManagement = () => {
   };
   
   const handleConfirm = () => {
-    console.log('문의 확인 ! ')
+    const updatedInquiries = inquiries.map((inquiry) => {
+      if (selectedInquiry.includes(inquiry.inquiryNum)) {
+        return { ...inquiry, status: '완료' };
+      }
+      return inquiry;
+    });
+  
+    setInquiries(updatedInquiries);
+  
+    // 선택된 문의를 초기화
+    setSelectedInquiry([]);
   };
 
   const handleInquiryContentClick = (inquiry) => {
