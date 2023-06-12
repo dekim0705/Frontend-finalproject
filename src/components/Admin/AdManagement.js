@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
+import AdPopup from './AdPopUp';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -30,12 +31,13 @@ const Table = styled.table`
   }
   th {
     font-weight: bold;
-    /* background-color: #FFA8D2;  */
   }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
+  width: 100%;
+  margin-left: 10px;
 `;
   const Button = styled.button`
   margin: 10px 0 0 10px;
@@ -52,7 +54,6 @@ const ButtonContainer = styled.div`
 
 
 const AdManagement = () => {
-  
 
   const dummyData = [
     {
@@ -75,6 +76,7 @@ const AdManagement = () => {
   const [userPosts] = useState(dummyData); 
   const [selectedAds, setSelectedAds] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
 
   const handleSelectAllChange = (event) => {
@@ -107,9 +109,14 @@ const AdManagement = () => {
     console.log('광고 삭제 ! ')
   };
   
-  const handleAddAd = () => {
-    console.log('광고 추가')
-  }
+  const handleAddAd = (adName) => {
+    console.log('광고 추가:', adName);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -164,6 +171,7 @@ const AdManagement = () => {
         <Button onClick={handleDeleteAd}>삭제</Button>
       </ButtonContainer>
       </Container>
+       {showPopup && <AdPopup onAddAd={handleAddAd} onClosePopup={handleClosePopup} />}
     </>
   );
 };  

@@ -222,7 +222,7 @@ const InquiryManagement = () => {
                 </td>
                 <td>{inquiry.inquiryNum}</td>
                 <td onClick={() => handleInquiryContentClick(inquiry)} style={{ cursor: 'pointer' }}>
-            {inquiry.content.length > 15 ? `${inquiry.content.substring(0, 15)}···` : inquiry.content} 
+                {inquiry.content.length > 15 ? `${inquiry.content.substring(0, 15)}···` : inquiry.content} 
                </td>
                 <td>{inquiry.nickname}</td>
                 <td>{inquiry.date}</td>
