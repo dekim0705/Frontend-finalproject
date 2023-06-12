@@ -36,7 +36,6 @@ const Table = styled.table`
   }
 `;
 
-
 const Button = styled.button`
 margin: 10px 0 0 10px;
 align-self: flex-start;
@@ -103,6 +102,17 @@ const PopupTitle = styled.p`
   margin-bottom: 10px;
   font-size: 0.9rem;
 `;
+const StatusBadge = styled.div`
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #fff;
+  background-color: ${({ status }) => (status === '대기' ? 'var(--line-color)' : 'var(--point-color)')};
+  color: ${({ status }) => (status === '대기' ? 'var(--text-color)' : '#fff')};
+  font-weight: ${({ status }) => (status === '대기' ? '' : 'bold')};
+`;
+
 
 const InquiryManagement = () => {
   const dummyData = [
@@ -112,6 +122,7 @@ const InquiryManagement = () => {
       nickname: "겨울잠자는중",
       date: "2023/06/06",
       email: "user1@gmail.com",
+      status: "대기"
     },
     {
       inquiryNum: 2,
@@ -119,6 +130,7 @@ const InquiryManagement = () => {
       nickname: "리액트흑흑",
       date: "2023/06/06",
       email: "user1@gmail.com",
+      status: "대기"
     },
     {
       inquiryNum: 3,
@@ -126,12 +138,21 @@ const InquiryManagement = () => {
       nickname: "자바광팬아님",
       date: "2023/06/06",
       email: "user1@gmail.com",
+      status: "완료"
+    },
+    {
+      inquiryNum: 4,
+      content: "문의드려요 관리자님!!!! 네네네??",
+      nickname: "흠냐릥",
+      date: "2023/06/03",
+      email: "user3@gmail.com",
+      status: "완료"
     },
 
 
   ];
   
-  const [inquiries] = useState(dummyData); 
+  const [inquiries, setInquiries] = useState(dummyData);
   const [selectedInquiry, setSelectedInquiry] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -165,7 +186,17 @@ const InquiryManagement = () => {
   };
   
   const handleConfirm = () => {
-    console.log('문의 확인 ! ')
+    const updatedInquiries = inquiries.map((inquiry) => {
+      if (selectedInquiry.includes(inquiry.inquiryNum)) {
+        return { ...inquiry, status: '완료' };
+      }
+      return inquiry;
+    });
+  
+    setInquiries(updatedInquiries);
+  
+    // 선택된 문의를 초기화
+    setSelectedInquiry([]);
   };
 
   const handleInquiryContentClick = (inquiry) => {
@@ -202,15 +233,16 @@ const InquiryManagement = () => {
               <th>문의 내용</th>
               <th>문의자</th>
               <th>문의일</th>
+              <th>상태</th>
             </tr>
           </thead>
           <tbody>
             {inquiries.map((inquiry) => (
-              <tr key={inquiry.reportNum}>
+              <tr key={inquiry.inquiryNum}>
                 <td>
                 <Checkbox
-                checked={isPostSelected(inquiry.reportNum)}
-                onChange={(event) => handleCheckboxChange(event, inquiry.reportNum)}
+                checked={isPostSelected(inquiry.inquiryNum)}
+                onChange={(event) => handleCheckboxChange(event, inquiry.inquiryNum)}
                  {...label} 
                  sx={{
                  color: pink[300],
@@ -226,6 +258,9 @@ const InquiryManagement = () => {
                </td>
                 <td>{inquiry.nickname}</td>
                 <td>{inquiry.date}</td>
+                <td>
+               <div> <StatusBadge status={inquiry.status}> {inquiry.status} </StatusBadge> </div>
+              </td>
               </tr>
             ))}
           </tbody>
