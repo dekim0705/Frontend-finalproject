@@ -28,15 +28,15 @@ const Region = () => {
               id: 'uncontrolled-native',
             }}
           >
-            <option value={1}>서울</option>
-            <option value={2}>인천</option>
-            <option value={3}>경기</option>
-            <option value={4}>강원</option>
-            <option value={5}>부산</option>
-            <option value={6}>충북</option>
-            <option value={7}>경북</option>
-            <option value={8}>전남</option>
-            <option value={9}>제주</option>
+            <option value={"SEOUL"}>서울</option>
+            <option value={"INCHEON"}>인천</option>
+            <option value={"GYEONGGI"}>경기</option>
+            <option value={"GANGWON"}>강원</option>
+            <option value={"BUSAN"}>부산</option>
+            <option value={"CHUNGBUK"}>충북</option>
+            <option value={"GYEONGBUK"}>경북</option>
+            <option value={"JEOLLANAM"}>전남</option>
+            <option value={"JEJU"}>제주</option>
           </NativeSelect>
         </FormControl>
       </Box>
