@@ -172,7 +172,7 @@ const UserManagement = () => {
             <input
               type="text"
               onKeyDown={handleSearch}
-              placeholder="회원 번호 / 닉네임 "
+              placeholder="회원 닉네임"
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
               <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />

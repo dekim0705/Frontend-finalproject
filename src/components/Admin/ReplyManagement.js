@@ -161,7 +161,7 @@ const ReplyManagement = () => {
             <input
               type="text"
               onKeyDown={handleSearch}
-              placeholder="작성자 / 댓글 내용"
+              placeholder="댓글 내용 / 작성자"
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
               <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
