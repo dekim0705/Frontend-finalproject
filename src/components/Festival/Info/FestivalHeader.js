@@ -91,11 +91,11 @@ const FestivalHeader = () => {
           <ShareIcon />
           공유하기
         </ShareButton>
-        <LikeButton>
+        {/* <LikeButton>
         <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         {/* <FavoriteBorderIcon /> */}
-        <LikeCount>13</LikeCount>
-        </LikeButton>
+        {/* <LikeCount>13</LikeCount>
+        </LikeButton> */} 
       </ButtonWrapper>
     </HeaderContainer>
   );

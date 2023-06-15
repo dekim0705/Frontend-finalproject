@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Profile from "../../resource/chat_profile.jpeg";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 
 const ChatRoomContainer = styled.div`
   position: relative;
@@ -10,20 +10,19 @@ const ChatRoomContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 500px;
-  min-height: 80vh; 
-  height: fit-content; 
+  min-height: 80vh;
+  height: fit-content;
   border: 3px solid var(--point-color);
   padding: 20px;
   box-shadow: 0px 4px 4px 3px rgba(255, 98, 173, 0.2);
   border-radius: 30px;
   margin: 0px auto;
-  overflow-y: auto; 
+  overflow-y: auto;
 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     max-width: 80%;
-    min-height: 70vh; 
+    min-height: 70vh;
   }
-
 `;
 
 const ChatRoomHeader = styled.div`
@@ -41,7 +40,7 @@ const ChatRoomHeader = styled.div`
   font-size: 1.3rem;
   font-weight: bold;
   padding: 0 30px;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     height: 55px;
     font-size: 1rem;
     padding: 0 25px;
@@ -54,7 +53,7 @@ const CloseButton = styled.button`
   color: white;
   font-size: 2rem;
   cursor: pointer;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     font-size: 1.3rem;
   }
 `;
@@ -62,12 +61,12 @@ const CloseButton = styled.button`
 const ChatMessageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto; 
+  overflow-y: auto;
   max-height: calc(80vh - 250px);
   margin-top: 80px;
   margin-bottom: 150px;
-  @media screen and (max-width:768px) {
-  margin-top: 50px;
+  @media screen and (max-width: 768px) {
+    margin-top: 50px;
   }
 `;
 
@@ -77,10 +76,11 @@ const MessageContainer = styled.div`
   justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
   margin-bottom: 20px;
   font-size: 1rem;
-  @media screen and (max-width:768px) {
-  width: 95%;
-  font-size: 0.8rem;
-  margin-bottom: 10px;
+  line-height: 1.3;
+  @media screen and (max-width: 768px) {
+    width: 95%;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
   }
 `;
 
@@ -89,10 +89,10 @@ const ProfileImage = styled.img`
   height: 40px;
   border-radius: 50%;
   margin-right: 13px;
-  @media screen and (max-width:768px) {
-  width: 40px;
-  height: 30px;
-  margin-right: 7px;
+  @media screen and (max-width: 768px) {
+    width: 40px;
+    height: 30px;
+    margin-right: 7px;
   }
 `;
 
@@ -103,8 +103,8 @@ const Message = styled.div`
   color: #000;
   border-radius: ${({ isUser }) => (isUser ? "25px 25px 0px 25px" : "0px 25px 25px 25px")};
   max-width: 400px;
-  @media screen and (max-width:768px) {
-  padding: 16px;
+  @media screen and (max-width: 768px) {
+    padding: 16px;
   }
 `;
 
@@ -120,7 +120,7 @@ const MenuContainer = styled.div`
 const MenuButton = styled.button`
   padding: 13px 18px;
   border-radius: 30px;
-  margin: 0px 3px 9px 3px; 
+  margin: 0px 3px 9px 3px;
   border: 1px solid var(--point-color);
   background-color: #fff;
   font-size: 0.9rem;
@@ -149,14 +149,14 @@ const InputContainer = styled.div`
     padding: 20px;
     border: none;
     background-color: var(--input-color);
-    width: 93%; 
+    width: 93%;
     font-size: 1.1rem;
 
     @media (max-width: 768px) {
-    font-size: 0.9rem;
-    height: 50px;
-    padding: 20px;
-  }
+      font-size: 0.9rem;
+      height: 50px;
+      padding: 20px;
+    }
   }
 `;
 const SendButton = styled.button`
@@ -173,13 +173,13 @@ const SendButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #FFA8D2;
+    background-color: #ffa8d2;
   }
-
 `;
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState(""); // 입력창의 값을 상태로 관리
   const messageContainerRef = useRef(null);
 
   useEffect(() => {
@@ -196,7 +196,7 @@ const ChatRoom = () => {
 
   const handleMenuSelect = (menuName) => {
     const menuNumber = getMenuNumber(menuName);
-    
+
     if (menuNumber !== 0) {
       const userMessage = {
         text: menuName,
@@ -234,13 +234,30 @@ const ChatRoom = () => {
       case 1:
         return "이용가이드에 대한 답변입니다.";
       case 2:
-        return <>멤버십 관련 답변</>
+        return <>멤버십 관련 답변</>;
       case 3:
-        return <> 광고 신청 절차 및 관련 자세한 문의사항은 <br /> 아래 이메일로 연락주시면 도움을 드리겠습니다. <br /> <bold>todaysdate@naver.com</bold> </>
+        return (
+          <>
+            {" "}
+            광고 신청 절차 및 관련 자세한 문의사항은 <br /> 아래 이메일로 연락주시면 도움을 드리겠습니다.{" "}
+            <br /> <bold>todaysdate@naver.com</bold>{" "}
+          </>
+        );
       case 4:
-        return <> [신고문의] <br/>부적절한 게시물이나 댓글을 신고할 수 있는 절차에 대해 안내해드리겠습니다. 블라블라 <br/> 신고할 게시물 오른쪽 상단에 점 세개를 누르시고, 신고하기를 누르면 처리됩니다. </>
+        return (
+          <>
+            부적절한 게시물이나 댓글을 신고할 수 있는 절차에 대해 안내해드리겠습니다. <br /> 신고할 게시물 오른쪽 상단에 점 세개를
+            누르시고, 신고하기를 누르면 신고가 완료됩니다.{" "}
+          </>
+        );
       case 5:
-        return "기타문의에 대한 답변입니다.";
+        return (
+          <>
+            {" "}
+            기타 문의 사항이 있으시면 아래 입력란에 작성해주세요. <br /> 관리자가 확인 후 이메일로 답변을 보내드리겠습니다.{" "}
+          </>
+        );
+
       default:
         return "메뉴를 선택해주세요.";
     }
@@ -254,7 +271,17 @@ const ChatRoom = () => {
   }, [messages]);
 
   const handleSendMessage = () => {
-    console.log('메세지 보냄')
+    const userMessage = {
+      text: inputValue,
+      isUserMessage: true,
+    };
+
+    setMessages([...messages, userMessage]);
+    setInputValue(""); // 메세지 보낸 후에 입력창 초기화
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
   };
 
   return (
@@ -266,12 +293,8 @@ const ChatRoom = () => {
       <ChatMessageContainer ref={messageContainerRef}>
         {messages.map((message, index) => (
           <MessageContainer key={index} isUser={message.isUserMessage}>
-            {!message.isUserMessage && (
-              <ProfileImage src={Profile} alt="Profile" />
-            )}
-            <Message isUser={message.isUserMessage}>
-              {message.text}
-            </Message>
+            {!message.isUserMessage && <ProfileImage src={Profile} alt="Profile" />}
+            <Message isUser={message.isUserMessage}>{message.text}</Message>
           </MessageContainer>
         ))}
       </ChatMessageContainer>
@@ -283,13 +306,12 @@ const ChatRoom = () => {
         <MenuButton onClick={() => handleMenuSelect("기타문의")}>기타문의</MenuButton>
       </MenuContainer>
       <InputContainer>
-      <input type="text" />
+        <input type="text" value={inputValue} onChange={handleInputChange}  />
         <SendButton onClick={handleSendMessage}>
-        <SendIcon />
+          <SendIcon />
         </SendButton>
       </InputContainer>
     </ChatRoomContainer>
-    
   );
 };
 

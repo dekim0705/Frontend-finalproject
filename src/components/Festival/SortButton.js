@@ -52,7 +52,7 @@ const SortButtons = () => {
           color: sortBy === 'views' ? '#FF62AD' : '#2e2e2e',
         }}
       >
-        인기순
+        이름순
       </Button>
     </SortButtonsContainer>
   );
