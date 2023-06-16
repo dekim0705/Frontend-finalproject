@@ -177,21 +177,24 @@ const SendButton = styled.button`
   }
 `;
 
+
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState(""); // 입력창의 값을 상태로 관리
+  const [inputValue, setInputValue] = useState("");
   const messageContainerRef = useRef(null);
+  const [isEmailRequired, setIsEmailRequired] = useState(false);
+  const [isInputActive, setIsInputActive] = useState(false);
 
   useEffect(() => {
     const startMessage = {
-      text: "안녕하세요! \n오늘의 데이트 고객센터 챗봇입니다. 원하시는 메뉴를 선택해주세요. 😊 ",
+      text:<>안녕하세요 !  저는 오늘의 데이트 고객센터 챗봇입니다  😊 <br/> 아래의 원하시는 메뉴를 선택해주세요.</>,
       isUserMessage: false,
     };
     setMessages([startMessage]);
   }, []);
 
   const handleCloseChat = () => {
-    console.log("Chat closed");
+    console.log("챗봇 종료");
   };
 
   const handleMenuSelect = (menuName) => {
@@ -203,6 +206,9 @@ const ChatRoom = () => {
         isUserMessage: true,
       };
 
+      setIsInputActive(menuNumber === 5);
+      setIsEmailRequired(menuNumber === 5);
+
       const botMessage = {
         text: test(menuNumber),
         isUserMessage: false,
@@ -211,6 +217,14 @@ const ChatRoom = () => {
       setMessages([...messages, userMessage, botMessage]);
     }
   };
+
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !isEmailRequired) {
+      handleSendMessage();
+    }
+  };
+  
 
   const getMenuNumber = (menuName) => {
     switch (menuName) {
@@ -232,32 +246,24 @@ const ChatRoom = () => {
   const test = (menuNumber) => {
     switch (menuNumber) {
       case 1:
-        return "이용가이드에 대한 답변입니다.";
+        return  <>오늘의 데이트는 사용자가 데이트 직접 코스를 만들어 공유할 수 있는 곳입니다.<br />   1. 핀 만들기  : 직접 데이트 경로를 만들고 멋진 데이트 경험을 공유해보세요! <br /> 
+        2. 다른 사용자가 작성한 글들은 북마크 기능을 통해 마이페이지에서 폴더별로 모아볼 수 있어요. <br />  
+        3. 지역 행사: 전국의 다양한 행사 정보를 통해 자세한 일정과 정보를 확인하고, 원하는 행사에 참여할 수 있습니다.<br />  <br/>
+        오늘의 데이트로 데이트 코스를 제작하고 행사에 참여하여 즐거운 시간을 보내세요! 💗<br /> </>
       case 2:
-        return <>멤버십 관련 답변</>;
+        return <>  멤버십 서비스는 광고 없이 오늘의 데이트를 즐길 수 있는 서비스입니다! <br /> ✅ 실제 결제는 이루어지지 않습니다. </>;
       case 3:
         return (
-          <>
-            {" "}
-            광고 신청 절차 및 관련 자세한 문의사항은 <br /> 아래 이메일로 연락주시면 도움을 드리겠습니다.{" "}
-            <br /> <bold>todaysdate@naver.com</bold>{" "}
-          </>
+          <>광고 신청 절차 및 관련 자세한 문의사항은<br />아래 이메일로 연락주시면 도움을 드리겠습니다 😊<br />todaysdate@naver.com</>
         );
       case 4:
         return (
-          <>
-            부적절한 게시물이나 댓글을 신고할 수 있는 절차에 대해 안내해드리겠습니다. <br /> 신고할 게시물 오른쪽 상단에 점 세개를
-            누르시고, 신고하기를 누르면 신고가 완료됩니다.{" "}
-          </>
+          <>게시물/댓글에 대한 신고 절차를 안내해드리겠습니다. <br/>만약 부적절한 게시물이나 댓글을 발견하셨다면, 해당 항목의 오른쪽 상단에 있는 점 세 개를 클릭해주세요! <br/> 그런 다음, 신고하기 메뉴를 선택해주세요. 🚨  <br/>선택하신 게시물 또는 댓글은 신고가 접수되어 처리됩니다.  <br/>더 안전하고 쾌적한 커뮤니티 환경을 위해 여러분의 적극적인 참여를 부탁드립니다! </> 
         );
       case 5:
         return (
-          <>
-            {" "}
-            기타 문의 사항이 있으시면 아래 입력란에 작성해주세요. <br /> 관리자가 확인 후 이메일로 답변을 보내드리겠습니다.{" "}
-          </>
+          <>기타 문의 사항을 아래 입력란에 작성해주세요. <br /> 관리자가 확인 후 이메일로 답변을 보내드리겠습니다 💗</>
         );
-
       default:
         return "메뉴를 선택해주세요.";
     }
@@ -265,7 +271,6 @@ const ChatRoom = () => {
 
   useEffect(() => {
     if (messageContainerRef.current) {
-      // 스크롤 자동으로 아래로 내리기
       messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
@@ -276,8 +281,25 @@ const ChatRoom = () => {
       isUserMessage: true,
     };
 
-    setMessages([...messages, userMessage]);
-    setInputValue(""); // 메세지 보낸 후에 입력창 초기화
+    let updatedMessages = [...messages, userMessage];
+
+    if (isEmailRequired) {
+      const emailMessage = {
+        text: <>답변을 받으실 이메일 주소를 입력해주세요😆 </>,
+        isUserMessage: false,
+      };
+      updatedMessages = [...updatedMessages, emailMessage];
+      setIsEmailRequired(false);
+    } else {
+      const botMessage = {
+        text: <>문의가 성공적으로 접수되었습니다!  <br /> 확인 후 빠른 시일 내에 답변드리겠습니다 💗</>,
+        isUserMessage: false,
+      };
+      updatedMessages = [...updatedMessages, botMessage];
+    }
+
+    setMessages(updatedMessages);
+    setInputValue("");
   };
 
   const handleInputChange = (e) => {
@@ -306,7 +328,7 @@ const ChatRoom = () => {
         <MenuButton onClick={() => handleMenuSelect("기타문의")}>기타문의</MenuButton>
       </MenuContainer>
       <InputContainer>
-        <input type="text" value={inputValue} onChange={handleInputChange}  />
+        <input type="text" value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={!isInputActive} />
         <SendButton onClick={handleSendMessage}>
           <SendIcon />
         </SendButton>
