@@ -7,6 +7,7 @@ import Button from "../components/Festival/Button";
 import DetailButton from "../components/Festival/DetailButton";
 import FestivalContainer from "../components/Festival/FestivalContainer";
 import SortButtons from "../components/Festival/SortButton";
+import FestivalAPI from "../components/Festival/FestivalAPI";
 
 const Container = styled.div`
   display: flex;
@@ -48,7 +49,10 @@ const FestivalPage = () => {
         <SortButtonsContainer>
           <SortButtons />
         </SortButtonsContainer>
-        <FestivalContainer />
+        <FestivalAPI>
+  {apiData => <FestivalContainer apiData={apiData} />}
+</FestivalAPI>
+
       </AppLayout>
       <BottomNav />
     </>
