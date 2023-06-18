@@ -17,7 +17,6 @@ const FestivalDetailPage = () => {
     <AppLayout>
       <FestivalHeader/>
       <Carousel/>
-      {/* <FestivalCarousel/> */}
       <FestivalSummary/>
       <FestivalMap/>
       <Recommend/>

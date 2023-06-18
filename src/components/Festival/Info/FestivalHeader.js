@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
 import ShareIcon from '@mui/icons-material/Share';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
-import Checkbox from '@mui/material/Checkbox';
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 const HeaderContainer = styled.div`
@@ -66,17 +61,6 @@ const ShareButton = styled.button`
   cursor: pointer;
 `;
 
-const LikeButton = styled.button`
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  padding-right: 10px;
-  cursor: pointer;
-`;
-const LikeCount = styled.span`
-  margin: 0 auto; 
-`;
 
 const FestivalHeader = () => {
   return (
@@ -91,11 +75,6 @@ const FestivalHeader = () => {
           <ShareIcon />
           공유하기
         </ShareButton>
-        {/* <LikeButton>
-        <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-        {/* <FavoriteBorderIcon /> */}
-        {/* <LikeCount>13</LikeCount>
-        </LikeButton> */} 
       </ButtonWrapper>
     </HeaderContainer>
   );
