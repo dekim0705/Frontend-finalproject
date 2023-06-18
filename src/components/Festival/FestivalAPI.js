@@ -11,19 +11,19 @@ const FestivalAPI = ({ children }) => {
   const fetchData = async () => {
     try {
       const apiKey = process.env.REACT_APP_FESTIVAL_API_KEY;
-      const url = "http://apis.data.go.kr/B551011/KorService1/detailIntro1";
+      const url = "https://apis.data.go.kr/B551011/KorService1/searchFestival1"; 
 
       const response = await axios.get(url, {
         params: {
-          ServiceKey: apiKey,
-          numOfRows: 10,
+          numOfRows: 6,
           pageNo: 1,
           MobileOS: "ETC",
-          MobileApp: "AppTest",
-          arrange: "A",
+          MobileApp: "todaysDate",
+          _type: "_JSON", 
           listYN: "Y",
-          contentTypeId: 15,
           eventStartDate: "20230601",
+          eventEndDate: "20231231",
+          serviceKey: apiKey,
         },
       });
 
