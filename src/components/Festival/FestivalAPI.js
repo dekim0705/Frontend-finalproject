@@ -33,18 +33,20 @@ const FestivalAPI = ({ children, page }) => {
       if (item) {
         const extractedData = item.map((item) => ({
           address: item.addr1,
-          regionCode: item.areacode,
+          areaCode: item.areacode,
           eventStartDate: item.eventstartdate,
           eventEndDate: item.eventenddate,
           mainImage: item.firstimage,
           thumbnail: item.firstimage2,
           title: item.title,
+          contentid:item.contentid,
+          // overview:item.overview,
           coordinates: {
             latitude: item.mapy,
             longitude: item.mapx,
           },
         }));
-
+        console.log('데이터 가져오기 : ',extractedData);
         setApiData(extractedData);
         setTotalPages(Math.ceil(totalCount / 6)); 
       }

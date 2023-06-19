@@ -28,15 +28,20 @@ const SortButtonsContainer = styled.div`
   }
 `;
 
-const SortButtons = () => {
-  const [sortBy, setSortBy] = useState('date');
-
-  const handleSort = (type) => {
-    setSortBy(type);
-  };
+const SortButtons = ({ handleSort, sortBy }) => {
+  // const [sortBy, setSortBy] = useState('name');
 
   return (
     <SortButtonsContainer>
+      <Button
+        onClick={() => handleSort('name')}
+        style={{
+          color: sortBy === 'name' ? '#FF62AD' : '#2e2e2e',
+        }}
+      >
+        이름순
+      </Button>
+      <Separator />
       <Button
         onClick={() => handleSort('date')}
         style={{
@@ -44,15 +49,6 @@ const SortButtons = () => {
         }}
       >
         날짜순
-      </Button>
-      <Separator />
-      <Button
-        onClick={() => handleSort('views')}
-        style={{
-          color: sortBy === 'views' ? '#FF62AD' : '#2e2e2e',
-        }}
-      >
-        이름순
       </Button>
     </SortButtonsContainer>
   );
