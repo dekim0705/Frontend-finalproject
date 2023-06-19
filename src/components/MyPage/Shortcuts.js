@@ -52,7 +52,7 @@ const ShortcutBar = () => {
       <Icon src={Pin} alt='핀목록 아이콘'/>
       <Title>핀목록</Title>
     </ShortcutLink>
-    <ShortcutLink to='/mypage/settings'>
+    <ShortcutLink to='/mypage/settings/membership'>
       <Icon src={Setting} alt='설정 아이콘'/>
       <Title>설정</Title>
     </ShortcutLink>
