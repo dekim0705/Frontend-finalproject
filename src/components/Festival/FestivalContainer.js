@@ -4,7 +4,6 @@ import FestivalAPI from "./FestivalAPI";
 import Pagination from "./Pagination";
 import FestivalItem from "./FestivalItem";
 
-
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -17,13 +16,19 @@ const Container = styled.div`
   }
 `;
 
-
-const FestivalContainer = () => {
+const FestivalContainer = ({ sortBy }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [apiData, setApiData] = useState([]);
 
   useEffect(() => {
-  }, [currentPage]);
+    const sortedData = sortBy === 'date' ? sortDataByDate(apiData) : apiData;
+    setApiData(sortedData);
+  }, [sortBy]);
 
+  const sortDataByDate = (data) => {
+    return data.sort((a, b) => new Date(a.eventStartDate) - new Date(b.eventStartDate));
+  };
+  
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -31,7 +36,7 @@ const FestivalContainer = () => {
 
   return (
     <div>
-      <FestivalAPI page={currentPage}>
+      <FestivalAPI page={currentPage} sortBy={sortBy}>
         {(apiData, totalPages) => (
           <div>
             {apiData.length > 0 ? (
@@ -58,4 +63,3 @@ const FestivalContainer = () => {
 };
 
 export default FestivalContainer;
-

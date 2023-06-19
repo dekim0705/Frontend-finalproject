@@ -1,10 +1,10 @@
-import React from "react";
+import React , {useState}from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import BottomNav from "../components/common/BottomNav";
 import SelectBox from "../components/Festival/Selectbox";
 import Button from "../components/Festival/Button";
-import DetailButton from "../components/Festival/DetailButton";
+import DetailButton from "../components/Festival/DetailSearch";
 import FestivalContainer from "../components/Festival/FestivalContainer";
 import SortButtons from "../components/Festival/SortButton";
 
@@ -35,20 +35,34 @@ const SortButtonsContainer = styled.div`
 
 
 const FestivalPage = () => {
+  const [sortBy, setSortBy] = useState('name');
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+
+
+  const handleSort = (type) => {
+    setSortBy(type);
+  };
+
+  const handleFilter = (city, date) => {
+    setSelectedCity(city);
+    setSelectedDate(date);
+  };
+
   return (
     <>
       <AppLayout>
         <Container>
-          <SelectBox />
+        <SelectBox onFilter={handleFilter} />
           <ButtonWrapper>
-            <Button>둘러보기</Button>
+          <Button onClick={() => handleFilter(selectedCity, selectedDate)}>둘러보기</Button>
             <DetailButton />
           </ButtonWrapper>
         </Container>
         <SortButtonsContainer>
-          <SortButtons />
+        <SortButtons handleSort={handleSort} sortBy={sortBy} />
         </SortButtonsContainer>
-        <FestivalContainer />
+        <FestivalContainer sortBy={sortBy} />
       </AppLayout>
       <BottomNav />
     </>

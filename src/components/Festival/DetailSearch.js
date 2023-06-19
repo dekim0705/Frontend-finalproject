@@ -7,8 +7,9 @@ import SearchIcon from '@mui/icons-material/Search';
 const StyledDetailButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 55px;
+  justify-content: flex-end;
+  width: 100px;
+  margin-left:5px;
   height: 55px;
   border: none;
   background-color: transparent;

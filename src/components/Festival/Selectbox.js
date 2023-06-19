@@ -44,32 +44,31 @@ const theme = createTheme({
 });
 
 
-
-
-
-const SelectBox = () => {
+const SelectBox = ({ onFilter })  => {
   const [city, setCity] = useState("");
   const [date, setDate] = useState("");
-  const [category, setCategory] = useState("");
 
   const handleCityChange = (event) => {
-    setCity(event.target.value);
+    const selectedCity = event.target.value;
+    setCity(selectedCity);
+    onFilter(selectedCity, date); 
   };
+
 
   const handleDateChange = (event) => {
-    setDate(event.target.value);
+    const selectedDate = event.target.value;
+    setDate(selectedDate);
+    onFilter(city, selectedDate); // 선택한 city와 date 값을 전달
   };
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
+
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex', gap: '16px' , "@media (max-width: 768px)": {
+      <Box sx={{ display: 'flex', gap: '25px' , "@media (max-width: 768px)": {
             flexDirection: "column", width: "100%"
           },}}>
-        <FormControl sx={{ minWidth: 170 }}>
+        <FormControl sx={{ minWidth: 240 }}>
           <InputLabel id="city-label">지역</InputLabel>
           <Select
             labelId="city-label"
@@ -78,19 +77,24 @@ const SelectBox = () => {
             label="지역"
             onChange={handleCityChange}
           >
-            <MenuItem value={1}>전체</MenuItem>
-            <MenuItem value={2}>서울</MenuItem>
-            <MenuItem value={3}>경기</MenuItem>
-            <MenuItem value={4}>인천</MenuItem>
-            <MenuItem value={5}>강원</MenuItem>
+            <MenuItem value={0}>전체</MenuItem>
+            <MenuItem value={1}>서울</MenuItem>
+            <MenuItem value={2}>인천</MenuItem>
+            <MenuItem value={4}>대구</MenuItem>
+            <MenuItem value={5}>광주</MenuItem>
             <MenuItem value={6}>부산</MenuItem>
-            <MenuItem value={7}>충북</MenuItem>
-            <MenuItem value={8}>경북</MenuItem>
-            <MenuItem value={9}>전남</MenuItem>
-            <MenuItem value={10}>제주</MenuItem>
+            <MenuItem value={31}>경기도</MenuItem>
+            <MenuItem value={32}>강원도</MenuItem>
+            <MenuItem value={33}>충청북도</MenuItem>
+            <MenuItem value={34}>충청남도</MenuItem>
+            <MenuItem value={35}>경상북도</MenuItem>
+            <MenuItem value={36}>경상남도</MenuItem>
+            <MenuItem value={37}>전라북도</MenuItem>
+            <MenuItem value={38}>전라남도</MenuItem>
+            <MenuItem value={39}>제주도</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ minWidth: 170 }}>
+        <FormControl sx={{ minWidth: 240 }}>
           <InputLabel id="date-label">시기</InputLabel>
           <Select
             labelId="date-label"
@@ -99,25 +103,23 @@ const SelectBox = () => {
             label="시기"
             onChange={handleDateChange}
           >
-            <MenuItem value={1}>전체</MenuItem>
-            <MenuItem value={2}>개최중</MenuItem>
-            <MenuItem value={3}>개최예정</MenuItem>
+            <MenuItem value={0}>전체</MenuItem>
+            <MenuItem value={1}>1월</MenuItem>
+            <MenuItem value={2}>2월</MenuItem>
+            <MenuItem value={3}>3월</MenuItem>
+            <MenuItem value={4}>4월</MenuItem>
+            <MenuItem value={5}>5월</MenuItem>
+            <MenuItem value={6}>6월</MenuItem>
+            <MenuItem value={7}>7월</MenuItem>
+            <MenuItem value={8}>8월</MenuItem>
+            <MenuItem value={9}>9월</MenuItem>
+            <MenuItem value={10}>10월</MenuItem>
+            <MenuItem value={11}>11월</MenuItem>
+            <MenuItem value={12}>12월</MenuItem>
+
           </Select>
         </FormControl>
-        <FormControl sx={{ minWidth: 170 }}>
-          <InputLabel id="category-label">카테고리</InputLabel>
-          <Select
-            labelId="category-label"
-            id="category-select"
-            value={category}
-            label="카테고리"
-            onChange={handleCategoryChange}
-          >
-            <MenuItem value={1}>전체</MenuItem>
-            <MenuItem value={2}>카테고리 1</MenuItem>
-            <MenuItem value={3}>카테고리 2</MenuItem>
-          </Select>
-        </FormControl>
+
       </Box>
     </ThemeProvider>
   );
