@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage'
 import AdiminPage from './pages/AdminPage'
 import ResetPwdPage from './pages/ResetPwdPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
+import KakaoCallback from './components/Login/KakaoCallback';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/auth/kakao/callback' element={<KakaoCallback />} />
           <Route path='/password' element={<ResetPwdPage />} /> 
           <Route path='/membership' element={<MembershipPage />} />
           <Route path='/write' element={<WritePage />} />
