@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { PfImg } from '../UserProfile';
 import ProfileImage from '../../../resource/profile.jpeg';
 import MuiTextField from '../../Join/TextField';
 import Button from '../../Join/Button';
@@ -8,6 +7,7 @@ import { EditInfoNav, SettingsNav } from '../Navs';
 import { ColumnWrapper } from '../../Join/Wrappers';
 import Withdraw from './Withdraw';
 import RegionSelectBox from './RegionSelectBox';
+import ProfileImageUploader from './EditPfImg';
 
 export const Container = styled.div`
   margin: 40px auto;
@@ -37,43 +37,6 @@ const Notice = styled.p`
   position: relative;
   margin-top: -1.8rem;
   margin-left: 1rem;
-`;
-
-const PfImgWrapper = styled.div`
-  position: relative;
-  margin-top: 1rem;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  cursor: pointer;
-  &:hover {
-    &:before {
-      content: '프로필사진변경';
-      border-radius: 50%;
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      margin-top: 1rem;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      font-size: 1rem;
-      opacity: 1;
-      transition: opacity 0.3s;
-    }
-  }
-  @media screen and (max-width: 768px) {
-    margin: 6px auto;
-    width: 110px;
-    height: 110px;
-    &:hover {
-      &:before {
-        margin-top: 0.3rem;
-      }
-    }
-  }
 `;
 
 const EditInfo = () => {
@@ -160,17 +123,13 @@ const EditInfo = () => {
   };
 
 
-
-  
   return (
     <>
       <SettingsNav />
       <Container>
         <EditInfoNav /> 
         <ColumnWrapper gap="2rem" width="60%" alignItems="center">
-        <PfImgWrapper>
-            <PfImg src={ProfileImage} alt='프로필 이미지' />
-          </PfImgWrapper>
+            <ProfileImageUploader defaultImage={ProfileImage} />
           <MuiTextField 
             label='닉네임' 
             value={nickname} 
