@@ -65,8 +65,8 @@ const CityPost = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [folders, setFolders] = useState([]);
 
-  const handleBookmark =  () => {
-    setBookmarked(true);
+  const handleBookmark = () => {
+    setBookmarked(!bookmarked);
   };
 
   const handleAddFolder = (folderName) => {
@@ -96,9 +96,25 @@ const CityPost = () => {
               <p>3분전</p>
             </AuthorInfo>
           </AuthorHeader>
-          {bookmarked ? <BookmarkIcon sx={{ cursor: "pointer", color:"#FF62AD" }} /> : <BookmarkBorderIcon sx={{ cursor: "pointer" }} onClick={toggleModal} />}
+          {bookmarked ? (
+            <BookmarkIcon 
+              sx={{ cursor: "pointer", color: "#FF62AD" }}
+              onClick={handleBookmark}
+            />
+          ) : (
+            <BookmarkBorderIcon
+              sx={{ cursor: "pointer" }}
+              onClick={toggleModal}
+            />
+          )}
         </PostHeader>
-        <BookmarkModal open={isModalOpen} handleClose={toggleModal} folders={folders} addFolder={handleAddFolder} handleBookmark={handleBookmark} />
+        <BookmarkModal
+          open={isModalOpen}
+          handleClose={toggleModal}
+          folders={folders}
+          addFolder={handleAddFolder}
+          handleBookmark={handleBookmark}
+        />
         <PostTitle>
           <h1>제목이 들어가는 자리 입니다.</h1>
           <p>서울시 중구</p>
