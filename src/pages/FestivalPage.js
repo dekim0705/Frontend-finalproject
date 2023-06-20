@@ -37,37 +37,62 @@ const SortButtonsContainer = styled.div`
 const FestivalPage = () => {
   const [sortBy, setSortBy] = useState('name');
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [savedCity, setSavedCity] = useState("");
+  const [savedMonth, setSavedMonth] = useState("");
+  
 
 
   const handleSort = (type) => {
     setSortBy(type);
   };
 
-  const handleFilter = (city, date) => {
+  const handleFilter = (city, month) => {
     setSelectedCity(city);
-    setSelectedDate(date);
+    setSelectedMonth(month);
   };
+
+  const handleButtonClick = () => {
+    setIsButtonClicked(true);
+    setSavedCity(selectedCity);
+    setSavedMonth(selectedMonth);
+  };
+
+  
+
 
   return (
     <>
       <AppLayout>
         <Container>
-        <SelectBox onFilter={handleFilter} />
+          <SelectBox onFilter={handleFilter} />
           <ButtonWrapper>
-          <Button onClick={() => handleFilter(selectedCity, selectedDate)}>둘러보기</Button>
-            <DetailButton />
+            <Button onClick={handleButtonClick}>둘러보기</Button>
           </ButtonWrapper>
         </Container>
         <SortButtonsContainer>
-        <SortButtons handleSort={handleSort} sortBy={sortBy} />
+          <SortButtons handleSort={handleSort} sortBy={sortBy} />
         </SortButtonsContainer>
-        <FestivalContainer sortBy={sortBy} />
+        {isButtonClicked ? (
+          <FestivalContainer
+            sortBy={sortBy}
+            selectedCity={selectedCity}
+            selectedMonth={selectedMonth}
+            isButtonClicked={isButtonClicked}
+          />
+        ) : (
+          <FestivalContainer
+            sortBy={sortBy}
+            selectedCity=""
+            selectedMonth=""
+            isButtonClicked={isButtonClicked}
+          />
+        )}
       </AppLayout>
       <BottomNav />
     </>
   );
 };
-
 
 export default FestivalPage;

@@ -7,10 +7,12 @@ import FestivalCarousel from "../components/Festival/Info/FestivalCarousel";
 import FestivalSummary from "../components/Festival/Info/FestivalSummary";
 import Recommend from "../components/Festival/Info/FestivalRecommend";
 import Carousel from "../components/Festival/Info/Carousel";
+import { useParams } from 'react-router-dom';
 
 
 
 const FestivalDetailPage = () => {
+  const { contentId } = useParams();
 
   return (
     <>
