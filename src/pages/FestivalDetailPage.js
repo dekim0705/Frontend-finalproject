@@ -7,20 +7,22 @@ import FestivalCarousel from "../components/Festival/Info/FestivalCarousel";
 import FestivalSummary from "../components/Festival/Info/FestivalSummary";
 import Recommend from "../components/Festival/Info/FestivalRecommend";
 import Carousel from "../components/Festival/Info/Carousel";
-import { useParams } from 'react-router-dom';
-
-
+import { useParams, useLocation } from 'react-router-dom';
 
 const FestivalDetailPage = () => {
   const { contentId } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page = searchParams.get('page');
+
 
   return (
     <>
     <AppLayout>
-      <FestivalHeader/>
+    <FestivalHeader page={page} contentId={contentId} />
       <Carousel/>
-      <FestivalSummary/>
-      <FestivalMap/>
+      <FestivalSummary page={page} contentId={contentId} />
+      <FestivalMap page={page} contentId={contentId} />
       <Recommend/>
       </AppLayout>
      <BottomNav/>

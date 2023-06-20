@@ -90,7 +90,7 @@ const Header = () => {
           <ListItemText primary={'🏠 홈'} sx={{ color: '#2e2e2e' }}  />
         </ListItem>
         <Divider />
-        <ListItem key={'event'} component={Link} to="/festival">
+        <ListItem key={'event'} component={Link} to="/festival/1">
           <ListItemText primary={'🏝️ 지역행사'} sx={{ color: '#2e2e2e' }} />
         </ListItem>
         <Divider />

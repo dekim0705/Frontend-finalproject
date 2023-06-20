@@ -47,10 +47,10 @@ function App() {
           <Route path='/join' element={<JoinPage />} />
           <Route path='/mypage/*' element={<MyPage />} />
           <Route path='/contact' element={<ContactPage />} />
-          <Route path='/festival' element={<FestivalPage />} />
+          <Route path='/festival/:page' element={<FestivalPage />} />
           <Route path='/admin/*' element={<AdiminPage />} />
           <Route path='/festival/info' element={<FestivalDetailPage />} />
-          <Route path='/festival/:contentId' element={<FestivalDetailPage />} />
+          <Route path='/festival-info/:contentId' element={<FestivalDetailPage />} />
         </Routes>
       </Router>
     </>
