@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import DefaultImage from "../../resource/축제기본이미지.jpeg";
 
 const ItemContainer = styled.div`
@@ -79,7 +79,8 @@ const Location = styled.p`
   font-size: 0.9rem;
 `;
 
-const FestivalItem = ({ item }) => {
+
+const FestivalItem = ({ item, currentPage }) => {
   const startDate = item.eventStartDate;
   const endDate = item.eventEndDate;
 
@@ -88,7 +89,11 @@ const FestivalItem = ({ item }) => {
 
   const duration = `${formattedStartDate} ~ ${formattedEndDate}`;
   const thumbnailSrc = item.mainImage || DefaultImage; // 이미지 없을 경우 기본 이미지 사용
-
+  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page = currentPage || searchParams.get('page'); 
+  
   return (
     <ItemContainer>
       {item.mainImage ? (
@@ -97,7 +102,7 @@ const FestivalItem = ({ item }) => {
         <Thumbnail src={DefaultImage} alt="기본 이미지" />
       )}
       <Overlay>
-        <StyledLink to={`/festival/${item.contentid}`}>상세보기</StyledLink>
+        <StyledLink to={`/festival-info/${item.contentid}?page=${page}`}>상세보기</StyledLink>
       </Overlay>
       <Title>{item.title}</Title>
       <Duration>{duration}</Duration>

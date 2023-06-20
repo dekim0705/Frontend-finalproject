@@ -1,5 +1,6 @@
-import React , {useState}from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import BottomNav from "../components/common/BottomNav";
 import SelectBox from "../components/Festival/Selectbox";
@@ -33,16 +34,14 @@ const SortButtonsContainer = styled.div`
   margin-left: auto;
 `;
 
-
 const FestivalPage = () => {
-  const [sortBy, setSortBy] = useState('name');
+  const [sortBy, setSortBy] = useState("name");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [savedCity, setSavedCity] = useState("");
   const [savedMonth, setSavedMonth] = useState("");
-  
-
+  const { page } = useParams(); // 페이지 번호 가져오기
 
   const handleSort = (type) => {
     setSortBy(type);
@@ -59,8 +58,9 @@ const FestivalPage = () => {
     setSavedMonth(selectedMonth);
   };
 
-  
-
+ 
+  // 페이지 번호가 없을 경우 기본적으로 1페이지로 설정
+  const currentPage = page ? parseInt(page) : 1;
 
   return (
     <>
@@ -69,6 +69,7 @@ const FestivalPage = () => {
           <SelectBox onFilter={handleFilter} />
           <ButtonWrapper>
             <Button onClick={handleButtonClick}>둘러보기</Button>
+            <DetailButton />
           </ButtonWrapper>
         </Container>
         <SortButtonsContainer>
@@ -77,9 +78,10 @@ const FestivalPage = () => {
         {isButtonClicked ? (
           <FestivalContainer
             sortBy={sortBy}
-            selectedCity={selectedCity}
-            selectedMonth={selectedMonth}
+            selectedCity={savedCity}
+            selectedMonth={savedMonth}
             isButtonClicked={isButtonClicked}
+            page={currentPage} 
           />
         ) : (
           <FestivalContainer
@@ -87,6 +89,7 @@ const FestivalPage = () => {
             selectedCity=""
             selectedMonth=""
             isButtonClicked={isButtonClicked}
+            page={currentPage} 
           />
         )}
       </AppLayout>
