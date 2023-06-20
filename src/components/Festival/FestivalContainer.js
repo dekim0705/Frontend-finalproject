@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 import FestivalAPI from "./FestivalAPI";
 import Pagination from "./Pagination";
@@ -16,27 +16,18 @@ const Container = styled.div`
   }
 `;
 
-const FestivalContainer = ({ sortBy }) => {
+const FestivalContainer = ({ sortBy, selectedCity, selectedMonth }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [apiData, setApiData] = useState([]);
-
-  useEffect(() => {
-    const sortedData = sortBy === 'date' ? sortDataByDate(apiData) : apiData;
-    setApiData(sortedData);
-  }, [sortBy]);
-
-  const sortDataByDate = (data) => {
-    return data.sort((a, b) => new Date(a.eventStartDate) - new Date(b.eventStartDate));
-  };
   
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
+
   return (
     <div>
-      <FestivalAPI page={currentPage} sortBy={sortBy}>
+    <FestivalAPI page={currentPage} selectedCity={selectedCity} selectedMonth={selectedMonth}>
         {(apiData, totalPages) => (
           <div>
             {apiData.length > 0 ? (

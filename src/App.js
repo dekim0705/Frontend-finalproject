@@ -50,6 +50,7 @@ function App() {
           <Route path='/festival' element={<FestivalPage />} />
           <Route path='/admin/*' element={<AdiminPage />} />
           <Route path='/festival/info' element={<FestivalDetailPage />} />
+          <Route path='/festival/:contentId' element={<FestivalDetailPage />} />
         </Routes>
       </Router>
     </>

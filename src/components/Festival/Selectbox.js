@@ -46,18 +46,18 @@ const theme = createTheme({
 
 const SelectBox = ({ onFilter })  => {
   const [city, setCity] = useState("");
-  const [date, setDate] = useState("");
+  const [month, setMonth] = useState("");
 
   const handleCityChange = (event) => {
     const selectedCity = event.target.value;
     setCity(selectedCity);
-    onFilter(selectedCity, date); 
+    onFilter(selectedCity, month); 
   };
 
 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
-    setDate(selectedDate);
+    setMonth(selectedDate);
     onFilter(city, selectedDate); // 선택한 city와 date 값을 전달
   };
 
@@ -99,7 +99,7 @@ const SelectBox = ({ onFilter })  => {
           <Select
             labelId="date-label"
             id="date-select"
-            value={date}
+            value={month}
             label="시기"
             onChange={handleDateChange}
           >
@@ -116,10 +116,8 @@ const SelectBox = ({ onFilter })  => {
             <MenuItem value={10}>10월</MenuItem>
             <MenuItem value={11}>11월</MenuItem>
             <MenuItem value={12}>12월</MenuItem>
-
           </Select>
         </FormControl>
-
       </Box>
     </ThemeProvider>
   );
