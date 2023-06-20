@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import authorProfile from '../../resource/profile.jpeg';
-import thumbnailImage from '../../resource/썸네일.jpeg';
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import authorProfile from "../../resource/profile.jpeg";
+import thumbnailImage from "../../resource/썸네일.jpeg";
+import BookmarkModal from "./BookmarkModal";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +13,7 @@ const Container = styled.div`
   gap: 8px;
   flex-wrap: wrap;
   color: var(--text-color);
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 90%;
   }
 `;
@@ -59,33 +61,54 @@ const StyledThumbnail = styled.div`
 `;
 
 const CityPost = () => {
+  const [bookmarked, setBookmarked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [folders, setFolders] = useState([]);
+
+  const handleBookmark =  () => {
+    setBookmarked(true);
+  };
+
+  const handleAddFolder = (folderName) => {
+    setFolders((prevFolders) => [...prevFolders, folderName]);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
-    <Container>
-      <PostHeader>
-        <AuthorHeader>
-          <img src={authorProfile} alt="작성자 프로필"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: '50%'
-              }} />
-          <AuthorInfo>
-            <h1>닉네임이들어가요</h1>
-            <p>3분전</p>
-          </AuthorInfo>
-        </AuthorHeader>
-        <BookmarkBorderIcon />
-      </PostHeader>
-      <PostTitle>
-        <h1>제목이 들어가는 자리 입니다.</h1>
-        <p>서울시 중구</p>
-      </PostTitle>
-      <StyledThumbnail>
-        <img src={thumbnailImage} alt="" />
-      </StyledThumbnail>
-    </Container>
+    <>
+      <Container>
+        <PostHeader>
+          <AuthorHeader>
+            <img
+              src={authorProfile}
+              alt="작성자 프로필"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+              }}
+            />
+            <AuthorInfo>
+              <h1>닉네임이들어가요</h1>
+              <p>3분전</p>
+            </AuthorInfo>
+          </AuthorHeader>
+          {bookmarked ? <BookmarkIcon sx={{ cursor: "pointer", color:"#FF62AD" }} /> : <BookmarkBorderIcon sx={{ cursor: "pointer" }} onClick={toggleModal} />}
+        </PostHeader>
+        <BookmarkModal open={isModalOpen} handleClose={toggleModal} folders={folders} addFolder={handleAddFolder} handleBookmark={handleBookmark} />
+        <PostTitle>
+          <h1>제목이 들어가는 자리 입니다.</h1>
+          <p>서울시 중구</p>
+        </PostTitle>
+        <StyledThumbnail>
+          <img src={thumbnailImage} alt="" />
+        </StyledThumbnail>
+      </Container>
+    </>
   );
-}
+};
 
 export default CityPost;
