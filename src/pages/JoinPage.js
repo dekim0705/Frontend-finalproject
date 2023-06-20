@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MuiTextField from "../components/Join/TextField";
 import styled from 'styled-components';
 import Symbol from '../components/Join/Symbol';
 import { ColumnWrapper } from '../components/Join/Wrappers';
 import Button from '../components/Join/Button';
 import Agreement from '../components/Join/Agreement';
+import EmailVerificationPopup from '../components/Join/EmailVerificationPopup';
 
 const StyledContainer = styled.div`
   margin: 20px auto;
@@ -39,6 +41,9 @@ const JoinPage = () => {
   const [isPwd, setIsPwd] = useState(false);
   const [isConPwd, setIsConPwd] = useState(false);
 
+  const navigate = useNavigate();
+  const [showEmailVerificationPopup, setShowEmailVerificationPopup] = useState(false);
+
   // 이메일
   const onChangeEmail = (e) => {
     const emailRegEx = /^[a-zA-Z0-9+-/_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -69,6 +74,13 @@ const JoinPage = () => {
     setInputNickname(nicknameCurrent);
     setIsNickname(nicknameRegex.test(nicknameCurrent))
   }
+
+  const handleVerificationSuccess = () => {
+    alert('인증되었습니다! 로그인해 주세요.');
+    setTimeout(() => {
+      navigate('/login');
+    }, 1000);
+  };
 
   return (
     <StyledContainer gap="30px">
@@ -125,7 +137,13 @@ const JoinPage = () => {
         errorColor="#66002f"
       />
       <Agreement />
-      <Button>가 입 하 기</Button>
+      <Button onClick={() => setShowEmailVerificationPopup(true)}>가 입 하 기</Button>
+      {showEmailVerificationPopup && (
+        <EmailVerificationPopup
+          onVerify={() => {}}
+          onVerificationSuccess={handleVerificationSuccess}
+        />
+      )}
     </StyledContainer>
   );
 }
