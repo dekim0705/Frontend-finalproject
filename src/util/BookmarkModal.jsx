@@ -25,7 +25,8 @@ const ModalContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   min-width: 250px;
-  border: 1px solid var(--input-text-color);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  border: 1px solid var(--line-color);
   p {
     margin-top: 5px;
   }
