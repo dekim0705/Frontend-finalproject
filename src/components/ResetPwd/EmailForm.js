@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -43,14 +44,24 @@ const AuthBtn = styled(BtnStyle)`
   width: 100%;
 `;
 const EmailForm = () => {
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    alert('사용자 확인이 완료되었습니다. 👌');
+  }
+
+  const handleAuthForm = () => {
+    navigate('/login');
+    
+  }
   return (
     <Container>
       <h1>가입한 이메일 주소를 입력해주세요.</h1>
       <WrapperEmailForm>
         <input type="text" placeholder="아이디(이메일)" />
-        <BtnStyle>확인</BtnStyle>
+        <BtnStyle onClick={handleConfirm}>확인</BtnStyle>
       </WrapperEmailForm>
-      <AuthBtn>이메일로 인증코드 받기</AuthBtn>
+      <AuthBtn onClick={handleAuthForm}>이메일로 임시 비밀번호 받기</AuthBtn>
     </Container>
   );
 };
