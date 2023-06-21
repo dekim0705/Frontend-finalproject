@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LaunchIcon from '@mui/icons-material/Launch';
-import PaidIcon from '@mui/icons-material/Paid';
+import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 import CallIcon from '@mui/icons-material/Call';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import poster from '../../../resource/poster.jpg';
 import FestivalAPI from '../FestivalAPI';
-import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -18,19 +15,13 @@ const Container = styled.div`
   padding-top: 20px;
 `;
 
-const Description = styled.p`
-  font-size: 1.0rem;
-  margin: 10px;
-  padding: 15px;
-  line-height: 1.6;
-`;
 
 const Summary = styled.div`
   display: flex;
   align-items: center;
   padding: 15px;
   margin: 0 auto;
-  width: 100%;
+  width: 80%;
   @media (max-width: 768px) {
     flex-direction: column;
     padding: 20px;
@@ -63,7 +54,7 @@ const InfoItem = styled.div`
 `;
 
 const Line = styled.hr`
-  width: 100%;
+  width: 85%;
   margin: 40px 0;
 `;
 
@@ -72,7 +63,7 @@ const Title = styled.h1`
   margin-left: 10px;
   width: 90%;
   padding-left: 25px;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   font-weight: bold;
 `;
 
@@ -80,31 +71,29 @@ const FestivalSummary = ({ page, contentId }) => {
 
   return (    
   <FestivalAPI page={page}>
-   {(updatedApiData) => {
-        const festivalData = updatedApiData && updatedApiData.find(item => item.contentid.toString() === contentId);
+   {(apiData) => {
+        const festivalData = apiData && apiData.find(item => item.contentid.toString() === contentId);
 
         return (
           <Container>
-            <Description>{festivalData && festivalData.overview}</Description>
             <Line />
             <Summary>
-              <PosterImage src={poster} />
+            {festivalData && festivalData.mainImage ? (<PosterImage src={festivalData.mainImage} />
+              ) : (
+              <PosterImage src={DefaultImage} />)}
+
               <div>
                 <InfoItem>
-                  <LaunchIcon />
-                  <span>공식 홈페이지가기</span>
+                  <CalendarMonthIcon />
+                  <span>   {festivalData && `${festivalData.eventStartDate.slice(0, 4)} . ${festivalData.eventStartDate.slice(4, 6)} . ${festivalData.eventStartDate.slice(6)}`}  </span>
                 </InfoItem>
                 <InfoItem>
                   <CalendarMonthIcon />
-                  <span>{festivalData && `${festivalData.eventStartDate} ~ ${festivalData.eventEndDate}`}</span>
+                  <span> ~ {festivalData && `${festivalData.eventEndDate.slice(0, 4)} . ${festivalData.eventEndDate.slice(4, 6)} . ${festivalData.eventEndDate.slice(6)}`}</span>
                 </InfoItem>
                 <InfoItem>
                   <LocationOnIcon />
                   <span>{festivalData && festivalData.address}</span>
-                </InfoItem>
-                <InfoItem>
-                  <PaidIcon />
-                  <span>{festivalData && festivalData.fee}</span>
                 </InfoItem>
                 <InfoItem>
                   <CallIcon />

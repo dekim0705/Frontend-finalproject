@@ -50,109 +50,109 @@ const FestivalAPI = ({ children, page, contentId }) => {
         setApiData(extractedData);
         setTotalPages(Math.ceil(totalCount / 6));
 
-        // 추가 API 호출 및 이미지 API 호출
-        if (extractedData.length > 0) {
-          const contentIds = extractedData.map((data) => data.contentid);
-          const newUrls = contentIds.map((contentId) => `/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${contentId}&contentTypeId=15&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&pageNo=${page}`);
+      //   // 추가 API 호출 및 이미지 API 호출
+      //   if (extractedData.length > 0) {
+      //     const contentIds = extractedData.map((data) => data.contentid);
+      //     const newUrls = contentIds.map((contentId) => `/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${contentId}&contentTypeId=15&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&pageNo=${page}`);
 
-          const newResponses = await Promise.all(
-            newUrls.map((newUrl) =>
-              axios.get(newUrl, {
-                headers: {
-                  "x-requested-with": "xhr",
-                },
-              })
-            )
-          );
+      //     const newResponses = await Promise.all(
+      //       newUrls.map((newUrl) =>
+      //         axios.get(newUrl, {
+      //           headers: {
+      //             "x-requested-with": "xhr",
+      //           },
+      //         })
+      //       )
+      //     );
 
-          const newItems = newResponses.map((newResponse) => {
-            const {
-              data: {
-                response: {
-                  body: {
-                    items: { item: newItem },
-                  },
-                },
-              },
-            } = newResponse;
+      //     const newItems = newResponses.map((newResponse) => {
+      //       const {
+      //         data: {
+      //           response: {
+      //             body: {
+      //               items: { item: newItem },
+      //             },
+      //           },
+      //         },
+      //       } = newResponse;
 
-            return newItem;
-          });
+      //       return newItem;
+      //     });
 
-          const newExtractedData = newItems.map((newItem) => {
-            if (newItem && Array.isArray(newItem) && newItem.length > 0) {
-              const items = newItem.map((item) => ({
-                overview: item.overview,
-                homepage: item.homepage,
-              }));
-              return items;
-            } else {
-              return [];
-            }
-          });
+      //     const newExtractedData = newItems.map((newItem) => {
+      //       if (newItem && Array.isArray(newItem) && newItem.length > 0) {
+      //         const items = newItem.map((item) => ({
+      //           overview: item.overview,
+      //           homepage: item.homepage,
+      //         }));
+      //         return items;
+      //       } else {
+      //         return [];
+      //       }
+      //     });
 
-          const updatedData = apiData.map((data, index) => ({
-            ...data,
-            overview: newExtractedData[index] || [],
-            homepage: newExtractedData[index] || [],
-          }));
+      //     const updatedData = apiData.map((data, index) => ({
+      //       ...data,
+      //       overview: newExtractedData[index] || [],
+      //       homepage: newExtractedData[index] || [],
+      //     }));
 
-          setApiData(updatedData);
-          console.log('새로운 데이터 가져오기:', updatedData);
+      //     setApiData(updatedData);
+      //     console.log('새로운 데이터 가져오기:', updatedData);
 
-          // 이미지 API 호출
-          const imageUrls = updatedData.map((data) =>
-            `/B551011/KorService1/detailImage1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${data.contentid}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&pageNo=${page}`
-          );
+          // // 이미지 API 호출
+          // const imageUrls = apiData.map((data) =>
+          //   `/B551011/KorService1/detailImage1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${data.contentid}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&pageNo=${page}`
+          // );
 
-          const imageResponses = await Promise.all(
-            imageUrls.map((imageUrl) =>
-              axios.get(imageUrl, {
-                headers: {
-                  "x-requested-with": "xhr",
-                },
-              })
-            )
-          );
+          // const imageResponses = await Promise.all(
+          //   imageUrls.map((imageUrl) =>
+          //     axios.get(imageUrl, {
+          //       headers: {
+          //         "x-requested-with": "xhr",
+          //       },
+          //     })
+          //   )
+          // );
 
-          const imageItems = imageResponses.map((imageResponse) => {
-            const {
-              data: {
-                response: {
-                  body: {
-                    items: { item: imageItem },
-                  },
-                },
-              },
-            } = imageResponse;
+          // const imageItems = imageResponses.map((imageResponse) => {
+          //   const {
+          //     data: {
+          //       response: {
+          //         body: {
+          //           items: { item: imageItem },
+          //         },
+          //       },
+          //     },
+          //   } = imageResponse;
 
-            return imageItem;
-          });
+          //   return imageItem;
+          // });
 
-          const imageExtractedData = imageItems.map((imageItem) => {
-            if (imageItem && Array.isArray(imageItem) && imageItem.length > 0) {
-              return imageItem.map((item) => ({
-                contentid: item.contentid,
-                originimgurl: item.originimgurl,
-                imgname: item.imgname,
-                smallimageurl: item.smallimageurl,
-                cpyrhtDivCd: item.cpyrhtDivCd,
-                serialnum: item.serialnum,
-              }));
-            } else {
-              return [];
-            }
-          });
+          // const imageExtractedData = imageItems.map((imageItem) => {
+          //   if (imageItem && Array.isArray(imageItem) && imageItem.length > 0) {
+          //     return imageItem.map((item) => ({
+          //       contentid: item.contentid,
+          //       originimgurl: item.originimgurl,
+          //       imgname: item.imgname,
+          //       smallimageurl: item.smallimageurl,
+          //       cpyrhtDivCd: item.cpyrhtDivCd,
+          //       serialnum: item.serialnum,
+          //     }));
+          //   } else {
+          //     return [];
+          //   }
+          // });
 
-          const updatedApiData = updatedData.map((data, index) => ({
-            ...data,
-            images: imageExtractedData[index] || [],
-          }));
+          // const updatedApiData = apiData.map((data, index) => ({
+          //   ...data,
+          //   images: imageExtractedData[index] || [],
+          // }));
 
-          setApiData(updatedApiData);
-          console.log('이미지 포함 가져오기:', updatedApiData);
-          return <div>{children(apiData, updatedApiData, totalPages)}</div>; 
-        }
+          // setApiData(updatedApiData);
+          // console.log('이미지 포함 가져오기:', updatedApiData);
+          // return <div>{children(apiData, updatedApiData, totalPages)}</div>; 
+        
       }
     } catch (error) {
       console.error('API 호출 에러!!', error);
