@@ -83,13 +83,13 @@ const PinListWeb = ({ isPostSelected, posts, selectAll, handleSelectAllChange, h
                   onChange={(event) => handleCheckboxChange(event, post.postNum)}
                 />
               </td>
-              <td>132</td>
+              <td>{post.postNum}</td>
               <td className="title_align">
                 <TitleLink to={`/mypage`}>
                   {post.title}
                 </TitleLink>
               </td>
-              <td>자바광팬아님</td>
+              <td>{post.nickname}</td>
               <td>{post.date}</td>
               <td>{post.view}</td>
             </tr>

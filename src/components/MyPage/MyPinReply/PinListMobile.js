@@ -65,7 +65,7 @@ const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange,
                 </TitleLink>
               </RowWrapper>
               <RowWrapper gap="1rem">
-                <p style={{marginLeft: '2rem'}}>자바광팬아님</p>
+                <p style={{marginLeft: '2rem'}}>{post.nickname}</p>
                 <p>{post.date}</p>
                 <p>{post.view}</p>
               </RowWrapper>
