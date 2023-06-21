@@ -1,6 +1,6 @@
 import React from "react";
 import AppLayout from "../components/common/AppLayout";
-import ChatRoom from "../components/Contact/ChatRoom";
+import ChatRoom from "../components/Chatbot/ChatRoom";
 
 
 
