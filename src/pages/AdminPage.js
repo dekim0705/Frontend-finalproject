@@ -14,7 +14,6 @@ const Container = styled.div`
   grid-template-columns: 250px 1fr;
 `;
 
-
 const ContentContainer = styled.div`
   display: flex;
   justify-content: center; 

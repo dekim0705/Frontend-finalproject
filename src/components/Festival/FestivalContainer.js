@@ -17,8 +17,8 @@ const Container = styled.div`
   }
 `;
 
-const FestivalContainer = ({ sortBy, selectedCity, selectedMonth }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const FestivalContainer = ({ apiData, page }) => {
+  const [currentPage, setCurrentPage] = useState(page);
   const navigate = useNavigate();
 
   const handlePageChange = (newPage) => {
@@ -28,32 +28,22 @@ const FestivalContainer = ({ sortBy, selectedCity, selectedMonth }) => {
 
   return (
     <div>
-      <FestivalAPI
-        page={currentPage}
-        selectedCity={selectedCity}
-        selectedMonth={selectedMonth}
-      >
-        {(apiData, totalPages) => (
-          <div>
-            {apiData.length > 0 ? (
-              <>
-                <Container>
-                  {apiData.map((item, index) => (
-                    <FestivalItem key={index} item={item} currentPage={currentPage}  />
-                  ))}
-                </Container>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                />
-              </>
-            ) : (
-              <div>Loading...</div>
-            )}
-          </div>
-        )}
-      </FestivalAPI>
+      {apiData.length > 0 ? (
+        <>
+          <Container>
+            {apiData.map((item, index) => (
+              <FestivalItem key={index} item={item} currentPage={currentPage} />
+            ))}
+          </Container>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={apiData.length}
+            onPageChange={handlePageChange}
+          />
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };

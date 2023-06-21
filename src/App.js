@@ -10,7 +10,7 @@ import PinViewPage from './pages/PinViewPage';
 import JoinPage from './pages/JoinPage';
 import MyPage from './pages/MyPage';
 import FestivalPage from './pages/FestivalPage'
-import ContactPage from './pages/ContactPage'
+import ChatbotPage from './pages/ChatbotPage'
 import AdiminPage from './pages/AdminPage'
 import ResetPwdPage from './pages/ResetPwdPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
@@ -48,7 +48,7 @@ function App() {
           <Route path='/view' element={<PinViewPage />} />
           <Route path='/join' element={<JoinPage />} />
           <Route path='/mypage/*' element={<MyPage />} />
-          <Route path='/contact' element={<ContactPage />} />
+          <Route path='/contact' element={<ChatbotPage />} />
           <Route path='/festival/:page' element={<FestivalPage />} />
           <Route path='/admin/*' element={<AdiminPage />} />
           <Route path='/festival/info' element={<FestivalDetailPage />} />

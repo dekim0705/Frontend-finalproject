@@ -4,7 +4,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 import CallIcon from '@mui/icons-material/Call';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import FestivalAPI from '../FestivalAPI';
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +13,6 @@ const Container = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
-
 
 const Summary = styled.div`
   display: flex;
@@ -67,46 +65,41 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
-const FestivalSummary = ({ page, contentId }) => {
+const FestivalSummary = ({ page, contentId, apiData }) => {
+  const festivalData = apiData.find(item => item.contentid.toString() === contentId);
 
-  return (    
-  <FestivalAPI page={page}>
-   {(apiData) => {
-        const festivalData = apiData && apiData.find(item => item.contentid.toString() === contentId);
+  return (
+    <Container>
+      <Line />
+      <Summary>
+        {festivalData && festivalData.mainImage ? (
+          <PosterImage src={festivalData.mainImage} />
+        ) : (
+          <PosterImage src={DefaultImage} />
+        )}
 
-        return (
-          <Container>
-            <Line />
-            <Summary>
-            {festivalData && festivalData.mainImage ? (<PosterImage src={festivalData.mainImage} />
-              ) : (
-              <PosterImage src={DefaultImage} />)}
-
-              <div>
-                <InfoItem>
-                  <CalendarMonthIcon />
-                  <span>   {festivalData && `${festivalData.eventStartDate.slice(0, 4)} . ${festivalData.eventStartDate.slice(4, 6)} . ${festivalData.eventStartDate.slice(6)}`}  </span>
-                </InfoItem>
-                <InfoItem>
-                  <CalendarMonthIcon />
-                  <span> ~ {festivalData && `${festivalData.eventEndDate.slice(0, 4)} . ${festivalData.eventEndDate.slice(4, 6)} . ${festivalData.eventEndDate.slice(6)}`}</span>
-                </InfoItem>
-                <InfoItem>
-                  <LocationOnIcon />
-                  <span>{festivalData && festivalData.address}</span>
-                </InfoItem>
-                <InfoItem>
-                  <CallIcon />
-                  <span>{festivalData && festivalData.tel}</span>
-                </InfoItem>
-              </div>
-            </Summary>
-            <Line />
-            <Title>행사 위치</Title>
-          </Container>
-        );
-      }}
-    </FestivalAPI>
+        <div>
+          <InfoItem>
+            <CalendarMonthIcon />
+            <span>   {festivalData && `${festivalData.eventStartDate.slice(0, 4)}년 ${festivalData.eventStartDate.slice(4, 6)}월 ${festivalData.eventStartDate.slice(6)}일`}  </span>
+          </InfoItem>
+          <InfoItem>
+            <CalendarMonthIcon />
+            <span> ~ {festivalData && `${festivalData.eventEndDate.slice(0, 4)}년 ${festivalData.eventEndDate.slice(4, 6)}월 ${festivalData.eventEndDate.slice(6)}일`}</span>
+          </InfoItem>
+          <InfoItem>
+            <LocationOnIcon />
+            <span>{festivalData && festivalData.address}</span>
+          </InfoItem>
+          <InfoItem>
+            <CallIcon />
+            <span>{festivalData && festivalData.tel}</span>
+          </InfoItem>
+        </div>
+      </Summary>
+      <Line />
+      <Title>행사 위치</Title>
+    </Container>
   );
 };
 
