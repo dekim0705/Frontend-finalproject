@@ -65,9 +65,9 @@ const ShareButton = styled.button`
 const FestivalHeader = ({ page, contentId }) => {
   return (
     <FestivalAPI page={page}>
-      {(updatedApiData) => {
+      {(apiData) => {
         const festivalData =
-          updatedApiData && updatedApiData.find((item) => item.contentid.toString() === contentId);
+          apiData && apiData.find((item) => item.contentid.toString() === contentId);
 
         const startDate = festivalData && festivalData.eventStartDate;
         const endDate = festivalData && festivalData.eventEndDate;

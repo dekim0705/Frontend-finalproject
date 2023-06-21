@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import FestivalMap from "../components/Festival/Info/FestivalMap";
 import BottomNav from "../components/common/BottomNav";
@@ -9,24 +10,27 @@ import Recommend from "../components/Festival/Info/FestivalRecommend";
 import Carousel from "../components/Festival/Info/Carousel";
 import { useParams, useLocation } from 'react-router-dom';
 
+const Container = styled.div`
+  width: 100%;
+`;
+
 const FestivalDetailPage = () => {
   const { contentId } = useParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const page = searchParams.get('page');
 
-
   return (
-    <>
     <AppLayout>
-    <FestivalHeader page={page} contentId={contentId} />
-      <Carousel/>
-      <FestivalSummary page={page} contentId={contentId} />
-      <FestivalMap page={page} contentId={contentId} />
-      <Recommend/>
-      </AppLayout>
-     <BottomNav/>
-     </>
+      <Container>
+        <FestivalHeader page={page} contentId={contentId} />
+        <Carousel/>
+        <FestivalSummary page={page} contentId={contentId} />
+        <FestivalMap page={page} contentId={contentId} />
+        <Recommend/>
+      </Container>
+      <BottomNav/>
+    </AppLayout>
   );
 }
 
