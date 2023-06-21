@@ -1,15 +1,13 @@
 import React from "react";
 import styled from 'styled-components';
-import thumbnail from '../../../resource/축제썸네일.jpg';
-import thumbnail2 from '../../../resource/축제썸네일2.png';
-import thumbnail3 from '../../../resource/축제썸네일3.jpg';
 import { Link } from 'react-router-dom';
+import FestivalAPI from "../FestivalAPI";
+import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 
 const Line = styled.hr`
   width: 100%;
   margin: 50px 0;
 `;
-
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +23,7 @@ const Container = styled.div`
     padding-left: 20px;
   }
 `;
+
 const Desc = styled.h1`
   font-size: 1.4rem; 
   margin-left : 10px;
@@ -49,6 +48,7 @@ const ItemContainer = styled.div`
     width: 100%;
   }
 `;
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -63,8 +63,8 @@ const Overlay = styled.div`
   &:hover {
     opacity: 1;
   }
-
 `;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
@@ -85,6 +85,7 @@ const StyledLink = styled(Link)`
     opacity: 1;
   }
 `;
+
 const Thumbnail = styled.img`
   width: 100%;
   height: 180px;
@@ -93,54 +94,47 @@ const Thumbnail = styled.img`
 `;
 
 const Title = styled.p`
-  font-size: 1.2rem;
-  padding : 5px;
+  font-size: 1.1rem;
+  padding: 5px;
   text-align: center;
 `;
 
-
-const Item = ({ item }) => (
+const Item = ({ item, page }) => (
   <ItemContainer>
-    <Thumbnail src={item.thumbnail} alt={item.title} />
+    {item.mainImage ? (
+    <Thumbnail src={item.mainImage}  /> 
+    ) : (
+       <Thumbnail src={DefaultImage} />
+    )}
     <Overlay>
-      <StyledLink to={`/festival/${item.postNum}`}>상세보기</StyledLink>
+      <StyledLink to={`/festival-info/${item.contentid}?page=${page}`}>상세보기</StyledLink>
     </Overlay>
     <Title>{item.title}</Title>
   </ItemContainer>
 );
 
-  const dummyData = [
-    {
-      id: 1,
-      thumbnail: thumbnail,
-      title: "고양호수예술축제",
-    },
-    {
-      id: 2,
-      thumbnail: thumbnail2,
-      title: "수원화성문화제",
-    },
-    {
-      id: 3,
-      thumbnail: thumbnail3,
-      title: "진주 남강유등축제",
-    },
-
-   
-  ];
-const Recommend = () => {
+const Recommend = ({ page }) => {
+  const getRandomItems = (data, count) => {
+    const shuffled = data.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
 
   return (
-    <>
+    <FestivalAPI>
+      {(apiData) => {
+        const randomItems = getRandomItems(apiData, 3);
 
-    <Container>
-    <Line/>
-    <Desc>이런 축제도 추천해요!</Desc>
-      {dummyData.slice(0, 3).map((item) => (
-        <Item key={item.id} item={item} />
-      ))}
-    </Container>
-    </>
+        return (
+          <Container>
+            <Line />
+            <Desc>이런 축제도 추천해요!</Desc>
+            {randomItems.map((item) => (
+              <Item key={item.id} item={item} page={page} />
+            ))}
+          </Container>
+        );
+      }}
+    </FestivalAPI>
   );
 };
 
