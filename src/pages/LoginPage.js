@@ -6,12 +6,17 @@ import KakaoLogin from "../components/Login/KaKaoLogin";
 import JoinForm from "../components/Login/JoinForm";
 
 const Container = styled.div`
+  width: 330px;
+  padding: 60px 30px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 70px;
+  border-radius: 6px;
   gap: 20px;
+  border: 1px solid #ddd;
 `;
 
 const LoginPage = () => {
