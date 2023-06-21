@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthAxiosApi from "../../api/AuthAxiosApi";
+import PopUp from "../../util/PopUp";
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +36,48 @@ const StyledChangePasswordLink = styled(Link)`
 `;
 
 const LoginForm = () => {
-  
+  const navigate = useNavigate();
+
+  // 키보드 입력 받기
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPwd, setInputPwd] = useState("");
+
+  // 로그인 실패 팝업
+  const [PopUpOpen, setPopUpOpen] = useState(false);
+  const closePopUp = () => {
+    setPopUpOpen(false);
+  };
+
+  const onClickLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const userInfoResponse = await AuthAxiosApi.login(inputEmail, inputPwd);
+      const userData = JSON.stringify(userInfoResponse, null, 2);
+      const userDataObject = JSON.parse(userData);
+
+      if (userInfoResponse.status === 200) {
+        localStorage.setItem('accessToken', userDataObject.data.accessToken);
+        localStorage.setItem('refreshToken', userDataObject.data.refreshToken);
+
+        navigate("/home");
+      } else {
+        console.log("❌ 로그인 실패 !!!");
+        setPopUpOpen(true);
+      }
+    } catch (error) {
+      console.error("🔑 토큰 불러오기 실패!!!", error);
+      alert("🔴 관리자에게 문의해주세요.");
+    }
+  };
+
+  const onChangeEmail = (e) => {
+    setInputEmail(e.target.value);
+  };
+
+  const onChangePwd = (e) => {
+    setInputPwd(e.target.value);
+  };
+
   return (
     <Box
       component="form"
@@ -47,6 +90,9 @@ const LoginForm = () => {
       <Container>
         <TextField
           id="outlined-basic"
+          name="email"
+          value={inputEmail}
+          onChange={onChangeEmail}
           label="아이디(이메일)"
           variant="outlined"
           sx={{
@@ -67,6 +113,9 @@ const LoginForm = () => {
         />
         <TextField
           id="outlined-basic"
+          name="pwd"
+          value={inputPwd}
+          onChange={onChangePwd}
           label="비밀번호"
           variant="outlined"
           type="password"
@@ -89,8 +138,11 @@ const LoginForm = () => {
         <StyledChangePasswordLink to="/password">
           비밀번호 재설정🔒
         </StyledChangePasswordLink>
-        <StyledButton>로 그 인</StyledButton>
+        <StyledButton onClick={onClickLogin}>로 그 인</StyledButton>
       </Container>
+      <PopUp open={PopUpOpen} close={closePopUp} type={false} header="오류">
+        이메일과 비밀번호를 다시 확인해주세요.
+      </PopUp>
     </Box>
   );
 };
