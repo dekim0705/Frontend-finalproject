@@ -41,7 +41,7 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/auth/kakao/callback' element={<KakaoCallback />} />
           <Route path='/password' element={<ResetPwdPage />} /> 
-          <Route path='/membership' element={<MembershipPage />} />
+          <Route path='/membership/*' element={<MembershipPage />}></Route>
           <Route path='/write' element={<WritePage />} />
           <Route path='/view' element={<PinViewPage />} />
           <Route path='/join' element={<JoinPage />} />

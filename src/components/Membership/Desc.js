@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import kakaopayBtn from "../../resource/카카오페이.png";
+import kakaopayBtn from "../../resource/카카오페이_컬러.png";
 
 const Container = styled.div`
   display: flex;
