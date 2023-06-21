@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
-import BottomNav from "../components/common/BottomNav";
 import SelectBox from "../components/Festival/Selectbox";
 import Button from "../components/Festival/Button";
 import DetailButton from "../components/Festival/DetailSearch";
 import FestivalContainer from "../components/Festival/FestivalContainer";
 import SortButtons from "../components/Festival/SortButton";
+import FestivalAPI from "../components/Festival/FestivalAPI";
 
 const Container = styled.div`
   display: flex;
@@ -58,7 +58,6 @@ const FestivalPage = () => {
     setSavedMonth(selectedMonth);
   };
 
- 
   // 페이지 번호가 없을 경우 기본적으로 1페이지로 설정
   const currentPage = page ? parseInt(page) : 1;
 
@@ -75,25 +74,19 @@ const FestivalPage = () => {
         <SortButtonsContainer>
           <SortButtons handleSort={handleSort} sortBy={sortBy} />
         </SortButtonsContainer>
-        {isButtonClicked ? (
-          <FestivalContainer
-            sortBy={sortBy}
-            selectedCity={savedCity}
-            selectedMonth={savedMonth}
-            isButtonClicked={isButtonClicked}
-            page={currentPage} 
-          />
-        ) : (
-          <FestivalContainer
-            sortBy={sortBy}
-            selectedCity=""
-            selectedMonth=""
-            isButtonClicked={isButtonClicked}
-            page={currentPage} 
-          />
-        )}
+        <FestivalAPI page={currentPage}>
+          {(apiData) => (
+            <FestivalContainer
+              apiData={apiData}
+              sortBy={sortBy}
+              selectedCity={isButtonClicked ? savedCity : ""}
+              selectedMonth={isButtonClicked ? savedMonth : ""}
+              isButtonClicked={isButtonClicked}
+              page={currentPage}
+            />
+          )}
+        </FestivalAPI>
       </AppLayout>
-      <BottomNav />
     </>
   );
 };

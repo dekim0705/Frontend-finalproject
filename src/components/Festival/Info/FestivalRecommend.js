@@ -1,7 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import FestivalAPI from "../FestivalAPI";
 import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 
 const Line = styled.hr`
@@ -102,9 +101,9 @@ const Title = styled.p`
 const Item = ({ item, page }) => (
   <ItemContainer>
     {item.mainImage ? (
-    <Thumbnail src={item.mainImage}  /> 
+      <Thumbnail src={item.mainImage}  /> 
     ) : (
-       <Thumbnail src={DefaultImage} />
+      <Thumbnail src={DefaultImage} />
     )}
     <Overlay>
       <StyledLink to={`/festival-info/${item.contentid}?page=${page}`}>상세보기</StyledLink>
@@ -113,28 +112,22 @@ const Item = ({ item, page }) => (
   </ItemContainer>
 );
 
-const Recommend = ({ page }) => {
+const Recommend = ({ page, apiData }) => {
   const getRandomItems = (data, count) => {
     const shuffled = data.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
-  return (
-    <FestivalAPI>
-      {(apiData) => {
-        const randomItems = getRandomItems(apiData, 3);
+  const randomItems = getRandomItems(apiData, 3);
 
-        return (
-          <Container>
-            <Line />
-            <Desc>이런 축제도 추천해요!</Desc>
-            {randomItems.map((item) => (
-              <Item key={item.id} item={item} page={page} />
-            ))}
-          </Container>
-        );
-      }}
-    </FestivalAPI>
+  return (
+    <Container>
+      <Line />
+      <Desc>이런 축제도 추천해요!</Desc>
+      {randomItems.map((item) => (
+        <Item key={item.id} item={item} page={page} />
+      ))}
+    </Container>
   );
 };
 

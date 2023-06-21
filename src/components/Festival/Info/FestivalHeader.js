@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import ShareIcon from '@mui/icons-material/Share';
-import FestivalAPI from '../FestivalAPI';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -62,39 +61,32 @@ const ShareButton = styled.button`
   cursor: pointer;
 `;
 
-const FestivalHeader = ({ page, contentId }) => {
+const FestivalHeader = ({ contentId, apiData }) => {
+  const festivalData = apiData && apiData.find((item) => item.contentid.toString() === contentId);
+
+  const startDate = festivalData && festivalData.eventStartDate;
+  const endDate = festivalData && festivalData.eventEndDate;
+  const formattedStartDate = startDate && `${startDate.slice(0, 4)}.${startDate.slice(4, 6)}.${startDate.slice(6)}`;
+  const formattedEndDate = endDate && `${endDate.slice(0, 4)}.${endDate.slice(4, 6)}.${endDate.slice(6)}`;
+  const duration = formattedStartDate && formattedEndDate && `${formattedStartDate} ~ ${formattedEndDate}`;
+
   return (
-    <FestivalAPI page={page}>
-      {(apiData) => {
-        const festivalData =
-          apiData && apiData.find((item) => item.contentid.toString() === contentId);
-
-        const startDate = festivalData && festivalData.eventStartDate;
-        const endDate = festivalData && festivalData.eventEndDate;
-        const formattedStartDate = startDate && `${startDate.slice(0, 4)}.${startDate.slice(4, 6)}.${startDate.slice(6)}`;
-        const formattedEndDate = endDate && `${endDate.slice(0, 4)}.${endDate.slice(4, 6)}.${endDate.slice(6)}`;
-        const duration = formattedStartDate && formattedEndDate && `${formattedStartDate} ~ ${formattedEndDate}`;
-
-        return (
-          <HeaderContainer>
-            <FestivalTitleWrapper>
-              <FestivalSubtitle>축제 소개</FestivalSubtitle>
-              {festivalData && (
-                <>
-                  <FestivalTitle>{festivalData.title}</FestivalTitle>
-                  <FestivalDate>{duration}</FestivalDate>
-                </>
-              )}
-              {/* <ButtonWrapper>
-                <ShareButton>
-                  <ShareIcon /> 공유하기
-                </ShareButton>
-              </ButtonWrapper> */}
-            </FestivalTitleWrapper>
-          </HeaderContainer>
-        );
-      }}
-    </FestivalAPI>
+    <HeaderContainer>
+      <FestivalTitleWrapper>
+        <FestivalSubtitle>축제 소개</FestivalSubtitle>
+        {festivalData && (
+          <>
+            <FestivalTitle>{festivalData.title}</FestivalTitle>
+            <FestivalDate>{duration}</FestivalDate>
+          </>
+        )}
+        {/* <ButtonWrapper>
+          <ShareButton>
+            <ShareIcon /> 공유하기
+          </ShareButton>
+        </ButtonWrapper> */}
+      </FestivalTitleWrapper>
+    </HeaderContainer>
   );
 };
 
