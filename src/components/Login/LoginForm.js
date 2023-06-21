@@ -60,13 +60,10 @@ const LoginForm = () => {
         localStorage.setItem('refreshToken', userDataObject.data.refreshToken);
 
         navigate("/home");
-      } else {
-        console.log("❌ 로그인 실패 !!!");
-        setPopUpOpen(true);
       }
     } catch (error) {
-      console.error("🔑 토큰 불러오기 실패!!!", error);
-      alert("🔴 관리자에게 문의해주세요.");
+      console.log(error);
+      setPopUpOpen(true);
     }
   };
 
