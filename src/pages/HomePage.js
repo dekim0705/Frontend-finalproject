@@ -4,7 +4,6 @@ import AppLayout from "../components/common/AppLayout";
 // import Ad from "../components/Home/Ad";
 import City from "../components/Home/City";
 import CityPost from "../components/Home/CityPost";
-import BottomNav from "../components/common/BottomNav";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -38,7 +37,6 @@ const HomePage = () => {
           <CityPost />
         </PostWrapper>
       </AppLayout>
-      <BottomNav />
     </>
   );
 }
