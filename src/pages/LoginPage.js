@@ -2,34 +2,42 @@ import React from "react";
 import styled from "styled-components";
 import LoginForm from "../components/Login/LoginForm";
 import LoginLogo from "../components/Login/LoginLogo";
-import KakaoLogin from "../components/Login/KaKaoLogin";
 import JoinForm from "../components/Login/JoinForm";
+import coupleImage from "../resource/로그인_이미지.jpeg";
 
 const Container = styled.div`
-  width: 330px;
-  padding: 60px 30px;
+  width: 340px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 70px;
-  border-radius: 6px;
+  border-radius: 30px;
   gap: 20px;
   border: 1px solid #ddd;
+  @media screen and (max-width:768px) {
+    width: 100%;
+    margin-top: 30px;
+    border: none;
+  }
+`;
+
+const Image = styled.img`
+  width: 100%; 
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 `;
 
 const LoginPage = () => {
 
   return (
-    <>
-      <Container>
-        <LoginLogo />
-        <LoginForm />
-        <KakaoLogin />
-        <JoinForm />
-      </Container>
-    </>
+    <Container>
+      <LoginLogo />
+      <LoginForm />
+      <JoinForm />
+      <Image src={coupleImage} alt="couple" />
+    </Container>
   );
 }
 
