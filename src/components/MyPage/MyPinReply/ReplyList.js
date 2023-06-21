@@ -4,6 +4,8 @@ import ProfileBar2 from './ProfileBar2';
 import { PinReplyNav } from '../Navs';
 import { StyledCheckbox, Button, TitleLink } from './PinListWeb';
 import { RowWrapper, MapContainer, SelectAllButton } from './PinListMobile';
+import { useNavigate } from 'react-router-dom';
+import Pagination from './Pagination';
 
 const ParentContainer = styled.div`
   width: 70%;
@@ -30,46 +32,31 @@ const StyledP = styled.span`
 `;
 
 const ReplyList = () => {
+  const navigate = useNavigate();
 
-  const dummyData = [
-    {
-      replyNum: 1,
-      title: "한옥마을 데이트 좋은 것 같아요~",
-      content: "한복 대여해주는 곳 많나요?",
+  const dummyData = [];
+  for (let i = 1; i <= 53; i++) {
+    dummyData.push({
+      replyNum: i,
+      title: `댓글 제목 ${i}`,
+      content: `댓글 내용 ${i}`,
+      nickname: '자바광팬아님',
       date: "23.06.06",
-    },
-    {
-      replyNum: 2,
-      title: "부산으로 당일치기 데이트 왔어요 >< ",
-      content: "제가 부산에 갔을때는 말이죠, 기러기가 제 새우깡을 먹어서 너무 놀랐던 기억이있는데요 어쩌구~ 부산 회 맛있죠~ 기러기 무서워요! ",
-      date: "23.06.06",
-    },
-    {
-      replyNum: 3,
-      title: "데이트하다가 맞짱떴네요",
-      content: "대화로 풀어보세요 ㅠㅠ",
-      date: "23.06.06",
-    },
-    {
-      replyNum: 4,
-      title: "한옥마을 데이트 좋은 것 같아요~",
-      content: "한복 대여해주는 곳 많나요?",
-      date: "23.06.06",
-    },
-    {
-      replyNum: 5,
-      title: "부산으로 당일치기 데이트 왔어요 >< ",
-      content: "부산갈매기",
-      date: "23.06.06",
-    },
-  ];
+    });
+  }
 
   // const [userReplies, setUserReplies] = useState(dummyData); // 회원의 모든 댓글
   const [userReplies] = useState(dummyData); // 회원의 모든 댓글
   const [selectedReplies, setSelectedReplies] = useState([]); // 선택되는 댓글
   const [selectAll, setSelectAll] = useState(false);
 
-// 전체 선택 체크박스 변경 이벤트 핸들러
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
+  const totalPages = Math.ceil(userReplies.length / postsPerPage);
+  const indexOfLastReply = currentPage * postsPerPage;
+  const indexOfFirstReply = indexOfLastReply - postsPerPage;
+  const currentReplies = userReplies.slice(indexOfFirstReply, indexOfLastReply);
+  
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
@@ -81,12 +68,10 @@ const ReplyList = () => {
     }
   };
 
-// 댓글 선택 여부
   const isReplySelected = (replyNum) => {
     return selectedReplies.includes(replyNum);
   };
 
-  // 체크박스 선택 함수
   const handleCheckboxChange = (event, replyNum) => {
     if (event.target.checked) {
       setSelectedReplies((prevSelected) => [...prevSelected, replyNum]);
@@ -100,44 +85,54 @@ const ReplyList = () => {
     console.log('댓글 삭제 ! ')
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    navigate(`/mypage/replies/${newPage}`);
+  };
+
   return (
     <>
     <ProfileBar2 />
     <PinReplyNav />
     <ParentContainer>
-      {userReplies.map((reply) => (
-        <div key={reply.replyNum}>
-          <MapContainer>
-            <RowWrapper>
-              <StyledCheckbox
-                type="checkbox"
-                checked={isReplySelected(reply.replyNum)}
-                onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
-              />
-              <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
-            </RowWrapper>
-            <Content className='content_align'>원문제목: {reply.title}</Content>
-            <RowWrapper className='author_date' gap='1rem'>
-              <StyledP>자바광팬아님</StyledP>
-              <StyledP>{reply.date}</StyledP>
-            </RowWrapper>
-            </MapContainer>
-        </div>
-      ))}
-      <RowWrapper gap="1rem">
-        <SelectAllButton>
+  {currentReplies.map((reply) => (
+    <div key={reply.replyNum}>
+      <MapContainer>
+        <RowWrapper>
           <StyledCheckbox
             type="checkbox"
-            checked={selectAll}
-            onChange={handleSelectAllChange}
+            checked={isReplySelected(reply.replyNum)}
+            onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
           />
-          <p>전체선택</p>
-        </SelectAllButton>
-        <Button onClick={handleDeleteReplies}>
-          삭제
-        </Button>
-      </RowWrapper>
-    </ParentContainer>
+          <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
+        </RowWrapper>
+        <Content className='content_align'>원문제목: {reply.title}</Content>
+        <RowWrapper className='author_date' gap='1rem'>
+          <StyledP>{reply.nickname}</StyledP>
+          <StyledP>{reply.date}</StyledP>
+        </RowWrapper>
+      </MapContainer>
+    </div>
+  ))}
+
+  <RowWrapper gap="1rem">
+    <SelectAllButton>
+      <StyledCheckbox
+        type="checkbox"
+        checked={selectAll}
+        onChange={handleSelectAllChange}
+      />
+      <p>전체선택</p>
+    </SelectAllButton>
+    <Button onClick={handleDeleteReplies}>삭제</Button>
+  </RowWrapper>
+  <Pagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    onPageChange={handlePageChange}
+    maxPageNumbers={5}
+  />
+</ParentContainer>
   </>
   );
 };

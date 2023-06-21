@@ -23,7 +23,6 @@ const EditPwd = () => {
       }
     }
   
-    // 비밀번호 확인
     const onChangeConPwd = (e) => {
       const conPwdCurrent = e.target.value;
       setConPwd(conPwdCurrent)
@@ -34,7 +33,6 @@ const EditPwd = () => {
       }
     }
 
-    // 닉네임 변경 버튼 클릭
     const handleBtnClick  = async() => {
       if (!isPwd || !isConPwd) {
         alert('비밀번호를 확인해 주세요')

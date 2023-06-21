@@ -38,13 +38,13 @@ const MyPageMain = () => {
         <ProfileBar />
           <FolderContainer>
           <Folder 
-            to='/mypage/pin-list'
+            to='/mypage/pin-list/1'
             icon={PinIcon} 
             title="나의 핀 목록" 
             desc="내가 작성한 모든 핀 목록을 볼 수 있어요!"
           />
           <Folder 
-            to='/mypage/replies'
+            to='/mypage/replies/1'
             icon={ReplyIcon} 
             title="나의 댓글" 
             desc="내가 작성한 모든 댓글을 볼 수 있어요! "

@@ -10,7 +10,6 @@ import EditInfo from '../components/MyPage/MySetting/EditInfo';
 import EditPwd from '../components/MyPage/MySetting/EditPwd';
 import BookmarkPage from '../components/MyPage/MyBookmark/BookmarkMain';
 import BookmarkDetailPage from '../components/MyPage/MyBookmark/BookmarkDetail';
-import BottomNav from "../components/common/BottomNav";
 
 const MyPage = () => {
 
@@ -19,8 +18,8 @@ const MyPage = () => {
       <AppLayout>
         <Routes>
           <Route index path="/" element={<MyPageMain />} />
-          <Route index path="pin-list" element={<PinList />} />
-          <Route index path="replies" element={<ReplyList />} />
+          <Route index path="pin-list/:pageNumber" element={<PinList />} />
+          <Route index path="replies/:pageNumber" element={<ReplyList />} />
           <Route index path="bookmarks" element={<BookmarkPage />} />
           <Route index path="bookmarks/:folderName" element={<BookmarkDetailPage />} />
           <Route index path="settings/membership" element={<Membership />} />
@@ -30,7 +29,6 @@ const MyPage = () => {
           <Route index path="settings/info/password" element={<EditPwd />} />
         </Routes>  
       </AppLayout>  
-      <BottomNav />
     </>
   );
 }

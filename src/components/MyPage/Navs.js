@@ -122,11 +122,11 @@ const PinReplyNav = () => {
     <Wrapper>
       <NavList className='pin_reply'>
         <NavListItem>
-          <NavLink to='/mypage/pin-list' label='내 게시글' isActive={location.pathname === '/mypage/pin-list'} />
+          <NavLink to='/mypage/pin-list/1' label='내 게시글' isActive={location.pathname.startsWith('/mypage/pin-list/')} />
         </NavListItem>  
         <Divider />        
         <NavListItem>
-          <NavLink to='/mypage/replies' label='내 댓글' isActive={location.pathname === '/mypage/replies'} />
+          <NavLink to='/mypage/replies/1' label='내 댓글' isActive={location.pathname.startsWith('/mypage/replies/')} />
         </NavListItem>
       </NavList>
     </Wrapper>
