@@ -34,6 +34,7 @@ const StyledChangePasswordLink = styled(Link)`
 `;
 
 const LoginForm = () => {
+  
   return (
     <Box
       component="form"
@@ -68,6 +69,7 @@ const LoginForm = () => {
           id="outlined-basic"
           label="비밀번호"
           variant="outlined"
+          type="password"
           sx={{
             "& .MuiOutlinedInput-root": {
               "&:hover fieldset": {

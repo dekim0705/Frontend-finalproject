@@ -39,8 +39,8 @@ function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/' element={<LoginPage />} />
+          <Route path='/home' element={<HomePage />} />
           <Route path='/auth/kakao/callback' element={<KakaoCallback />} />
           <Route path='/password' element={<ResetPwdPage />} /> 
           <Route path='/membership/*' element={<MembershipPage />}></Route>

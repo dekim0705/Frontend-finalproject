@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const StyledLink = styled(Link)`
   .navbar__logo {
     width: ${props => props.size || '13rem'};
-    padding-top: 60px;
+    margin-top: 30px;
   }
 `;
 
