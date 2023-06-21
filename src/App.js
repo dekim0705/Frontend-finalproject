@@ -15,6 +15,8 @@ import AdiminPage from './pages/AdminPage'
 import ResetPwdPage from './pages/ResetPwdPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
 import KakaoCallback from './components/Login/KakaoCallback';
+import UserPolicy from './components/Join/UserPolicy';
+import UserAgreements from './components/Join/UserAgreements';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -51,6 +53,8 @@ function App() {
           <Route path='/admin/*' element={<AdiminPage />} />
           <Route path='/festival/info' element={<FestivalDetailPage />} />
           <Route path='/festival-info/:contentId' element={<FestivalDetailPage />} />
+          <Route path='/user-policy' element={<UserPolicy />} />
+          <Route path='/user-agreements' element={<UserAgreements />} />
         </Routes>
       </Router>
     </>
