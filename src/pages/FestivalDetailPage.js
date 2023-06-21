@@ -23,10 +23,10 @@ const FestivalDetailPage = () => {
     <AppLayout>
       <Container>
         <FestivalHeader page={page} contentId={contentId} />
-        <Carousel/>
+        <Carousel contentId={contentId}/>
         <FestivalSummary page={page} contentId={contentId} />
         <FestivalMap page={page} contentId={contentId} />
-        <Recommend/>
+        <Recommend page={page} contentId={contentId}/>
       </Container>
       <BottomNav/>
     </AppLayout>
