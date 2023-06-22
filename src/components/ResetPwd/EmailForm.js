@@ -51,7 +51,7 @@ const EmailForm = () => {
   }
 
   const handleAuthForm = () => {
-    navigate('/login');
+    navigate('/');
     
   }
   return (

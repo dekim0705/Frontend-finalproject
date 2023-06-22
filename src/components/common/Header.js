@@ -86,7 +86,7 @@ const Header = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem key={'home'} component={Link} to="/login">
+        <ListItem key={'home'} component={Link} to="/home">
           <ListItemText primary={'🏠 홈'} sx={{ color: '#2e2e2e' }}  />
         </ListItem>
         <Divider />

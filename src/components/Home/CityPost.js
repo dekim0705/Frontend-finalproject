@@ -5,6 +5,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkModal from "../../util/modal/BookmarkModal";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import AuthAxiosApi from "../../api/AuthAxiosApi";
+import Functions from "../../util/Functions";
 
 const Container = styled.div`
   display: flex;
@@ -86,15 +87,11 @@ const CityPost = () => {
         const response = await HomeAxiosApi.allPosts(token);
         setPostInfos(response.data);
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          const refreshToken = localStorage.getItem("refreshToken");
-          const newAccessToken = await AuthAxiosApi.renewToken(refreshToken);
-
-          if (newAccessToken) {
-            localStorage.setItem("accessToken", newAccessToken);
-            const response = await HomeAxiosApi.allPosts(newAccessToken);
-            console.log(response.data);
-          }
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.allPosts(newToken);
+          setPostInfos(response.data);
         }
       }
     };

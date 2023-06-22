@@ -4,7 +4,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
-import AuthAxiosApi from "../../api/AuthAxiosApi";
+import Functions from "../../util/Functions";
 
 const MemberDropDown = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const MemberDropDown = () => {
 
   // 🍉 회원 프로필
   const [profileImg, setProfileImg] = useState("");
-  const token = localStorage.getItem("accessToken");
+  const token = Functions.getAccessToken();
 
   useEffect(() => {
     const getProfileImg = async () => {
@@ -39,17 +39,11 @@ const MemberDropDown = () => {
         const response = await HomeAxiosApi.pfImg(token);
         setProfileImg(response.data);
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          const refreshToken = localStorage.getItem("refreshToken");
-          const newAccessToken = await AuthAxiosApi.renewToken(refreshToken);
-
-          if (newAccessToken) {
-            localStorage.setItem("accessToken", newAccessToken);
-            const response = await HomeAxiosApi.pfImg(newAccessToken);
-            setProfileImg(response.data);
-          }
-        } else {
-          console.error("🍒 : " + error);
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.pfImg(newToken);
+          setProfileImg(response.data);
         }
       }
     };

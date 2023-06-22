@@ -7,7 +7,7 @@ const AuthAxiosApi = {
   renewToken: async (refreshToken) => {
     const token = {
       refreshToken: refreshToken
-    };
+    }
     try {
       const response = await axios.post(KH_DOMAIN + "/auth/token", token);
 
