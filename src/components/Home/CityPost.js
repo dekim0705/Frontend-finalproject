@@ -4,7 +4,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import authorProfile from "../../resource/profile.jpeg";
 import thumbnailImage from "../../resource/썸네일.jpeg";
-import BookmarkModal from "../../util/BookmarkModal";
+import BookmarkModal from "../../util/modal/BookmarkModal";
 
 const Container = styled.div`
   display: flex;

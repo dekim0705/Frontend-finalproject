@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
 import AuthAxiosApi from "../../api/AuthAxiosApi";
-import PopUp from "../../util/PopUp";
+import PopUp from "../../util/modal/PopUp";
 
 const Container = styled.div`
   display: flex;

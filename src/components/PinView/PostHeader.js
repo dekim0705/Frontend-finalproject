@@ -7,7 +7,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ReportBlockDropdown from "../../util/ReportBlockDropdown";
+import ReportBlockDropdown from "../../util/modal/ReportBlockDropdown";
 
 const AuthorHeader = styled.div`
   display: flex;

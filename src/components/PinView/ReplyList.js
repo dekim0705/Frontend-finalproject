@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
-import ReportBlockDropdown from "../../util/ReportBlockDropdown";
+import ReportBlockDropdown from "../../util/modal/ReportBlockDropdown";
 import profileImg from "../../resource/profile.jpeg";
 
 const StyledContainer = styled(Container)`
