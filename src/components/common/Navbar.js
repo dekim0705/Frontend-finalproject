@@ -46,7 +46,7 @@ const Navbar = () => {
       <Container>
         <Logo />
         <ul className="navbar__menu">
-          <StyledLink to="/">
+          <StyledLink to="/home">
             <HomeIcon
               sx={{ fontSize: "2.3rem" }} />
             <p>홈</p>
