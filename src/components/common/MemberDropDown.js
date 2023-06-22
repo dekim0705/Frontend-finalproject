@@ -4,6 +4,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
+import AuthAxiosApi from "../../api/AuthAxiosApi";
 
 const MemberDropDown = () => {
   const navigate = useNavigate();
@@ -19,10 +20,9 @@ const MemberDropDown = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.clear();
     navigate("/");
-  }
+  };
 
   const options = [
     { path: "/", text: "로그아웃", onClick: handleLogout },
@@ -31,18 +31,30 @@ const MemberDropDown = () => {
 
   // 🍉 회원 프로필
   const [profileImg, setProfileImg] = useState("");
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const getProfileImg = async () => {
       try {
-        const response = await HomeAxiosApi.pfImg();
+        const response = await HomeAxiosApi.pfImg(token);
         setProfileImg(response.data);
       } catch (error) {
-        console.error("🍒 : " + error);
+        if (error.response && error.response.status === 401) {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const newAccessToken = await AuthAxiosApi.renewToken(refreshToken);
+
+          if (newAccessToken) {
+            localStorage.setItem("accessToken", newAccessToken);
+            const response = await HomeAxiosApi.pfImg(newAccessToken);
+            setProfileImg(response.data);
+          }
+        } else {
+          console.error("🍒 : " + error);
+        }
       }
     };
     getProfileImg();
-  }, []);
+  }, [token]);
 
   return (
     <div>
