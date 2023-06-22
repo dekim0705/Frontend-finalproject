@@ -39,6 +39,7 @@ const FestivalPage = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태 추가
   const [savedCity, setSavedCity] = useState("");
   const [savedMonth, setSavedMonth] = useState("");
   const { page } = useParams(); // 페이지 번호 가져오기
@@ -58,6 +59,10 @@ const FestivalPage = () => {
     setSavedMonth(selectedMonth);
   };
 
+  const handleSearch = (keyword) => {
+    setSearchKeyword(keyword); // 검색어 업데이트
+  };
+
   // 페이지 번호가 없을 경우 기본적으로 1페이지로 설정
   const currentPage = page ? parseInt(page) : 1;
 
@@ -68,7 +73,7 @@ const FestivalPage = () => {
           <SelectBox onFilter={handleFilter} />
           <ButtonWrapper>
             <Button onClick={handleButtonClick}>둘러보기</Button>
-            <DetailButton />
+            <DetailButton onSearch={handleSearch} /> {/* 검색어를 전달하는 prop 추가 */}
           </ButtonWrapper>
         </Container>
         <SortButtonsContainer>
@@ -82,6 +87,7 @@ const FestivalPage = () => {
               selectedCity={isButtonClicked ? savedCity : ""}
               selectedMonth={isButtonClicked ? savedMonth : ""}
               isButtonClicked={isButtonClicked}
+              searchKeyword={searchKeyword} 
               page={currentPage}
             />
           )}
