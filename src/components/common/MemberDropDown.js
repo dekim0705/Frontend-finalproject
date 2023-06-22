@@ -18,8 +18,14 @@ const MemberDropDown = () => {
     navigate(option.path);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    navigate("/");
+  }
+
   const options = [
-    { path: "/", text: "로그아웃" },
+    { path: "/", text: "로그아웃", onClick: handleLogout },
     { path: "/mypage", text: "마이페이지" },
   ];
 
@@ -64,7 +70,12 @@ const MemberDropDown = () => {
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option.text} onClick={() => handleClose(option)}>
+          <MenuItem
+            key={option.text}
+            onClick={() => {
+              option.onClick ? option.onClick() : handleClose(option);
+            }}
+          >
             {option.text}
           </MenuItem>
         ))}
