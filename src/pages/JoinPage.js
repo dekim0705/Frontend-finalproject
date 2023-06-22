@@ -78,7 +78,7 @@ const JoinPage = () => {
   const handleVerificationSuccess = () => {
     alert('인증되었습니다! 로그인해 주세요.');
     setTimeout(() => {
-      navigate('/login');
+      navigate('/');
     }, 1000);
   };
 
