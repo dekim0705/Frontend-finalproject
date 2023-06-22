@@ -1,9 +1,10 @@
-import React, {  } from "react";
+import React, { useContext } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 // import Ad from "../components/Home/Ad";
 import City from "../components/Home/City";
 import CityPost from "../components/Home/CityPost";
+import { UserContext } from "../context/UserInfo";
 
 const GlobalStyle = createGlobalStyle`
   body {
