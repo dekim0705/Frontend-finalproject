@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import FestivalAPI from "./FestivalAPI";
 import Pagination from "./Pagination";
 import FestivalItem from "./FestivalItem";
 
@@ -17,7 +16,7 @@ const Container = styled.div`
   }
 `;
 
-const FestivalContainer = ({ apiData, page }) => {
+const FestivalContainer = ({ apiData, page, searchKeyword }) => {
   const [currentPage, setCurrentPage] = useState(page);
   const navigate = useNavigate();
 
@@ -26,23 +25,40 @@ const FestivalContainer = ({ apiData, page }) => {
     navigate(`/festival/${newPage}`); // 페이지 변경 시 URL 업데이트
   };
 
+  // 검색어 필터링 로직 추가
+  const filteredData = apiData.filter((item) => {
+    const title = item.title.toLowerCase();
+    const keyword = searchKeyword.toLowerCase();
+    return title.includes(keyword);
+  });
+
+  // 한 페이지에 6개씩 아이템을 표시
+  const startIndex = (currentPage - 1) * 6;
+  const endIndex = startIndex + 6;
+  const itemsToShow = filteredData.slice(startIndex, endIndex);
+
+  // 검색 결과가 6개 미만인 경우 페이지 처리를 적용하지 않음
+  const shouldShowPagination = filteredData.length >= 6;
+
   return (
     <div>
-      {apiData.length > 0 ? (
+      {filteredData.length > 0 ? (
         <>
           <Container>
-            {apiData.map((item, index) => (
+            {itemsToShow.map((item, index) => (
               <FestivalItem key={index} item={item} currentPage={currentPage} />
             ))}
           </Container>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={apiData.length}
-            onPageChange={handlePageChange}
-          />
+          {shouldShowPagination && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredData.length / 6)}
+              onPageChange={handlePageChange}
+            />
+          )}
         </>
       ) : (
-        <div>Loading...</div>
+        <div>검색 결과가 없습니다 🥲</div>
       )}
     </div>
   );

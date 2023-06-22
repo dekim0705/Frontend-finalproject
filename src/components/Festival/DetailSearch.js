@@ -57,16 +57,17 @@ const SearchContainer = styled.div`
 `;
 
 
-const DetailButton = () => {
+const DetailButton = ({ onSearch }) => { 
   const [showPopup, setShowPopup] = useState(false);
+  const [searchValue, setSearchValue] = useState(""); 
   const inputRef = useRef(null);
 
   const handleButtonClick = () => {
     setShowPopup((prevShowPopup) => !prevShowPopup);
   };
 
-  const handleSearch = (event) => {
-    // 검색 기능 구현 로직
+  const handleSearch = () => {
+    onSearch(searchValue); 
   };
 
   const closePopup = () => {
@@ -90,11 +91,16 @@ const DetailButton = () => {
                 type="text"
                 ref={inputRef}
                 onClick={handleInputClick}
-                onKeyDown={handleSearch}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch(); // 엔터 키 입력 시 검색 실행
+                  }
+                }}
                 placeholder="축제 이름을 검색하세요!"
               />
               <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
-                <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
+                <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} onClick={handleSearch} />
               </Box>
             </div>
           </SearchContainer>
@@ -105,3 +111,4 @@ const DetailButton = () => {
 };
 
 export default DetailButton;
+

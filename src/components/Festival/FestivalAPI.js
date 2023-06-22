@@ -11,7 +11,7 @@ const FestivalAPI = ({ children, page, contentId }) => {
 
   const fetchData = async () => {
     try {
-      const url = `/B551011/KorService1/searchFestival1?serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&numOfRows=6&pageNo=${page}&MobileOS=ETC&MobileApp=%08todaysDate&_type=json&listYN=Y&arrange=A&eventStartDate=20230801&eventEndDate=20230930`;
+      const url = `/B551011/KorService1/searchFestival1?serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&numOfRows=99&&MobileOS=ETC&MobileApp=%08todaysDate&_type=json&listYN=Y&arrange=A&eventStartDate=20230701&eventEndDate=20231231`;
 
       const response = await axios.get(url, {
         headers: {
