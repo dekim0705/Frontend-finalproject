@@ -11,6 +11,15 @@ const HomeAxiosApi = {
         'Authorization': 'Bearer ' + token
       }
     });
+  },
+  // 🍉 전체 글 가져오기
+  allPosts : async(token) => {
+    return await axios.get(KH_DOMAIN + "/home/posts", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    });
   }
 };
 

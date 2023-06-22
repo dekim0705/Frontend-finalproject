@@ -32,9 +32,6 @@ const HomePage = () => {
         <City />
         <PostWrapper>
           <CityPost />
-          <CityPost />
-          <CityPost />
-          <CityPost />
         </PostWrapper>
       </AppLayout>
     </>

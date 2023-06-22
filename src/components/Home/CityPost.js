@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import authorProfile from "../../resource/profile.jpeg";
-import thumbnailImage from "../../resource/썸네일.jpeg";
 import BookmarkModal from "../../util/modal/BookmarkModal";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
+import AuthAxiosApi from "../../api/AuthAxiosApi";
 
 const Container = styled.div`
   display: flex;
@@ -64,6 +64,9 @@ const CityPost = () => {
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [folders, setFolders] = useState([]);
+  const token = localStorage.getItem("accessToken");
+  // 게시글 정보 🌸
+  const [postInfos, setPostInfos] = useState([]);
 
   const handleBookmark = () => {
     setBookmarked(!bookmarked);
@@ -77,52 +80,79 @@ const CityPost = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  useEffect(() => {
+    const getAllPosts = async () => {
+      try {
+        const response = await HomeAxiosApi.allPosts(token);
+        setPostInfos(response.data);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const newAccessToken = await AuthAxiosApi.renewToken(refreshToken);
+
+          if (newAccessToken) {
+            localStorage.setItem("accessToken", newAccessToken);
+            const response = await HomeAxiosApi.allPosts(newAccessToken);
+            console.log(response.data);
+          }
+        }
+      }
+    };
+    getAllPosts();
+  }, [token]);
+
   return (
     <>
-      <Container>
-        <PostHeader>
-          <AuthorHeader>
-            <img
-              src={authorProfile}
-              alt="작성자 프로필"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-              }}
+      {postInfos.length > 0 ? (
+        postInfos.map((postInfo) => (
+          <Container key={postInfo.id}>
+            <PostHeader>
+              <AuthorHeader>
+                <img
+                  src={postInfo.pfImg}
+                  alt="작성자 프로필"
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                  }}
+                />
+                <AuthorInfo>
+                  <h1>{postInfo.nickname}</h1>
+                  <p>{postInfo.writeDate}</p>
+                </AuthorInfo>
+              </AuthorHeader>
+              {bookmarked ? (
+                <BookmarkIcon
+                  sx={{ cursor: "pointer", color: "#FF62AD" }}
+                  onClick={handleBookmark}
+                />
+              ) : (
+                <BookmarkBorderIcon
+                  sx={{ cursor: "pointer" }}
+                  onClick={toggleModal}
+                />
+              )}
+            </PostHeader>
+            <BookmarkModal
+              open={isModalOpen}
+              handleClose={toggleModal}
+              folders={folders}
+              addFolder={handleAddFolder}
+              handleBookmark={handleBookmark}
             />
-            <AuthorInfo>
-              <h1>닉네임이들어가요</h1>
-              <p>3분전</p>
-            </AuthorInfo>
-          </AuthorHeader>
-          {bookmarked ? (
-            <BookmarkIcon 
-              sx={{ cursor: "pointer", color: "#FF62AD" }}
-              onClick={handleBookmark}
-            />
-          ) : (
-            <BookmarkBorderIcon
-              sx={{ cursor: "pointer" }}
-              onClick={toggleModal}
-            />
-          )}
-        </PostHeader>
-        <BookmarkModal
-          open={isModalOpen}
-          handleClose={toggleModal}
-          folders={folders}
-          addFolder={handleAddFolder}
-          handleBookmark={handleBookmark}
-        />
-        <PostTitle>
-          <h1>제목이 들어가는 자리 입니다.</h1>
-          <p>서울시 중구</p>
-        </PostTitle>
-        <StyledThumbnail>
-          <img src={thumbnailImage} alt="" />
-        </StyledThumbnail>
-      </Container>
+            <PostTitle>
+              <h1>{postInfo.title}</h1>
+              <p>{postInfo.district}</p>
+            </PostTitle>
+            <StyledThumbnail>
+              <img src={postInfo.thumbnail} alt="" />
+            </StyledThumbnail>
+          </Container>
+        ))
+      ) : (
+        <p>게시글이 없습니다 ㅜㅜ </p>
+      )}
     </>
   );
 };
