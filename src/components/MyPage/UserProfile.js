@@ -63,7 +63,7 @@ const UserProfile = () => {
         setProfileData(response.data);
         console.log("🍒 UserProfile :", response)
       } catch (error) {
-        await Functions.handleApiError(error); // handle(error)은 401에러남..ㅠ?
+        await Functions.handleApiError(error); 
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await UserAxiosApi.userProfile(newToken);
@@ -78,12 +78,14 @@ const UserProfile = () => {
   return(
     <>
       {profileData && <PfImg src={profileData.pfImg} alt='프로필 이미지'/>}
-<div>
-          {profileData && <Nickname>{profileData.nickname}          {profileData && profileData.isMembership === 'FREE' && (
-            <Membership src={Star} alt='멤버쉽 이미지'/>
-          )}</Nickname>}
+      <div>
+      {profileData && <Nickname>{profileData.nickname}          
+        {profileData && profileData.isMembership === 'FREE' && (
+        <Membership src={Star} alt='멤버쉽 이미지'/>
+        )}
+      </Nickname>}
 
-</div>
+      </div>
       {profileData && <Comment>{profileData.userComment}</Comment>}
     </>
   );

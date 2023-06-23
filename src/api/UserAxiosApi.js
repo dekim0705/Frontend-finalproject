@@ -70,6 +70,36 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
         throw error;
       }
     },
+    // 회원의 알림 수신 상태  
+    notificationStatus: async (token) => {
+      try {
+        return await axios.get(KH_DOMAIN + "/mypage/notification-status", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 회원의 알림 수신 상태 변경  
+    updateNotificationStatus: async (token, newStatus) => {
+      try {
+        return await axios.put(KH_DOMAIN + "/mypage/notification-status", null, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          params: {
+            newStatus: newStatus
+          }
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    
 
   };
 export default UserAxiosApi;
