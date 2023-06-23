@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileBar2 from './ProfileBar2';
 import { PinReplyNav } from '../Navs';
@@ -6,6 +6,8 @@ import { StyledCheckbox, Button, TitleLink } from './PinListWeb';
 import { RowWrapper, MapContainer, SelectAllButton } from './PinListMobile';
 import { useNavigate } from 'react-router-dom';
 import Pagination from './Pagination';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import Functions from '../../../util/Functions';
 
 const ParentContainer = styled.div`
   width: 70%;
@@ -33,40 +35,68 @@ const StyledP = styled.span`
 
 const ReplyList = () => {
   const navigate = useNavigate();
+  const token = Functions.getAccessToken();
 
-  const dummyData = [];
-  for (let i = 1; i <= 53; i++) {
-    dummyData.push({
-      replyNum: i,
-      title: `댓글 제목 ${i}`,
-      content: `댓글 내용 ${i}`,
-      nickname: '자바광팬아님',
-      date: "23.06.06",
-    });
-  }
-
-  // const [userReplies, setUserReplies] = useState(dummyData); // 회원의 모든 댓글
-  const [userReplies] = useState(dummyData); // 회원의 모든 댓글
+  const [replies, setReplies] = useState([]); // 회원의 모든 댓글
   const [selectedReplies, setSelectedReplies] = useState([]); // 선택되는 댓글
   const [selectAll, setSelectAll] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
-  const totalPages = Math.ceil(userReplies.length / postsPerPage);
+  const totalPages = Math.ceil(replies.length / postsPerPage);
   const indexOfLastReply = currentPage * postsPerPage;
   const indexOfFirstReply = indexOfLastReply - postsPerPage;
-  const currentReplies = userReplies.slice(indexOfFirstReply, indexOfLastReply);
+  const currentReplies = replies.slice(indexOfFirstReply, indexOfLastReply);
   
+  useEffect(() => {
+    const getUserReplies = async () => {
+      try {
+        const response = await UserAxiosApi.userReplies(token);
+        setReplies(response.data);
+        console.log("🍒 UserReplies :", response);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userReplies(newToken);
+          setReplies(response.data);
+        }
+      }
+    };
+    getUserReplies();
+  }, [token])
+
+  const handleDeleteBtn = async () => {
+    try {
+      const response = await UserAxiosApi.deleteReplies(selectedReplies, token);
+      console.log('📌 삭제된 댓글번호:', response);
+
+      setReplies((prevReplies) =>
+      prevReplies.filter((reply) => !selectedReplies.includes(reply.replyNum))
+      );
+      setSelectedReplies([]); 
+      setSelectAll(false);
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await UserAxiosApi.userPosts(newToken);
+        setReplies(response.data);
+      }    
+    }
+  };
+
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allReplyNums = userReplies.map((reply) => reply.replyNum);
+      const allReplyNums = currentReplies.map((reply) => reply.replyNum);
       setSelectedReplies(allReplyNums);
     } else {
       setSelectedReplies([]);
     }
   };
+  
 
   const isReplySelected = (replyNum) => {
     return selectedReplies.includes(replyNum);
@@ -81,13 +111,17 @@ const ReplyList = () => {
     }
   };
 
-  const handleDeleteReplies = () => {
-    console.log('댓글 삭제 ! ')
-  };
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     navigate(`/mypage/replies/${newPage}`);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
   };
 
   return (
@@ -109,7 +143,7 @@ const ReplyList = () => {
         <Content className='content_align'>원문제목: {reply.title}</Content>
         <RowWrapper className='author_date' gap='1rem'>
           <StyledP>{reply.nickname}</StyledP>
-          <StyledP>{reply.date}</StyledP>
+          <StyledP>{formatDate(reply.writeDate)}</StyledP>
         </RowWrapper>
       </MapContainer>
     </div>
@@ -124,7 +158,7 @@ const ReplyList = () => {
       />
       <p>전체선택</p>
     </SelectAllButton>
-    <Button onClick={handleDeleteReplies}>삭제</Button>
+    <Button onClick={handleDeleteBtn}>삭제</Button>
   </RowWrapper>
   <Pagination
     currentPage={currentPage}

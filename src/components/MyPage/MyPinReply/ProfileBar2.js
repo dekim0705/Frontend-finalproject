@@ -1,11 +1,12 @@
-import React from 'react';
-import { PfImg, Nickname } from '../UserProfile';
+import React, { useState, useEffect } from 'react';
+import { PfImg, Nickname, Membership } from '../UserProfile';
 import styled from 'styled-components';
-import ProfileImage from '../../../resource/profile.jpeg';
 import Star from '../../../resource/membership_star.svg';
 import Container from '../Container';
 import { ColumnWrapper, RowWrapper } from '../../Join/Wrappers';
 import Counts from './Counts';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import Functions from "../../../util/Functions";
 
 const PfImg2 = styled(PfImg)`
   width: 100px;
@@ -25,7 +26,7 @@ const Nickname2 = styled(Nickname)`
   }
 `;
 
-const Membership = styled.img`
+const Membership2 = styled(Membership)`
   width: 1.2rem;
   margin: 0;
   margin-top: -10px;
@@ -45,24 +46,43 @@ const Divider = styled.span`
 
 
 const ProfileBar2= () => {
+  const [profileData, setProfileData] = useState(null);
+  const token = localStorage.getItem("accessToken");
 
-  let totalPins = 230;
-  let totalReplies = 255;
+  useEffect(() => {
+    const getUserProfile = async () => {
+      try {
+        const response = await UserAxiosApi.userProfile(token);
+        setProfileData(response.data);
+        // console.log("🍒 UserProfile")
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userProfile(newToken);
+          setProfileData(response.data);
+        }
+      }
+    };
+    getUserProfile();
+  }, [token]);
 
   return(
     <ColumnWrapper alignItems='center'>
       <Container width='60%'>
         <RowWrapper gap='10px'>
-          <PfImg2 src={ProfileImage} alt='프로필 이미지'/>
+          {profileData && <PfImg2 src={profileData.pfImg} alt='프로필 이미지'/>}
             <ColumnWrapper gap='6px'>
-              <RowWrapper>
-                <Nickname2>자바광팬아님</Nickname2>
-                <Membership src={Star} alt='멤버쉽 이미지'/>
-              </RowWrapper>
+              <div>
+                {profileData && <Nickname2>{profileData.nickname}  {profileData && profileData.isMembership === 'FREE' && (
+                  <Membership2 src={Star} alt='멤버쉽 이미지'/>
+                )}  </Nickname2>}
+            
+              </div>
               <RowWrapper width="50vw">
-                <Counts count={totalPins} label="총 게시물 "/>
+                {profileData && <Counts count={profileData.postCount} label="총 게시물 "/>}
                 <Divider>|</Divider>
-                <Counts count={totalReplies} label="총 댓글 " />
+                {profileData && <Counts count={profileData.replyCount} label="총 댓글 " />}
               </RowWrapper>
             </ColumnWrapper>
         </RowWrapper>

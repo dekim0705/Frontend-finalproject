@@ -5,6 +5,8 @@ import PinListWeb from './PinListWeb';
 import PinListMobile from './PinListMobile';
 import Pagination from './Pagination';
 import { useNavigate } from 'react-router-dom';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import Functions from '../../../util/Functions';
 
 const PinList = () => {
   const navigate = useNavigate();
@@ -24,34 +26,59 @@ const PinList = () => {
     };
   }, []);
 
-    const dummyData = [];
-    for (let i = 1; i <= 53; i++) {
-      dummyData.push({
-        postNum: i,
-        title: `게시글 제목 ${i}`,
-        content: `게시글 내용 ${i}`,
-        nickname: '자바광팬아님',
-        date: "23.06.06",
-        view: 100 + i
-      });
-    }
+  const [posts, setPosts] = useState([]); // 회원의 모든 게시글
+  const token = Functions.getAccessToken();
 
-  // const [userPosts, setUserPosts] = useState(dummyData); // 회원의 모든 게시글
-  const [userPosts] = useState(dummyData); // 회원의 모든 게시글
   const [selectedPosts, setSelectedPosts] = useState([]); // 선택되는 게시글
   const [selectAll, setSelectAll] = useState(false);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = dummyData.slice(indexOfFirstPost, indexOfLastPost);
-  // const totalPosts = dummyData.length;
-  // const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  useEffect(() => {
+    const getUserPosts = async () => {
+      try {
+        const response = await UserAxiosApi.userPosts(token);
+        setPosts(response.data);
+        console.log("🍒 UserPosts :", response);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userPosts(newToken);
+          setPosts(response.data);
+        }
+      }
+    };
+    getUserPosts();
+  }, [token])
+
+  const handleDeleteBtn = async () => {
+    try {
+      const response = await UserAxiosApi.deletePosts(selectedPosts, token);
+      console.log('📌 삭제된 글번호:', response);
+
+      setPosts((prevPosts) =>
+        prevPosts.filter((post) => !selectedPosts.includes(post.postNum))
+      );
+      setSelectedPosts([]); 
+      setSelectAll(false); 
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await UserAxiosApi.userPosts(newToken);
+        setPosts(response.data);
+      }    
+    }
+  };
 
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((post) => post.postNum);
+      const allPostNums = currentPosts.map((post) => post.postNum);
       setSelectedPosts(allPostNums);
     } else {
       setSelectedPosts([]);
@@ -72,14 +99,18 @@ const PinList = () => {
       setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== postNum));
     }
   };
-  
-  const handleDeletePosts = () => {
-    console.log('핀 삭제 ! ')
-  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     navigate(`/mypage/pin-list/${pageNumber}`);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
   };
 
   return (
@@ -95,12 +126,13 @@ const PinList = () => {
             selectAll={selectAll}
             handleSelectAllChange={handleSelectAllChange}
             handleCheckboxChange={handleCheckboxChange}
-            handleDeletePosts={handleDeletePosts}
+            handleDeleteBtn={handleDeleteBtn}
             isPostSelected={isPostSelected}
+            formatDate={formatDate}
           />
           <Pagination
             currentPage={currentPage}
-            totalPages={Math.ceil(userPosts.length / postsPerPage)}
+            totalPages={Math.ceil(posts.length / postsPerPage)}
             onPageChange={handlePageChange}
           />
         </>
@@ -115,12 +147,13 @@ const PinList = () => {
             selectAll={selectAll}
             handleSelectAllChange={handleSelectAllChange}
             handleCheckboxChange={handleCheckboxChange}
-            handleDeletePosts={handleDeletePosts}
+            handleDeleteBtn={handleDeleteBtn}
             isPostSelected={isPostSelected}
+            formatDate={formatDate}
           />
           <Pagination
             currentPage={currentPage}
-            totalPages={Math.ceil(userPosts.length / postsPerPage)}
+            totalPages={Math.ceil(posts.length / postsPerPage)}
             onPageChange={handlePageChange}
           />
         </>

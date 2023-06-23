@@ -46,7 +46,7 @@ export const SelectAllButton = styled.button`
   }
 `;
 
-const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange, handleDeletePosts, handleSelectAllChange }) => {
+const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange, handleDeleteBtn, handleSelectAllChange, formatDate}) => {
   
   return (
     <>
@@ -66,8 +66,8 @@ const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange,
               </RowWrapper>
               <RowWrapper gap="1rem">
                 <p style={{marginLeft: '2rem'}}>{post.nickname}</p>
-                <p>{post.date}</p>
-                <p>{post.view}</p>
+                <p>{formatDate(post.writeDate)}</p>
+                <p>{post.viewCount}</p>
               </RowWrapper>
             </MapContainer>
           </div>
@@ -81,7 +81,7 @@ const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange,
             />
               <p>전체선택</p>
             </SelectAllButton>
-            <Button onClick={handleDeletePosts}>
+            <Button onClick={handleDeleteBtn}>
               삭제
             </Button>
           </RowWrapper>        
