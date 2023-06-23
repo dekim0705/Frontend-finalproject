@@ -50,11 +50,24 @@ const HomeAxiosApi = {
     try {
       return await axios.get(`${KH_DOMAIN}/home/search`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         params: {
-          keyword: keyword
+          keyword: keyword,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 북마크 상위 5개
+  top5Bookmark: async (token) => {
+    try {
+      return await axios.get(KH_DOMAIN + "/home/rank", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
         }
       });
     } catch (error) {

@@ -81,11 +81,13 @@ const CityPost = ({ selectedCity }) => {
   };
 
   useEffect(() => {
+    setPostInfos([]);
     const getPosts = async () => {
       try {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
+          console.log("🦊 어떻게 오는지? : " + JSON.stringify(response.data, null, 2));
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }
@@ -111,7 +113,7 @@ const CityPost = ({ selectedCity }) => {
     <>
       {postInfos.length > 0 ? (
         postInfos.map((postInfo) => (
-          <Container key={postInfo.id}>
+          <Container key={postInfo.postId}>
             <PostHeader>
               <AuthorHeader>
                 <img
