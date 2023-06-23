@@ -18,6 +18,8 @@ import FestivalDetailPage from "./pages/FestivalDetailPage";
 import KakaoCallback from "./components/Login/KakaoCallback";
 import UserPolicy from "./components/Join/UserPolicy";
 import UserAgreements from "./components/Join/UserAgreements";
+import SearchResultPage from "./pages/SearchResultPage";
+import SearchStore from "./context/SearchContext";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -36,31 +38,34 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <UserStore>
-      <GlobalStyle />
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
-          <Route path="/password" element={<ResetPwdPage />} />
-          <Route path="/membership/*" element={<MembershipPage />}></Route>
-          <Route path="/write" element={<WritePage />} />
-          <Route path="/view" element={<PinViewPage />} />
-          <Route path="/join" element={<JoinPage />} />
-          <Route path="/mypage/*" element={<MyPage />} />
-          <Route path="/contact" element={<ChatbotPage />} />
-          <Route path="/festival/:page" element={<FestivalPage />} />
-          <Route path="/admin/*" element={<AdiminPage />} />
-          <Route path="/festival/info" element={<FestivalDetailPage />} />
-          <Route
-            path="/festival-info/:contentId"
-            element={<FestivalDetailPage />}
-          />
-          <Route path="/user-policy" element={<UserPolicy />} />
-          <Route path="/user-agreements" element={<UserAgreements />} />
-        </Routes>
-      </Router>
+      <SearchStore>
+        <GlobalStyle />
+        <Router>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+            <Route path="/password" element={<ResetPwdPage />} />
+            <Route path="/membership/*" element={<MembershipPage />}></Route>
+            <Route path="/write" element={<WritePage />} />
+            <Route path="/view" element={<PinViewPage />} />
+            <Route path="/join" element={<JoinPage />} />
+            <Route path="/mypage/*" element={<MyPage />} />
+            <Route path="/contact" element={<ChatbotPage />} />
+            <Route path="/festival/:page" element={<FestivalPage />} />
+            <Route path="/admin/*" element={<AdiminPage />} />
+            <Route path="/festival/info" element={<FestivalDetailPage />} />
+            <Route
+              path="/festival-info/:contentId"
+              element={<FestivalDetailPage />}
+            />
+            <Route path="/user-policy" element={<UserPolicy />} />
+            <Route path="/user-agreements" element={<UserAgreements />} />
+            <Route path="/search" element={<SearchResultPage />} />
+          </Routes>
+        </Router>
+      </SearchStore>
     </UserStore>
   );
 }
