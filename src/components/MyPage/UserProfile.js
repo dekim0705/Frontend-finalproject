@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProfileImage from '../../resource/profile.jpeg';
 import Star from '../../resource/membership_star.svg';
+import UserAxiosApi from '../../api/UserAxiosApi';
+import Functions from "../../util/Functions";
 
 export const PfImg = styled.img`
   margin-top: 1rem;
@@ -16,6 +17,7 @@ export const PfImg = styled.img`
   }
 `;
 export const Nickname = styled.h1`
+  position: relative;
   color: var(--text-color);  
   font-size: 1.8rem;
   font-weight: 700;
@@ -28,13 +30,13 @@ export const Membership = styled.img`
   width: 30px;
   height: 30px;
   position: absolute;
-  margin-left: 170px;
-  margin-top: 200px;
+  margin-top: -15px;
+  margin-left: -5px;
   @media screen and (max-width:768px) {
     width: 20px;
     height: 20px;
-    margin-left: 130px;
-    margin-top: 120px;
+    margin-top: -6px;
+    margin-left: -2px;
   }
 `;
 const Comment = styled.p`
@@ -51,13 +53,38 @@ const Comment = styled.p`
 `;
 
 const UserProfile = () => {
+  const [profileData, setProfileData] = useState(null);
+  const token = Functions.getAccessToken();
+
+  useEffect(() => {
+    const getUserProfile = async () => {
+      try {
+        const response = await UserAxiosApi.userProfile(token);
+        setProfileData(response.data);
+        console.log("🍒 UserProfile :", response)
+      } catch (error) {
+        await Functions.handleApiError(error); // handle(error)은 401에러남..ㅠ?
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userProfile(newToken);
+          setProfileData(response.data);
+        }
+      }
+    };
+    getUserProfile();
+  }, [token]);
+
 
   return(
     <>
-      <PfImg src={ProfileImage} alt='프로필 이미지'/>
-      <Nickname>자바광팬아님</Nickname>
-      <Membership src={Star} alt='멤버쉽 이미지'/>
-      <Comment>저는 자바광팬이 아닙니다. 데이트 좋아요!</Comment>
+      {profileData && <PfImg src={profileData.pfImg} alt='프로필 이미지'/>}
+<div>
+          {profileData && <Nickname>{profileData.nickname}          {profileData && profileData.isMembership === 'FREE' && (
+            <Membership src={Star} alt='멤버쉽 이미지'/>
+          )}</Nickname>}
+
+</div>
+      {profileData && <Comment>{profileData.userComment}</Comment>}
     </>
   );
 }

@@ -52,8 +52,8 @@ export const Button = styled.button`
   }
 `;
 
-const PinListWeb = ({ isPostSelected, posts, selectAll, handleSelectAllChange, handleCheckboxChange, handleDeletePosts }) => {
-  
+const PinListWeb = ({ isPostSelected, posts, selectAll, handleSelectAllChange, handleCheckboxChange, handleDeleteBtn, formatDate }) => {
+
   return (
     <ParentContainer>
       <Table>
@@ -90,13 +90,13 @@ const PinListWeb = ({ isPostSelected, posts, selectAll, handleSelectAllChange, h
                 </TitleLink>
               </td>
               <td>{post.nickname}</td>
-              <td>{post.date}</td>
-              <td>{post.view}</td>
+              <td>{formatDate(post.writeDate)}</td>
+              <td>{post.viewCount}</td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <Button onClick={handleDeletePosts}>
+      <Button onClick={handleDeleteBtn}>
           삭제
       </Button>
     </ParentContainer>
