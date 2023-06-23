@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
 import AdPopup from './AdPopUp';
+import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Functions from "../../util/Functions";
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -54,47 +56,43 @@ const ButtonContainer = styled.div`
 
 
 const AdManagement = () => {
-
-  const dummyData = [
-    {
-      adNum: 1,
-      nickname: "광고이름",
-      email: "광고이미지url",
-    },
-    {
-      adNum: 2,
-      nickname: "광고이름2",
-      email: "광고이미지url",
-    },
-    {
-      adNum: 3,
-      nickname: "광고이름3",
-      email: "광고이미지url",
-    },
-  ];
-
-  const [userPosts] = useState(dummyData); 
+  const [ads, setAds] = useState([]);
   const [selectedAds, setSelectedAds] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const token = localStorage.getItem("accessToken");
 
+  useEffect(() => {
+    const getAds = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllAds(token);
+        setAds(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllAds(newToken);
+          setAds(response.data);
+        }
+      }
+    };
+    getAds();
+  }, [token]);
 
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((ad) => ad.adNum);
-      setSelectedAds(allPostNums);
+      const allAdNums = ads.map((ad) => ad.adNum);
+      setSelectedAds(allAdNums);
     } else {
       setSelectedAds([]);
     }
   };
 
-  
   const isPostSelected = (adNum) => {
     return selectedAds.includes(adNum);
   };
-
 
   const handleCheckboxChange = (event, adNum) => {
     if (event.target.checked) {
@@ -105,12 +103,25 @@ const AdManagement = () => {
     }
   };
   
-  const handleDeleteAd = () => {
-    console.log('광고 삭제 ! ')
+  const handleDeleteAd = async() => {
+    try {
+      if (selectedAds.length === 0) {
+        return;
+      }
+      await AdminAxiosApi.deleteAds(selectedAds, token);
+      setSelectedAds([]);
+
+      const newToken = Functions.getAccessToken();
+      const newResponse = await AdminAxiosApi.getAllAds(newToken);
+      setAds(newResponse.data);
+      alert('광고가 삭제되었습니다.');
+    } catch (error) {
+      await Functions.handleApiError(error);
+    }
   };
   
-  const handleAddAd = (adName) => {
-    console.log('광고 추가:', adName);
+  const handleAddAd = (name) => {
+    console.log('광고 추가:', name);
     setShowPopup(true);
   };
 
@@ -144,7 +155,7 @@ const AdManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((ad) => (
+            {ads.map((ad) => (
               <tr key={ad.adNum}>
                 <td>
                 <Checkbox
@@ -160,8 +171,8 @@ const AdManagement = () => {
                    />
                 </td>
                 <td>{ad.adNum}</td>
-                <td>{ad.nickname}</td>
-                <td>{ad.email}</td>
+                <td>{ad.name}</td>
+                <td>{ad.imgUrl}</td>
               </tr>
             ))}
           </tbody>

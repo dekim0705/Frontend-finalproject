@@ -9,7 +9,6 @@ import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
 
 
-
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const Container = styled.div`
@@ -53,7 +52,6 @@ const TitleLink = styled(Link)`
   }
 `;
 
-
 const Table = styled.table`
   width: 100%;
   tbody :hover {
@@ -70,8 +68,7 @@ const Table = styled.table`
   }
 `;
 
-
-  const Button = styled.button`
+const Button = styled.button` 
   margin: 10px 0 0 10px;
   align-self: flex-start;
   line-height: 1.4rem;
@@ -95,7 +92,7 @@ const ReplyManagement = () => {
   useEffect(() => {
   const getReplies = async () => {
     try {
-      const response = await AdminAxiosApi.getAllReplies();
+      const response = await AdminAxiosApi.getAllReplies(token);
       setReplies(response.data);
     } catch (error) {
       await Functions.handleApiError(error);
@@ -129,7 +126,7 @@ const ReplyManagement = () => {
     return selectedreplies.includes(id);
   };
 
-  // 체크박스 선택 함수
+  // 체크박스 선택 
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
       setSelectedReplies((prevSelected) => [...prevSelected, id]);
@@ -139,8 +136,22 @@ const ReplyManagement = () => {
     }
   };
   
-  const handleDeletePosts = () => {
-    console.log('댓글 삭제 ! ')
+  const handleDeleteReplies = async() => {
+    try {
+      if (selectedreplies.length === 0) {
+        return;
+      }
+      await AdminAxiosApi.deleteReplies(selectedreplies, token);
+      setSelectedReplies([]);
+
+      const newToken = Functions.getAccessToken();
+      const newResponse = await AdminAxiosApi.getAllReplies(newToken);
+      setReplies(newResponse.data);
+      alert('댓글이 삭제되었습니다.');
+    } catch (error) {
+      await Functions.handleApiError(error);
+      console.log('댓글 삭제 실패:', error);
+    }
   };
 
   return (
@@ -209,7 +220,7 @@ const ReplyManagement = () => {
             ))}
           </tbody>
         </Table>
-        <Button onClick={handleDeletePosts}>
+        <Button onClick={handleDeleteReplies}>
           삭제
         </Button>
       </Container>

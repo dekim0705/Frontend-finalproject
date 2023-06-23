@@ -83,7 +83,7 @@ const Table = styled.table`
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
-    const [selectedPosts, setSelectedPosts] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const token = localStorage.getItem("accessToken");
 
@@ -109,34 +109,47 @@ const UserManagement = () => {
     // 검색 기능 구현 로직
   };
 
-  // 전체 선택 체크박스 변경 이벤트 핸들러
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
       const allPostNums = users.map((user) => user.id);
-      setSelectedPosts(allPostNums);
+      setSelectedUsers(allPostNums);
     } else {
-      setSelectedPosts([]);
+      setSelectedUsers([]);
     }
   };
 
   const isUserSelected = (id) => {
-    return selectedPosts.includes(id);
+    return selectedUsers.includes(id);
   };
 
-  // 체크박스 선택 함수
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, id]);
-      console.log(selectedPosts);
+      setSelectedUsers((prevSelected) => [...prevSelected, id]);
+      console.log(selectedUsers);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== id));
+      setSelectedUsers((prevSelected) => prevSelected.filter((id) => id !== id));
     }
   };
   
-  const handleDeleteUsers = () => {
-    console.log('회원 삭제 ! ')
+  const handleDeleteUsers = async() => {
+    try {
+      if (selectedUsers.length === 0) {
+        console.log('선택된 댓글이 없습니다.');
+        return;
+      }
+      await AdminAxiosApi.deleteUsers(selectedUsers, token);
+      setSelectedUsers([]);
+
+      const newToken = Functions.getAccessToken();
+      const newResponse = await AdminAxiosApi.getAllUsers(newToken);
+      setUsers(newResponse.data);
+      alert('회원이 삭제되었습니다.');
+    } catch (error) {
+      await Functions.handleApiError(error);
+      console.log('회원 삭제 실패:', error);
+    }
   };
 
   return (

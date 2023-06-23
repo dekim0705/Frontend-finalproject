@@ -70,8 +70,7 @@ const Table = styled.table`
   }
 `;
 
-
-  const Button = styled.button`
+const Button = styled.button`
   margin: 10px 0 0 10px;
   align-self: flex-start;
   line-height: 1.4rem;
@@ -108,12 +107,10 @@ const PostManagement = () => {
     getPosts();
   }, [token]);
 
-
   const handleSearch = () => {
     // 검색 기능 구현 예정
   };
 
-  // 전체 선택 체크박스 변경 이벤트 핸들러
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
@@ -125,12 +122,10 @@ const PostManagement = () => {
     }
   };
 
-  // 게시글 선택 여부
   const isPostSelected = (id) => {
     return selectedPosts.includes(id);
   };
 
-  // 체크박스 선택 함수
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
       setSelectedPosts((prevSelected) => [...prevSelected, id]);
@@ -139,10 +134,29 @@ const PostManagement = () => {
       setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== id));
     }
   };
+
+  const handleDeletePosts = async () => {
+    try {
+      if (selectedPosts.length === 0) {
+        console.log('선택된 게시글이 없습니다.');
+        return;
+      }
+      await AdminAxiosApi.deletePosts(selectedPosts, token);
+      // 게시글 삭제 후, 선택된 게시글 목록 초기화
+      setSelectedPosts([]);
   
-  const handleDeletePosts = () => {
-    console.log('게시글 삭제 ! ')
+      // 삭제 후 게시글 목록 다시 가져오기
+      const newToken = Functions.getAccessToken();
+      const newResponse = await AdminAxiosApi.getAllPosts(newToken);
+      setPosts(newResponse.data);
+      alert('게시글이 삭제되었습니다.');
+    } catch (error) {
+      await Functions.handleApiError(error);
+      console.log('게시글 삭제 실패:', error);
+    }
   };
+  
+  
 
   return (
     <>
