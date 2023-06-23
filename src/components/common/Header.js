@@ -13,6 +13,8 @@ import Divider from '@mui/material/Divider';
 import MemberDropDown from "./MemberDropDown";
 import SearchIcon from '../../resource/header_search.svg';
 import AlarmDropdown from "../Home/AlarmDropdown";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
+import Functions from "../../util/Functions";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -110,6 +112,35 @@ const Header = () => {
     </Box>
   );
 
+  // 🍉 키워드 검색
+  const token = localStorage.getItem('accessToken');
+
+  const [postInfos, setPostInfos] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearchInputChange = e => setSearchInput(e.target.value);
+
+  const handleSearchIconClick = async () => {
+    try {
+      const response = await HomeAxiosApi.searchPosts(searchInput, token);
+      console.log("🦊 : " + response.data)
+      setPostInfos(response.data);
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await HomeAxiosApi.searchPosts(searchInput, token);
+        setPostInfos(response.data);
+      }
+    }
+  };
+
+  const handleKeyDown = e => {
+    if (e.key === "Enter") {
+      handleSearchIconClick();
+    }
+  }
+
   return (
     <>
       <StyledHeader>
@@ -121,8 +152,18 @@ const Header = () => {
             onClick={(event) => setAnchorEl(event.currentTarget)}
           />
           <SearchWrapper>
-            <input placeholder="어떤 데이트를 찾으시나요?" type="text" />
-            <img src={SearchIcon} alt="" />
+            <input 
+              placeholder="어떤 데이트를 찾으시나요?" 
+              type="search"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              onKeyDown={handleKeyDown}
+            />
+            <img 
+              src={SearchIcon} 
+              alt="키워드 검색용"
+              onClick={handleSearchIconClick}
+            />
           </SearchWrapper>
         </Container>
       </StyledHeader>

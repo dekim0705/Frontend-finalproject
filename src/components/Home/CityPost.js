@@ -4,7 +4,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkModal from "../../util/modal/BookmarkModal";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
-import AuthAxiosApi from "../../api/AuthAxiosApi";
 import Functions from "../../util/Functions";
 
 const Container = styled.div`

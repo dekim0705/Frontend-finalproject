@@ -44,6 +44,22 @@ const HomeAxiosApi = {
     } catch (error) {
       throw error;
     }
+  },
+  // 🍉 키워드 검색
+  searchPosts: async (keyword, token) => {
+    try {
+      return await axios.get(`${KH_DOMAIN}/home/search`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        params: {
+          keyword: keyword
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 };
 
