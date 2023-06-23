@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import LoginForm from "../components/Login/LoginForm";
 import LoginLogo from "../components/Login/LoginLogo";
@@ -31,6 +31,10 @@ const Image = styled.img`
 `;
 
 const LoginPage = () => {
+
+  useEffect(() => {
+    localStorage.clear();
+  },[]);
 
   return (
     <Container>
