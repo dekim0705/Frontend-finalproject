@@ -43,7 +43,7 @@ const WritePage = () => {
   const [comment1, setComment1] = useState("");
   const [comment2, setComment2] = useState("");
   const [comment3, setComment3] = useState("");
-  // const [pins, setPins] = useState([]);
+  const [pins, setPins] = useState([]);
 
   const handleTitleChange = (e) => {
     setPost({ ...post, title: e.target.value });
@@ -81,8 +81,10 @@ const WritePage = () => {
 
   // 👞 테스트용!!!
   useEffect(() => {
-    console.log("🍉 상세 지역 : " + post.theme);
-  }, [post.theme]);
+    console.log("🍉 상세 지역 :");
+    pins.map((pin) => console.log(pin));
+  }, [pins]);
+  
 
   return (
     <Container>
@@ -97,7 +99,7 @@ const WritePage = () => {
           onScheduleChange={handleScheduleChange}
           onThemeChange={handleThemeChange}
         />
-        <RouteByKakao />
+        <RouteByKakao setPins={setPins} />
         <ContentField />
         <PlaceTag />
         <StyledButton>등록</StyledButton>

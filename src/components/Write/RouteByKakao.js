@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import styled from "styled-components";
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
@@ -34,7 +34,7 @@ const RouteContainer = styled(Container)`
   }
 `;
 
-const RouteByKakao = () => {
+const RouteByKakao = ({ setPins }) => {
   const markerImages = [marker01, marker02, marker03, marker04, marker05, marker06, marker07, marker08, marker09, marker10];
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
@@ -85,21 +85,33 @@ const RouteByKakao = () => {
     }
   }, [map, clickMarkerIndex, setClickMarkerIndex]);
 
-  const addMarker = (position, map, index, setIndex) => {
-    const markerImage = markerImages[index % markerImages.length];
-    let marker = new window.kakao.maps.Marker({
+  const addMarker = useCallback(
+    (position, map, index, setIndex) => {
+      const markerImage = markerImages[index % markerImages.length];
+      let marker = new window.kakao.maps.Marker({
         position: position,
         map: map,
         image: new window.kakao.maps.MarkerImage(
           markerImage,
           new window.kakao.maps.Size(43, 50.57),
           { offset: new window.kakao.maps.Point(21, 53) }
-        ),
-    });
-    marker.setMap(map);
-    setIndex(index + 1);
-    setMarkers(prev => [...prev, marker]);
-  };
+        )
+      });
+      marker.setMap(map);
+      setIndex(index + 1);
+      setMarkers(prev => [...prev, marker]);
+
+      setPins(prevPins => [
+        ...prevPins,
+        {
+          latitude: marker.getPosition().getLat(),
+          longitude: marker.getPosition().getLng(),
+          routeNum: index + 1
+        }
+      ]);
+    },
+    [setPins]
+  );
 
   const searchPlace = async (query) => {
     let ps = new window.kakao.maps.services.Places();
