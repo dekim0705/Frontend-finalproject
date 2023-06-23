@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import WriteForm from "../components/Write/WriteForm";
 import RouteByKakao from "../components/Write/RouteByKakao";
 import ContentField from "../components/Write/ContentField";
 import PlaceTag from "../components/Write/PlaceTag";
+import PostAxiosApi from "../api/PostAxiosApi";
 
 const Container = styled.div`
   display: flex;
@@ -32,19 +33,21 @@ const StyledButton = styled.button`
 `;
 
 const WritePage = () => {
+  const token = localStorage.getItem('accessToken');
   const [post, setPost] = useState({
     title: "",
     region: "",
     course: "",
     theme: "",
     district: "",
-    comments: ["", "", ""],
+    comment: ["", "", ""],
     placeTag: [],
     content: "",
+    imgUrl: "https://firebasestorage.googleapis.com/v0/b/todaysdate-final-project.appspot.com/o/images%2F%E1%84%91%E1%85%B5%E1%86%AB1.jpeg?alt=media"
   });
-  const [comment1, setComment1] = useState("");
-  const [comment2, setComment2] = useState("");
-  const [comment3, setComment3] = useState("");
+  // const [comment1, setComment1] = useState("");
+  // const [comment2, setComment2] = useState("");
+  // const [comment3, setComment3] = useState("");
   const [pins, setPins] = useState([]);
 
   const handleTitleChange = (e) => {
@@ -56,19 +59,19 @@ const WritePage = () => {
   const handleComment1Change = (event) => {
     setPost({
       ...post,
-      comments: [event.target.value, post.comments[1], post.comments[2]],
+      comment: [event.target.value, post.comment[1], post.comment[2]],
     });
   };
   const handleComment2Change = (event) => {
     setPost({
       ...post,
-      comments: [post.comments[0], event.target.value, post.comments[2]],
+      comment: [post.comment[0], event.target.value, post.comment[2]],
     });
   };
   const handleComment3Change = (event) => {
     setPost({
       ...post,
-      comments: [post.comments[0], post.comments[1], event.target.value],
+      comment: [post.comment[0], post.comment[1], event.target.value],
     });
   };
   const handleRegionChange = (e) => {
@@ -97,6 +100,19 @@ const WritePage = () => {
   //   console.log("🦜 : " + JSON.stringify(post.placeTag));
   // }, [post.placeTag]);
 
+  const handleClick = async () => {
+    try {
+      const postPinDto = {
+        post,
+        pins
+      };
+      const response = await PostAxiosApi.createPost(postPinDto, token);
+      console.log("🔴 제발 .. : " + response);
+    } catch (error) {
+      console.error("🔴 : " + JSON.stringify(error.response.data));
+    }
+  };
+
   return (
     <Container>
       <AppLayout>
@@ -113,7 +129,7 @@ const WritePage = () => {
         <RouteByKakao setPins={setPins} />
         <ContentField onContentChange={handleContentChange} />
         <PlaceTag onTagUpdate={handleTagUpdate} />
-        <StyledButton>등록</StyledButton>
+        <StyledButton onClick={handleClick}>등록</StyledButton>
       </AppLayout>
     </Container>
   );

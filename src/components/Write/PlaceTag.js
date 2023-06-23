@@ -16,13 +16,13 @@ const PlaceTag = ({ onTagUpdate }) => {
   const handleDelete = i => {
     const newTags = tags.filter((tag, index) => index !== i);
     setTags(newTags);
-    onTagUpdate(newTags);
+    onTagUpdate(newTags.map(tag => tag.text));
   };
 
   const handleAddition = tag => {
     const newTags = [...tags, tag];
     setTags(newTags);
-    onTagUpdate(newTags);
+    onTagUpdate(newTags.map(tag => tag.text));
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -30,7 +30,7 @@ const PlaceTag = ({ onTagUpdate }) => {
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
     setTags(newTags);
-    onTagUpdate(newTags);
+    onTagUpdate(newTags.map(tag => tag.text));
   };
 
   return (
