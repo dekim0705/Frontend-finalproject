@@ -34,11 +34,13 @@ const StyledButton = styled.button`
 const WritePage = () => {
   const [post, setPost] = useState({
     title: "",
-    district: "",
-    comments: ["", "", ""],
     region: "",
     course: "",
-    theme: ""
+    theme: "",
+    district: "",
+    comments: ["", "", ""],
+    placeTag: [],
+    content: "",
   });
   const [comment1, setComment1] = useState("");
   const [comment2, setComment2] = useState("");
@@ -78,13 +80,22 @@ const WritePage = () => {
   const handleThemeChange = (e) => {
     setPost({ ...post, theme: e.target.value });
   };
+  const handleContentChange = (e) => {
+    setPost({ ...post, content: e.target.value });
+  };
+  const handleTagUpdate = (newTags) => {
+    setPost({ ...post, placeTag: newTags });
+  };
 
   // 👞 테스트용!!!
-  useEffect(() => {
-    console.log("🍉 상세 지역 :");
-    pins.map((pin) => console.log(pin));
-  }, [pins]);
-  
+  // useEffect(() => {
+  //   console.log("🍉 상세 지역 :");
+  //   pins.map((pin) => console.log(pin));
+  // }, [pins]);
+
+  // useEffect(() => {
+  //   console.log("🦜 : " + JSON.stringify(post.placeTag));
+  // }, [post.placeTag]);
 
   return (
     <Container>
@@ -100,8 +111,8 @@ const WritePage = () => {
           onThemeChange={handleThemeChange}
         />
         <RouteByKakao setPins={setPins} />
-        <ContentField />
-        <PlaceTag />
+        <ContentField onContentChange={handleContentChange} />
+        <PlaceTag onTagUpdate={handleTagUpdate} />
         <StyledButton>등록</StyledButton>
       </AppLayout>
     </Container>
