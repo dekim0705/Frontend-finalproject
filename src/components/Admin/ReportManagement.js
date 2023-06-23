@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Functions from "../../util/Functions";
 import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Pagination from '../Festival/Pagination';
 
 
 const Container = styled.div`
@@ -82,6 +83,8 @@ const ReportManagement = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [Details, setDetails] = useState(null);
   const token = localStorage.getItem("accessToken");
+  const [currentPage, setCurrentPage] = useState(1); 
+  const postsPerPage = 8; 
 
 
   useEffect(() => {
@@ -111,6 +114,20 @@ const ReportManagement = () => {
     setDetails(null);
   };
 
+  const getPageReports = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return reports.slice(startIndex, endIndex);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}. ${month}. ${day}`;
+  };
+
   return (
     <>
       <Container>
@@ -121,22 +138,31 @@ const ReportManagement = () => {
               <th>신고 번호</th>
               <th>신고 내용</th>
               <th>신고자</th>
+              <th>신고회원</th>
               <th>신고일</th>
             </tr>
           </thead>
           <tbody>
-            {reports.map((report) => (
+            {getPageReports().map((report) => (
               <tr key={report.reportNum}>
                 <td>{report.reportNum}</td>
                 <td onClick={() => handleReportContentClick(report)} style={{ cursor: 'pointer' }}>
                 {report.content.length > 15 ? `${report.content.substring(0, 15)}···` : report.content} 
                </td>
                 <td>{report.reporter}</td>
-                <td>{report.reportDate}</td>
+                <td>{report.reported}</td>
+                <td>{formatDate(report.reportDate)}</td>
               </tr>
             ))}
           </tbody>
         </Table>
+        {reports.length > postsPerPage && (
+        <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(reports.length / postsPerPage)}
+        onPageChange={setCurrentPage}
+      />
+      )}
       </Container>
       {popupVisible && (
         <PopupContainer>

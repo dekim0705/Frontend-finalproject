@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
+import Pagination from '../Festival/Pagination';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -86,6 +87,8 @@ const UserManagement = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const token = localStorage.getItem("accessToken");
+    const [currentPage, setCurrentPage] = useState(1); 
+    const postsPerPage = 8;
 
   useEffect(() => {
     const getUsers = async () => {
@@ -152,6 +155,19 @@ const UserManagement = () => {
     }
   };
 
+  const getPageUsers = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return users.slice(startIndex, endIndex);
+  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}. ${month} . ${day}`;
+  };
+
   return (
     <>
       <Container>
@@ -193,7 +209,7 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {getPageUsers().map((user) => (
               <tr key={user.id}>
                 <td>
                 <Checkbox
@@ -211,7 +227,7 @@ const UserManagement = () => {
                 <td>{user.id}</td>
                 <td>{user.nickname}</td>
                 <td>{user.email}</td>
-                <td>{user.regDate}</td>
+                <td>{formatDate(user.regDate)}</td>
                 <td>{user.isMembership}</td>
                 <td>{user.blockedNickname}</td>
               </tr>
@@ -221,9 +237,16 @@ const UserManagement = () => {
         <Button onClick={handleDeleteUsers}>
           삭제
         </Button>
+        {users.length > postsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(users.length / postsPerPage)}
+          onPageChange={setCurrentPage}
+        />
+        )}
       </Container>
     </>
   );
-            };  
+};  
 
 export default UserManagement;

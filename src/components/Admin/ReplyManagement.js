@@ -7,6 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
+import Pagination from '../Festival/Pagination';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -88,6 +89,8 @@ const ReplyManagement = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const token = localStorage.getItem("accessToken");
+  const [currentPage, setCurrentPage] = useState(1); 
+  const postsPerPage = 8; 
 
   useEffect(() => {
   const getReplies = async () => {
@@ -154,6 +157,20 @@ const ReplyManagement = () => {
     }
   };
 
+  const getPageReplies = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return replies.slice(startIndex, endIndex);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}. ${month} . ${day}`;
+  };
+
   return (
     <>
       <Container>
@@ -193,7 +210,7 @@ const ReplyManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {replies.map((reply) => (
+            {getPageReplies().map((reply) => (
               <tr key={reply.id}>
                 <td>
                 <Checkbox
@@ -215,7 +232,7 @@ const ReplyManagement = () => {
                 </TitleLink>
                 </td>
                 <td>{reply.nickname}</td>
-                <td>{reply.writeDate}</td>
+                <td>{formatDate(reply.writeDate)}</td>
               </tr>
             ))}
           </tbody>
@@ -223,6 +240,13 @@ const ReplyManagement = () => {
         <Button onClick={handleDeleteReplies}>
           삭제
         </Button>
+        {replies.length > postsPerPage && (
+        <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(replies.length / postsPerPage)}
+        onPageChange={setCurrentPage}
+      />
+      )}
       </Container>
     </>
   );

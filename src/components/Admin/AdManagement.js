@@ -5,6 +5,7 @@ import { pink } from '@mui/material/colors';
 import AdPopup from './AdPopUp';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
+import Pagination from '../Festival/Pagination';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -61,6 +62,8 @@ const AdManagement = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const token = localStorage.getItem("accessToken");
+  const [currentPage, setCurrentPage] = useState(1); 
+  const postsPerPage = 8; 
 
   useEffect(() => {
     const getAds = async () => {
@@ -129,6 +132,12 @@ const AdManagement = () => {
     setShowPopup(false);
   };
 
+  const getPageAd = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return ads.slice(startIndex, endIndex);
+  };
+
   return (
     <>
       <Container>
@@ -155,7 +164,7 @@ const AdManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {ads.map((ad) => (
+            {getPageAd().map((ad) => (
               <tr key={ad.adNum}>
                 <td>
                 <Checkbox
@@ -181,6 +190,13 @@ const AdManagement = () => {
         <Button onClick={handleAddAd}>추가</Button>
         <Button onClick={handleDeleteAd}>삭제</Button>
       </ButtonContainer>
+      {ads.length > postsPerPage && (
+        <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(ads.length / postsPerPage)}
+        onPageChange={setCurrentPage}
+      />
+      )}
       </Container>
        {showPopup && <AdPopup onAddAd={handleAddAd} onClosePopup={handleClosePopup} />}
     </>
