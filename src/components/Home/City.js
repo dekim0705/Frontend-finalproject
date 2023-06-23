@@ -31,20 +31,28 @@ const StyledCity = styled.div`
   }
 `;
 
-const City = () => {
+const City = ({ setSelectedCity }) => {
+  
+  const handleCityClick = (city) => {
+    setSelectedCity(city);
+  }
+
+  const handleAllPosts = () => {
+    setSelectedCity(null);
+  }
 
   return (
     <StyledCity>
-      <li>서울</li>
-      <li>인천</li>
-      <li>경기</li>
-      <li>강원</li>
-      <li>부산</li>
-      <li>충북</li>
-      <li>경북</li>
-      <li>전남</li>
-      <li>제주</li>
-      <li>전체</li>
+      <li onClick={() => handleCityClick('SEOUL')}>서울</li>
+      <li onClick={() => handleCityClick('INCHEON')}>인천</li>
+      <li onClick={() => handleCityClick('GYEONGGI')}>경기</li>
+      <li onClick={() => handleCityClick('GANGWON')}>강원</li>
+      <li onClick={() => handleCityClick('BUSAN')}>부산</li>
+      <li onClick={() => handleCityClick('CHUNGBUK')}>충북</li>
+      <li onClick={() => handleCityClick('GYEONGBUK')}>경북</li>
+      <li onClick={() => handleCityClick('JEOLLANAM')}>전남</li>
+      <li onClick={() => handleCityClick('JEJU')}>제주</li>
+      <li onClick={() => handleAllPosts()}>전체</li>
     </StyledCity>
   );
 }

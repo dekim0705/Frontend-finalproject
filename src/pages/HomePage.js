@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 // import Ad from "../components/Home/Ad";
@@ -24,14 +24,17 @@ const HomePage = () => {
   // 📌 추후 멤버십 유무에 따라 광고 노출 여부 결정할 예정
   // const [showAd, setShowAd] = useState(true);
 
+  // 지역 선택 상태 관리
+  const [selectedCity, setSelectedCity] = useState(null);
+
   return (
     <>
       <AppLayout>
         {/* {showAd && <Ad />} */}
         <GlobalStyle />
-        <City />
+        <City setSelectedCity={setSelectedCity}/>
         <PostWrapper>
-          <CityPost />
+          <CityPost selectedCity={selectedCity} />
         </PostWrapper>
       </AppLayout>
     </>

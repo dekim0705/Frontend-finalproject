@@ -20,6 +20,15 @@ const HomeAxiosApi = {
         'Authorization': 'Bearer ' + token
       }
     });
+  },
+  // 🍉 특정 지역 전체 글 가져오기
+  regionAllPosts : async(city, token) => {
+    return await axios.get(`${KH_DOMAIN}/home/posts/${encodeURIComponent(city)}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    });
   }
 };
 

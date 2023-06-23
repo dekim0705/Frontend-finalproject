@@ -61,7 +61,7 @@ const StyledThumbnail = styled.div`
   }
 `;
 
-const CityPost = () => {
+const CityPost = ({ selectedCity }) => {
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [folders, setFolders] = useState([]);
@@ -82,21 +82,31 @@ const CityPost = () => {
   };
 
   useEffect(() => {
-    const getAllPosts = async () => {
+    const getPosts = async () => {
       try {
-        const response = await HomeAxiosApi.allPosts(token);
+        let response;
+        if (!selectedCity) {
+          response = await HomeAxiosApi.allPosts(token);
+        } else {
+          response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
+        }
         setPostInfos(response.data);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
-          const response = await HomeAxiosApi.allPosts(newToken);
+          let response;
+          if (!selectedCity) {
+            response = await HomeAxiosApi.allPosts(token);
+          } else {
+            response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
+          }
           setPostInfos(response.data);
         }
       }
     };
-    getAllPosts();
-  }, [token]);
+    getPosts();
+  }, [selectedCity, token]);
 
   return (
     <>
