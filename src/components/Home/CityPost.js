@@ -5,6 +5,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkModal from "../../util/modal/BookmarkModal";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
+import moment from 'moment';
 
 const Container = styled.div`
   display: flex;
@@ -87,11 +88,13 @@ const CityPost = ({ selectedCity }) => {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
-          console.log("🦊 어떻게 오는지? : " + JSON.stringify(response.data, null, 2));
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }
-        setPostInfos(response.data);
+        setPostInfos(response.data.map(post => ({
+          ...post,
+          writeDate: moment(post.writeDate).fromNow(),
+        })));
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
@@ -102,7 +105,10 @@ const CityPost = ({ selectedCity }) => {
           } else {
             response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
           }
-          setPostInfos(response.data);
+          setPostInfos(response.data.map(post => ({
+            ...post,
+            writeDate: moment(post.writeDate).fromNow(),
+          })));
         }
       }
     };

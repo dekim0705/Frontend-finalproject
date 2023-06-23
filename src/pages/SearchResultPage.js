@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import { useLocation } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
+import moment from 'moment';
 
 const KeywordContainer = styled.div`
   display: flex;
@@ -101,12 +102,12 @@ const SearchResultPage = () => {
       </KeywordContainer>
       <ContainerWrapper>
         {resultData.length > 0 ? (
-          resultData.map((resultData) => (
-            <Container key={resultData.id}>
+          resultData.map((result) => (
+            <Container key={result.id}>
               <PostHeader>
                 <AuthorHeader>
                   <img
-                    src={resultData.pfImg}
+                    src={result.pfImg}
                     alt="작성자 프로필"
                     style={{
                       width: 40,
@@ -115,17 +116,17 @@ const SearchResultPage = () => {
                     }}
                   />
                   <AuthorInfo>
-                    <h1>{resultData.nickname}</h1>
-                    <p>{resultData.writeDate}</p>
+                    <h1>{result.nickname}</h1>
+                    <p>{moment(result.writeDate).fromNow()}</p>
                   </AuthorInfo>
                 </AuthorHeader>
               </PostHeader>
               <PostTitle>
-                <h1>{resultData.title}</h1>
-                <p>{resultData.district}</p>
+                <h1>{result.title}</h1>
+                <p>{result.district}</p>
               </PostTitle>
               <StyledThumbnail>
-                <img src={resultData.thumbnail} alt="" />
+                <img src={result.thumbnail} alt="" />
               </StyledThumbnail>
             </Container>
           ))

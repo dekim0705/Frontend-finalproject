@@ -8,7 +8,7 @@ import PlaceTag from "../components/Write/PlaceTag";
 import PostAxiosApi from "../api/PostAxiosApi";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../components/Write/ImageUpload";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 const Container = styled.div`
   display: flex;
@@ -37,19 +37,19 @@ const StyledButton = styled.button`
 
 const ImageWrapper = styled.div`
   display: flex;
-   align-items: center;
-  justify-content:flex-start; 
-  margin-top : 30px;
-  padding-left : 260px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 30px;
+  padding-left: 260px;
 
   img {
     max-width: 240px;
     border-radius: 10px;
   }
   @media (max-width: 768px) {
-    margin-left : 60px;
+    margin-left: 60px;
     img {
-    max-width: 140px;
+      max-width: 140px;
     }
   }
 `;
@@ -66,12 +66,8 @@ const WritePage = () => {
     comment: ["", "", ""],
     placeTag: [],
     content: "",
-    imgUrl:
-      "https://firebasestorage.googleapis.com/v0/b/todaysdate-final-project.appspot.com/o/images%2F%E1%84%91%E1%85%B5%E1%86%AB1.jpeg?alt=media",
+    imgUrl: "",
   });
-  // const [comment1, setComment1] = useState("");
-  // const [comment2, setComment2] = useState("");
-  // const [comment3, setComment3] = useState("");
   const [pins, setPins] = useState([]);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
 
@@ -116,7 +112,7 @@ const WritePage = () => {
   };
   // 이미지 삭제 버튼 클릭시 호출
   const handleImageDelete = (index) => {
-    const updatedPreview = [...previewImgUrl]; 
+    const updatedPreview = [...previewImgUrl];
     updatedPreview.splice(index, 1); // 해당 인덱스의 이미지 1개씩 제거
     setPreviewImgUrl(updatedPreview);
     setPost((prevPost) => ({
