@@ -7,6 +7,14 @@ import Pagination from './Pagination';
 import { useNavigate } from 'react-router-dom';
 import UserAxiosApi from '../../../api/UserAxiosApi';
 import Functions from '../../../util/Functions';
+import UserPopUp from '../../../util/modal/UserPopUp';
+import styled from 'styled-components';
+
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1.5rem;
+`;
 
 const PinList = () => {
   const navigate = useNavigate();
@@ -14,6 +22,8 @@ const PinList = () => {
   const [isMobile, setIsMobile] = useState(false); // 반응형 
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const postsPerPage = 10; // 페이지당 보여줄 게시글 수
+  const [showPopup, setShowPopup] = useState(false); // 팝업 
+
 
   useEffect(() => { // 반응형
     const handleResize = () => {
@@ -54,7 +64,16 @@ const PinList = () => {
     getUserPosts();
   }, [token])
 
-  const handleDeleteBtn = async () => {
+  const handleDeleteBtn = () => {
+    if (selectedPosts.length !== 0) {
+      setShowPopup(true);
+    } else {
+      setShowPopup(false);
+    }
+  };
+  
+
+  const handleConfirmBtn = async () => {
     try {
       const response = await UserAxiosApi.deletePosts(selectedPosts, token);
       console.log('📌 삭제된 글번호:', response);
@@ -62,8 +81,10 @@ const PinList = () => {
       setPosts((prevPosts) =>
         prevPosts.filter((post) => !selectedPosts.includes(post.postNum))
       );
+      setShowPopup(false);
       setSelectedPosts([]); 
       setSelectAll(false); 
+      
     } catch (error) {
       await Functions.handleApiError(error);
       const newToken = Functions.getAccessToken();
@@ -135,6 +156,20 @@ const PinList = () => {
             totalPages={Math.ceil(posts.length / postsPerPage)}
             onPageChange={handlePageChange}
           />
+          <UserPopUp
+          open={showPopup}
+          confirm={handleConfirmBtn}
+          close={() => setShowPopup(false)}
+          type="confirm"
+          header="❗️"
+          confirmText="삭제"
+          closeText="취소"
+        >
+          <PopUpMessage>
+            선택하신 게시글을 <b>삭제</b> 합니다.<br />
+            삭제된 게시글은 복구가 <span style={{color:"red", fontWeight:"bold"}}>불가능</span>합니다.
+          </PopUpMessage>
+          </UserPopUp>
         </>
         }
 
@@ -156,6 +191,20 @@ const PinList = () => {
             totalPages={Math.ceil(posts.length / postsPerPage)}
             onPageChange={handlePageChange}
           />
+          <UserPopUp
+            open={showPopup}
+            confirm={handleConfirmBtn}
+            close={() => setShowPopup(false)}
+            type="confirm"
+            header="❗️"
+            confirmText="삭제"
+            closeText="취소"
+          >
+          <PopUpMessage>
+            선택하신 게시글을 <b>삭제</b> 합니다.<br />
+            삭제된 게시글은 복구가 <span style={{color:"red", fontWeight:"bold"}}>불가능</span>합니다.
+          </PopUpMessage>
+          </UserPopUp>
         </>
       )}
     </>

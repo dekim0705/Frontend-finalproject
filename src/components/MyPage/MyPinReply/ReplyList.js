@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from './Pagination';
 import UserAxiosApi from '../../../api/UserAxiosApi';
 import Functions from '../../../util/Functions';
+import UserPopUp from '../../../util/modal/UserPopUp';
 
 const ParentContainer = styled.div`
   width: 70%;
@@ -33,6 +34,12 @@ const StyledP = styled.span`
   color: var(--text-color);
 `;
 
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1.5rem;
+`;
+
 const ReplyList = () => {
   const navigate = useNavigate();
   const token = Functions.getAccessToken();
@@ -48,6 +55,8 @@ const ReplyList = () => {
   const indexOfFirstReply = indexOfLastReply - postsPerPage;
   const currentReplies = replies.slice(indexOfFirstReply, indexOfLastReply);
   
+  const [showPopup, setShowPopup] = useState(false); // 팝업 
+
   useEffect(() => {
     const getUserReplies = async () => {
       try {
@@ -66,7 +75,15 @@ const ReplyList = () => {
     getUserReplies();
   }, [token])
 
-  const handleDeleteBtn = async () => {
+  const handleDeleteBtn = () => {
+    if (selectedReplies.length !== 0) {
+      setShowPopup(true);
+    } else {
+      setShowPopup(false);
+    }
+  };
+
+  const handleConfirmBtn = async () => {
     try {
       const response = await UserAxiosApi.deleteReplies(selectedReplies, token);
       console.log('📌 삭제된 댓글번호:', response);
@@ -74,6 +91,7 @@ const ReplyList = () => {
       setReplies((prevReplies) =>
       prevReplies.filter((reply) => !selectedReplies.includes(reply.replyNum))
       );
+      setShowPopup(false);
       setSelectedReplies([]); 
       setSelectAll(false);
     } catch (error) {
@@ -166,6 +184,20 @@ const ReplyList = () => {
     onPageChange={handlePageChange}
     maxPageNumbers={5}
   />
+  <UserPopUp
+    open={showPopup}
+    confirm={handleConfirmBtn}
+    close={() => setShowPopup(false)}
+    type="confirm"
+    header="❗️"
+    confirmText="삭제"
+    closeText="취소"
+  >
+    <PopUpMessage>
+      선택하신 게시글을 <b>삭제</b> 합니다.<br />
+      삭제된 게시글은 복구가 <span style={{color:"red", fontWeight:"bold"}}>불가능</span>합니다.
+    </PopUpMessage>
+    </UserPopUp>
 </ParentContainer>
   </>
   );
