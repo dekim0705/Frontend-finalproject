@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../common/Logo";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +20,22 @@ const Container = styled.div`
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 25px 18px 25px 18px;
+  text-decoration: none;
+  color: var(--text-color);
+  &:hover {
+    color: var(--hover-extra-color);
+  }
+`;
+
+const LogoutContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.3em;
   font-weight: bold;
   cursor: pointer;
@@ -36,7 +51,7 @@ const Menu = () => {
   return (
     <>
       <Container>
-          <Logo />
+        <Logo />
         <ul className="navbar__menu">
           <StyledLink to="/admin/user">
             <p>회원관리</p>
@@ -56,10 +71,13 @@ const Menu = () => {
           <StyledLink to="/admin/report">
             <p>신고 관리</p>
           </StyledLink>
+          <LogoutContainer>
+            <LogoutIcon />
+          </LogoutContainer>
         </ul>
       </Container>
     </>
   );
-}
+};
 
 export default Menu;
