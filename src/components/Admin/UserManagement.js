@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
+import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Functions from "../../util/Functions";
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -80,54 +82,28 @@ const Table = styled.table`
 
 
 const UserManagement = () => {
-  
+    const [users, setUsers] = useState([]);
+    const [selectedPosts, setSelectedPosts] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
+    const token = localStorage.getItem("accessToken");
 
-  const dummyData = [
-    {
-      userNum: 1,
-      nickname: "겨울잠자는중",
-      email: "user1@naver.com",
-      date: "2023/06/06",
-      membership: "Y",
-      block: ''
-    },
-    {
-      userNum: 2,
-      nickname: "자바광팬아님",
-      email: "user2@naver.com",
-      date: "2023/06/06",
-      membership: "Y",
-      block: '겨울잠자는중'
-    },
-    {
-      userNum: 3,
-      nickname: "짱구는못말려",
-      email: "user3@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: ''
-    },
-    {
-      userNum: 4,
-      nickname: "닉네임입니당",
-      email: "user4@naver.com",
-      date: "2023/06/06",
-      membership: "N",
-      block: '짱구는못말려'
-    },
-    {
-      userNum: 5,
-      nickname: "겨울잠자는중",
-      email: "user5@naver.com",
-      date: "2023/06/06",
-      membership: "Y",
-      block: ''
-    },
-  ];
-
-  const [users] = useState(dummyData); 
-  const [selectedPosts, setSelectedPosts] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllUsers(token);
+        setUsers(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllUsers(newToken);
+          setUsers(response.data);
+          console.log('회원가져오기 실패',error);
+      }
+    }
+  };
+    getUsers();
+  }, [token]);
 
   const handleSearch = () => {
     // 검색 기능 구현 로직
@@ -138,24 +114,24 @@ const UserManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = users.map((user) => user.userNum);
+      const allPostNums = users.map((user) => user.id);
       setSelectedPosts(allPostNums);
     } else {
       setSelectedPosts([]);
     }
   };
 
-  const isUserSelected = (userNum) => {
-    return selectedPosts.includes(userNum);
+  const isUserSelected = (id) => {
+    return selectedPosts.includes(id);
   };
 
   // 체크박스 선택 함수
-  const handleCheckboxChange = (event, userNum) => {
+  const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, userNum]);
+      setSelectedPosts((prevSelected) => [...prevSelected, id]);
       console.log(selectedPosts);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== userNum));
+      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== id));
     }
   };
   
@@ -205,11 +181,11 @@ const UserManagement = () => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.userNum}>
+              <tr key={user.id}>
                 <td>
                 <Checkbox
-                checked={isUserSelected(user.userNum)}
-                onChange={(event) => handleCheckboxChange(event, user.userNum)}
+                checked={isUserSelected(user.id)}
+                onChange={(event) => handleCheckboxChange(event, user.id)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -219,12 +195,12 @@ const UserManagement = () => {
                    }}
                    />
                 </td>
-                <td>{user.userNum}</td>
+                <td>{user.id}</td>
                 <td>{user.nickname}</td>
                 <td>{user.email}</td>
-                <td>{user.date}</td>
-                <td>{user.membership}</td>
-                <td>{user.block}</td>
+                <td>{user.regDate}</td>
+                <td>{user.isMembership}</td>
+                <td>{user.blockedNickname}</td>
               </tr>
             ))}
           </tbody>
