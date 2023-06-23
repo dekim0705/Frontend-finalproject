@@ -7,6 +7,8 @@ import ContentField from "../components/Write/ContentField";
 import PlaceTag from "../components/Write/PlaceTag";
 import PostAxiosApi from "../api/PostAxiosApi";
 import { useNavigate } from "react-router-dom";
+import ImageUpload from "../components/Write/ImageUpload";
+import Button from '@mui/material/Button';
 
 const Container = styled.div`
   display: flex;
@@ -33,9 +35,28 @@ const StyledButton = styled.button`
   }
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+   align-items: center;
+  justify-content:flex-start; 
+  margin-top : 30px;
+  padding-left : 260px;
+
+  img {
+    max-width: 240px;
+    border-radius: 10px;
+  }
+  @media (max-width: 768px) {
+    margin-left : 60px;
+    img {
+    max-width: 140px;
+    }
+  }
+`;
+
 const WritePage = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   const [post, setPost] = useState({
     title: "",
     region: "",
@@ -45,12 +66,14 @@ const WritePage = () => {
     comment: ["", "", ""],
     placeTag: [],
     content: "",
-    imgUrl: "https://firebasestorage.googleapis.com/v0/b/todaysdate-final-project.appspot.com/o/images%2F%E1%84%91%E1%85%B5%E1%86%AB1.jpeg?alt=media"
+    imgUrl:
+      "https://firebasestorage.googleapis.com/v0/b/todaysdate-final-project.appspot.com/o/images%2F%E1%84%91%E1%85%B5%E1%86%AB1.jpeg?alt=media",
   });
   // const [comment1, setComment1] = useState("");
   // const [comment2, setComment2] = useState("");
   // const [comment3, setComment3] = useState("");
   const [pins, setPins] = useState([]);
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
 
   const handleTitleChange = (e) => {
     setPost({ ...post, title: e.target.value });
@@ -91,6 +114,21 @@ const WritePage = () => {
   const handleTagUpdate = (newTags) => {
     setPost({ ...post, placeTag: newTags });
   };
+  // 이미지 삭제 버튼 클릭시 호출
+  const handleImageDelete = (index) => {
+    const updatedPreview = [...previewImgUrl]; 
+    updatedPreview.splice(index, 1); // 해당 인덱스의 이미지 1개씩 제거
+    setPreviewImgUrl(updatedPreview);
+    setPost((prevPost) => ({
+      ...prevPost,
+      imgUrl: updatedPreview.join(","),
+    }));
+  };
+  const handleImageUpload = (urls) => {
+    const imgUrl = urls;
+    setPost((prevPost) => ({ ...prevPost, imgUrl }));
+    setPreviewImgUrl(urls.split(","));
+  };
 
   // 👞 테스트용!!!
   // useEffect(() => {
@@ -106,7 +144,7 @@ const WritePage = () => {
     try {
       // pins routeNum 기준 중복되면 삭제 해야 함.
       let uniquePins = pins.reduce((acc, current) => {
-        const x = acc.find(item => item.routeNum === current.routeNum);
+        const x = acc.find((item) => item.routeNum === current.routeNum);
         if (!x) {
           return acc.concat([current]);
         } else {
@@ -116,12 +154,12 @@ const WritePage = () => {
 
       const postPinDto = {
         post,
-        pins: uniquePins
+        pins: uniquePins,
       };
       const response = await PostAxiosApi.createPost(postPinDto, token);
       console.log("🔴 제발 .. : " + response.data);
       if (response.data === "글 작성 성공❤️") {
-        navigate('/home');
+        navigate("/home");
       }
     } catch (error) {
       console.error("🔴 : " + JSON.stringify(error.response.data));
@@ -143,6 +181,17 @@ const WritePage = () => {
         />
         <RouteByKakao setPins={setPins} />
         <ContentField onContentChange={handleContentChange} />
+        {previewImgUrl.length > 0 && (
+          <ImageWrapper>
+            {previewImgUrl.map((url, index) => (
+              <div key={index}>
+                <img src={url} alt={`Uploaded ${index}`} />
+                <Button onClick={() => handleImageDelete(index)}>삭제</Button>
+              </div>
+            ))}
+          </ImageWrapper>
+        )}
+        <ImageUpload onImageUpload={handleImageUpload} />
         <PlaceTag onTagUpdate={handleTagUpdate} />
         <StyledButton onClick={handleClick}>등록</StyledButton>
       </AppLayout>
