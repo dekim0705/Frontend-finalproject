@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import InputField from "./InputField";
 import Region from "./Select/Region";
@@ -30,10 +30,16 @@ const SelectWrapper = styled.div`
   }
 `;
 
-const WriteForm = () => {
+const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onComment2Change, onComment3Change }) => {
   return (
     <Container>
-      <InputField />
+      <InputField 
+        onTitleChange={onTitleChange}
+        onDistrictChange={onDistrictChange}
+        onComment1Change={onComment1Change}
+        onComment2Change={onComment2Change}
+        onComment3Change={onComment3Change}
+      />
       <SelectWrapper>
         <Region />
         <Schedule />

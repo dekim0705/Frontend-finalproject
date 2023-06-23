@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import WriteForm from "../components/Write/WriteForm";
@@ -32,11 +32,71 @@ const StyledButton = styled.button`
 `;
 
 const WritePage = () => {
+  const [post, setPost] = useState({
+    title: "",
+    district: "",
+    comments: ["", "", ""]
+  });
+  const [comment1, setComment1] = useState("");
+  const [comment2, setComment2] = useState("");
+  const [comment3, setComment3] = useState("");
+  // const [pins, setPins] = useState([]);
+
+  const handleTitleChange = (e) => {
+    setPost({ ...post, title: e.target.value });
+  };
+  const handleDistrictChange = (e) => {
+    setPost({ ...post, district: e.target.value });
+  };
+  const handleComment1Change = (event) => {
+    setPost({
+      ...post,
+      comments: [
+        event.target.value,
+        post.comments[1],
+        post.comments[2]
+      ]
+    });
+  };
+
+  const handleComment2Change = (event) => {
+    setPost({
+      ...post,
+      comments: [
+        post.comments[0],
+        event.target.value,
+        post.comments[2]
+      ]
+    });
+  };
+
+  const handleComment3Change = (event) => {
+    setPost({
+      ...post,
+      comments: [
+        post.comments[0],
+        post.comments[1],
+        event.target.value
+      ]
+    });
+  };
+
+
+  // 👞 테스트용!!!
+  useEffect(() => {
+    console.log("🍉 상세 지역 : " + post.comments);
+  }, [post.comments]);
 
   return (
     <Container>
       <AppLayout>
-        <WriteForm />
+        <WriteForm 
+          onTitleChange={handleTitleChange}
+          onDistrictChange={handleDistrictChange}
+          onComment1Change={handleComment1Change} 
+          onComment2Change={handleComment2Change} 
+          onComment3Change={handleComment3Change} 
+        />
         <RouteByKakao />
         <ContentField />
         <PlaceTag />
