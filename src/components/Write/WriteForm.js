@@ -30,7 +30,7 @@ const SelectWrapper = styled.div`
   }
 `;
 
-const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onComment2Change, onComment3Change }) => {
+const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onComment2Change, onComment3Change, onRegionChange, onScheduleChange, onThemeChange }) => {
   return (
     <Container>
       <InputField 
@@ -41,9 +41,9 @@ const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onCommen
         onComment3Change={onComment3Change}
       />
       <SelectWrapper>
-        <Region />
-        <Schedule />
-        <Theme />
+        <Region onRegionChange={onRegionChange} />
+        <Schedule onScheduleChange={onScheduleChange} />
+        <Theme onThemeChange={onThemeChange} />
       </SelectWrapper>
     </Container>
   );

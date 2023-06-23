@@ -13,7 +13,7 @@ const theme = createTheme({
   }
 });
 
-const Theme = () => {
+const Theme = ({ onThemeChange }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ minWidth: 120 }}>
@@ -22,17 +22,18 @@ const Theme = () => {
             코스 테마
           </InputLabel>
           <NativeSelect
-            defaultValue={10}
+            defaultValue={"맛집 코스"}
+            onChange={onThemeChange}
             inputProps={{
               name: 'age',
               id: 'uncontrolled-native',
             }}
           >
-            <option value={10}>맛집 코스</option>
-            <option value={20}>힐링 코스</option>
-            <option value={30}>도보 코스</option>
-            <option value={40}>캠핑 코스</option>
-            <option value={50}>반려동물과 함께</option>
+            <option value={"맛집 코스"}>맛집 코스</option>
+            <option value={"힐링 코스"}>힐링 코스</option>
+            <option value={"도보 코스"}>도보 코스</option>
+            <option value={"캠핑 코스"}>캠핑 코스</option>
+            <option value={"반려동물과 함께"}>반려동물과 함께</option>
           </NativeSelect>
         </FormControl>
       </Box>

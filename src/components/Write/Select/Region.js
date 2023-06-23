@@ -13,7 +13,7 @@ const theme = createTheme({
   }
 });
 
-const Region = () => {
+const Region = ({ onRegionChange }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ minWidth: 120 }}>
@@ -23,6 +23,7 @@ const Region = () => {
           </InputLabel>
           <NativeSelect
             defaultValue={1}
+            onChange={onRegionChange}
             inputProps={{
               name: 'age',
               id: 'uncontrolled-native',

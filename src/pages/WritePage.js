@@ -35,7 +35,10 @@ const WritePage = () => {
   const [post, setPost] = useState({
     title: "",
     district: "",
-    comments: ["", "", ""]
+    comments: ["", "", ""],
+    region: "",
+    course: "",
+    theme: ""
   });
   const [comment1, setComment1] = useState("");
   const [comment2, setComment2] = useState("");
@@ -51,51 +54,48 @@ const WritePage = () => {
   const handleComment1Change = (event) => {
     setPost({
       ...post,
-      comments: [
-        event.target.value,
-        post.comments[1],
-        post.comments[2]
-      ]
+      comments: [event.target.value, post.comments[1], post.comments[2]],
     });
   };
-
   const handleComment2Change = (event) => {
     setPost({
       ...post,
-      comments: [
-        post.comments[0],
-        event.target.value,
-        post.comments[2]
-      ]
+      comments: [post.comments[0], event.target.value, post.comments[2]],
     });
   };
-
   const handleComment3Change = (event) => {
     setPost({
       ...post,
-      comments: [
-        post.comments[0],
-        post.comments[1],
-        event.target.value
-      ]
+      comments: [post.comments[0], post.comments[1], event.target.value],
     });
   };
-
+  const handleRegionChange = (e) => {
+    setPost({ ...post, region: e.target.value });
+  };
+  const handleScheduleChange = (e) => {
+    setPost({ ...post, course: e.target.value });
+  };
+  const handleThemeChange = (e) => {
+    setPost({ ...post, theme: e.target.value });
+  };
 
   // 👞 테스트용!!!
   useEffect(() => {
-    console.log("🍉 상세 지역 : " + post.comments);
-  }, [post.comments]);
+    console.log("🍉 상세 지역 : " + post.theme);
+  }, [post.theme]);
 
   return (
     <Container>
       <AppLayout>
-        <WriteForm 
+        <WriteForm
           onTitleChange={handleTitleChange}
           onDistrictChange={handleDistrictChange}
-          onComment1Change={handleComment1Change} 
-          onComment2Change={handleComment2Change} 
-          onComment3Change={handleComment3Change} 
+          onComment1Change={handleComment1Change}
+          onComment2Change={handleComment2Change}
+          onComment3Change={handleComment3Change}
+          onRegionChange={handleRegionChange}
+          onScheduleChange={handleScheduleChange}
+          onThemeChange={handleThemeChange}
         />
         <RouteByKakao />
         <ContentField />
@@ -104,6 +104,6 @@ const WritePage = () => {
       </AppLayout>
     </Container>
   );
-}
+};
 
 export default WritePage;
