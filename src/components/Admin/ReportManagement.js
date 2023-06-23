@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Functions from "../../util/Functions";
+import AdminAxiosApi from '../../api/AdminAxiosApi';
 
 
 const Container = styled.div`
@@ -76,37 +78,28 @@ const PopupTitle = styled.p`
 `;
 
 const ReportManagement = () => {
-  const dummyData = [
-    {
-      reportNum: 1,
-      content: "이 사람 신고합니다! 관리자님 ㅜㅜ",
-      nickname: "겨울잠자는중",
-      date: "2023/06/06",
-    },
-    {
-      reportNum: 2,
-      content: "신고합니다 !!!!!!!!!!",
-      nickname: "리액트흑흑",
-      date: "2023/06/06",
-    },
-    {
-      reportNum: 3,
-      content: "이 사람 신고합니다! 관리자님 ㅜㅜ",
-      nickname: "자바광팬아님",
-      date: "2023/06/06",
-    },
-    {
-      reportNum: 4,
-      content: "이 사람 신고합니다! 관리자님 ㅜㅜ!!!",
-      nickname: "짱구는못말려",
-      date: "2023/06/06",
-    },
-
-  ];
-  
-  const [reports] = useState(dummyData); 
+  const [reports, setReports] =  useState([]);
   const [popupVisible, setPopupVisible] = useState(false);
   const [Details, setDetails] = useState(null);
+  const token = localStorage.getItem("accessToken");
+
+
+  useEffect(() => {
+    const getReports = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllReports(token);
+        setReports(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllReports(newToken);
+          setReports(response.data);
+      }
+    }
+  };
+    getReports();
+  }, [token]);
 
   const handleReportContentClick = (report) => {
     setDetails(report);
@@ -138,8 +131,8 @@ const ReportManagement = () => {
                 <td onClick={() => handleReportContentClick(report)} style={{ cursor: 'pointer' }}>
                 {report.content.length > 15 ? `${report.content.substring(0, 15)}···` : report.content} 
                </td>
-                <td>{report.nickname}</td>
-                <td>{report.date}</td>
+                <td>{report.reporter}</td>
+                <td>{report.reportDate}</td>
               </tr>
             ))}
           </tbody>

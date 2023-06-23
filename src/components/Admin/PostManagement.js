@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
+import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Functions from '../../util/Functions';
+
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -54,9 +57,9 @@ const TitleLink = styled(Link)`
 
 const Table = styled.table`
   width: 100%;
-  /* tbody :hover {
+  tbody :hover {
     background-color : #f5f5f5;
-  } */
+  }
   th,td {
     padding: 2px;
     border-bottom: 1px solid var(--line-color);
@@ -64,7 +67,6 @@ const Table = styled.table`
   }
   th {
     font-weight: bold;
-    /* background-color: #FFA8D2;  */
   }
 `;
 
@@ -82,47 +84,30 @@ const Table = styled.table`
   }
 `;
 
-
-const UserManagement = () => {
-  
-
-  const dummyData = [
-    {
-      postNum: 1,
-      nickname: "겨울잠자는중",
-      title: "한옥마을에서 한복 입고 데이트~",
-      date: "2023/06/06",
-    },
-    {
-      postNum: 2,
-      nickname: "겨울잠자는중",
-      title: "한옥마을에서 한복 입고 데이트~",
-      date: "2023/06/06",
-    },
-    {
-      postNum: 3,
-      nickname: "겨울잠자는중",
-      title: "한옥마을에서 한복 입고 데이트~",
-      date: "2023/06/06",
-    },
-    {
-      postNum: 4,
-      nickname: "겨울잠자는중",
-      title: "한옥마을에서 한복 입고 데이트~",
-      date: "2023/06/06",
-    },
-    {
-      postNum: 5,
-      nickname: "겨울잠자는중",
-      title: "한옥마을에서 한복 입고 데이트~",
-      date: "2023/06/06",
-    },
-  ];
-
-  const [userPosts] = useState(dummyData); // 회원의 모든 게시글
-  const [selectedPosts, setSelectedPosts] = useState([]); // 선택되는 게시글
+const PostManagement = () => {
+  const [posts, setPosts] = useState([]);
+  const [selectedPosts, setSelectedPosts] = useState([]);
+  const token = localStorage.getItem("accessToken");
   const [selectAll, setSelectAll] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllPosts(token);
+        setPosts(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllPosts(newToken);
+          setPosts(response.data);
+        }
+      }
+    };
+    getPosts();
+  }, [token]);
+
 
   const handleSearch = () => {
     // 검색 기능 구현 예정
@@ -133,7 +118,7 @@ const UserManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = userPosts.map((post) => post.postNum);
+      const allPostNums = posts.map((post) => post.id);
       setSelectedPosts(allPostNums);
     } else {
       setSelectedPosts([]);
@@ -141,22 +126,22 @@ const UserManagement = () => {
   };
 
   // 게시글 선택 여부
-  const isPostSelected = (postNum) => {
-    return selectedPosts.includes(postNum);
+  const isPostSelected = (id) => {
+    return selectedPosts.includes(id);
   };
 
   // 체크박스 선택 함수
-  const handleCheckboxChange = (event, postNum) => {
+  const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, postNum]);
+      setSelectedPosts((prevSelected) => [...prevSelected, id]);
       console.log(selectedPosts);
     } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== postNum));
+      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== id));
     }
   };
   
   const handleDeletePosts = () => {
-    console.log('핀 삭제 ! ')
+    console.log('게시글 삭제 ! ')
   };
 
   return (
@@ -198,12 +183,12 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {userPosts.map((post) => (
-              <tr key={post.postNum}>
+            {posts.map((post) => (
+              <tr key={post.id}>
                 <td>
                 <Checkbox
-                checked={isPostSelected(post.postNum)}
-                onChange={(event) => handleCheckboxChange(event, post.postNum)}
+                checked={isPostSelected(post.id)}
+                onChange={(event) => handleCheckboxChange(event, post.id)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -213,14 +198,14 @@ const UserManagement = () => {
                    }}
                    />
                 </td>
-                <td>{post.postNum}</td>
+                <td>{post.id}</td>
                 <td>
                 <TitleLink >
                       {post.title}
                 </TitleLink>
                 </td>
                 <td>{post.nickname}</td>
-                <td>{post.date}</td>
+                <td>{post.writeDate}</td>
               </tr>
             ))}
           </tbody>
@@ -231,6 +216,6 @@ const UserManagement = () => {
       </Container>
     </>
   );
-            };  
+};  
 
-export default UserManagement;
+export default PostManagement;

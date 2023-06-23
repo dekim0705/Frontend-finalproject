@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
+import Functions from "../../util/Functions";
+import AdminAxiosApi from '../../api/AdminAxiosApi';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -116,64 +118,44 @@ const StatusBadge = styled.div`
 
 
 const InquiryManagement = () => {
-  const dummyData = [
-    {
-      inquiryNum: 1,
-      content: "문의합니다!! 안녕하세요 ~~~~ 이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ",
-      nickname: "겨울잠자는중",
-      date: "2023/06/06",
-      email: "user1@gmail.com",
-      status: "대기"
-    },
-    {
-      inquiryNum: 2,
-      content: "문의합니다.이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ이거 어떻게하는거죵???????? 너무어렵네요.. 관리자님.. 도와주세요 ㅜ-ㅜ",
-      nickname: "리액트흑흑",
-      date: "2023/06/06",
-      email: "user1@gmail.com",
-      status: "대기"
-    },
-    {
-      inquiryNum: 3,
-      content: "문의해요!! ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\n 문의입니당 ㅇㅇㅇㅇㅇㅇ",
-      nickname: "자바광팬아님",
-      date: "2023/06/06",
-      email: "user1@gmail.com",
-      status: "완료"
-    },
-    {
-      inquiryNum: 4,
-      content: "문의드려요 관리자님!!!! 네네네??",
-      nickname: "흠냐릥",
-      date: "2023/06/03",
-      email: "user3@gmail.com",
-      status: "완료"
-    },
-
-
-  ];
-  
-  const [inquiries, setInquiries] = useState(dummyData);
+  const [inquiries, setInquiries] = useState([]);
   const [selectedInquiry, setSelectedInquiry] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
   const [Details, setDetails] = useState(null);
+  const token = localStorage.getItem("accessToken");
 
 
+  useEffect(() => {
+    const getInquiries = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllinquiries(token);
+        setInquiries(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllinquiries(newToken);
+          setInquiries(response.data);
+      }
+    }
+  };
+    getInquiries();
+  }, [token]);
 
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = inquiries.map((inquiry) => inquiry.inquirytNum);
-      setSelectedInquiry(allPostNums);
+      const allinqiriesNum = inquiries.map((inquiry) => inquiry.inquiryNum);
+      setSelectedInquiry(allinqiriesNum);
     } else {
       setSelectedInquiry([]);
     }
   };
 
-  const isPostSelected = (inquirytNum) => {
-    return selectedInquiry.includes(inquirytNum);
+  const isPostSelected = (inquiryNum) => {
+    return selectedInquiry.includes(inquiryNum);
   };
 
 
@@ -189,14 +171,12 @@ const InquiryManagement = () => {
   const handleConfirm = () => {
     const updatedInquiries = inquiries.map((inquiry) => {
       if (selectedInquiry.includes(inquiry.inquiryNum)) {
-        return { ...inquiry, status: '완료' };
+        return { ...inquiry, inquiryStatus: '완료' };
       }
       return inquiry;
     });
   
     setInquiries(updatedInquiries);
-  
-    // 선택된 문의를 초기화
     setSelectedInquiry([]);
   };
 
@@ -255,12 +235,12 @@ const InquiryManagement = () => {
                 </td>
                 <td>{inquiry.inquiryNum}</td>
                 <td onClick={() => handleInquiryContentClick(inquiry)} style={{ cursor: 'pointer' }}>
-                {inquiry.content.length > 15 ? `${inquiry.content.substring(0, 16)}···` : inquiry.content} 
+                {inquiry.inquiryContent.length > 15 ? `${inquiry.inquiryContent.substring(0, 16)}···` : inquiry.inquiryContent} 
                </td>
                 <td>{inquiry.nickname}</td>
-                <td>{inquiry.date}</td>
+                <td>{inquiry.inquiryDate}</td>
                 <td>
-               <div> <StatusBadge status={inquiry.status}> {inquiry.status} </StatusBadge> </div>
+               <div> <StatusBadge status={inquiry.inquiryStatus}> {inquiry.inquiryStatus} </StatusBadge> </div>
               </td>
               </tr>
             ))}
@@ -276,7 +256,7 @@ const InquiryManagement = () => {
             <>
               <PopupContent>
                 <PopupTitle>문의 내용</PopupTitle>
-                <TextBox readOnly value={Details.content} />
+                <TextBox readOnly value={Details.inquiryContent} />
               </PopupContent>
               <PopupContent>
                 <PopupTitle>회원 이메일</PopupTitle>

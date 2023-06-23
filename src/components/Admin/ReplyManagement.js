@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox'; 
 import { pink } from '@mui/material/colors';
+import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Functions from "../../util/Functions";
+
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -83,40 +86,28 @@ const Table = styled.table`
 
 
 const ReplyManagement = () => {
-  
-
-  const dummyData = [
-    {
-      replyNum: 1,
-      nickname: "겨울잠자는중",
-      content: "재밌었어요! 추천합니다~",
-      date: "2023/06/06",
-    },
-    {
-      replyNum: 2,
-      nickname: "겨울잠자는중",
-      content: "댓글 내용 블라블라",
-      date: "2023/06/06",
-    },
-    {
-      replyNum: 3,
-      nickname: "겨울잠자는중",
-      content: "댓글 내용 블라블라~",
-      date: "2023/06/06",
-    },
-    {
-      replyNum: 4,
-      nickname: "겨울잠자는중",
-      content: "댓글 내용 블라블라~",
-      date: "2023/06/06",
-    },
-
-  ];
-
-  const [replies] = useState(dummyData); 
+  const [replies, setReplies] = useState([]);
   const [selectedreplies, setSelectedReplies] = useState([]); 
   const [selectAll, setSelectAll] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+  const getReplies = async () => {
+    try {
+      const response = await AdminAxiosApi.getAllReplies();
+      setReplies(response.data);
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await AdminAxiosApi.getAllReplies(newToken);
+        setReplies(response.data);
+      }
+    }
+  };
+  getReplies();
+}, [token]);
 
   const handleSearch = () => {
     // 검색 기능 구현 예정
@@ -127,24 +118,24 @@ const ReplyManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allReply = replies.map((reply) => reply.replyNum);
+      const allReply = replies.map((reply) => reply.id);
       setSelectedReplies(allReply);
     } else {
       setSelectedReplies([]);
     }
   };
 
-  const isReplieSelected = (replyNum) => {
-    return selectedreplies.includes(replyNum);
+  const isReplieSelected = (id) => {
+    return selectedreplies.includes(id);
   };
 
   // 체크박스 선택 함수
-  const handleCheckboxChange = (event, replyNum) => {
+  const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
-      setSelectedReplies((prevSelected) => [...prevSelected, replyNum]);
+      setSelectedReplies((prevSelected) => [...prevSelected, id]);
       console.log(selectedreplies);
     } else {
-      setSelectedReplies((prevSelected) => prevSelected.filter((id) => id !== replyNum));
+      setSelectedReplies((prevSelected) => prevSelected.filter((id) => id !== id));
     }
   };
   
@@ -191,12 +182,12 @@ const ReplyManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {replies.map((post) => (
-              <tr key={post.replyNum}>
+            {replies.map((reply) => (
+              <tr key={reply.id}>
                 <td>
                 <Checkbox
-                checked={isReplieSelected(post.replyNum)}
-                onChange={(event) => handleCheckboxChange(event, post.replyNum)}
+                checked={isReplieSelected(reply.id)}
+                onChange={(event) => handleCheckboxChange(event, reply.id)}
                  {...label} 
                  sx={{
                  color: pink[200],
@@ -206,14 +197,14 @@ const ReplyManagement = () => {
                    }}
                    />
                 </td>
-                <td>{post.replyNum}</td>
+                <td>{reply.id}</td>
                 <td>
                 <TitleLink >
-                      {post.content}
+                      {reply.content}
                 </TitleLink>
                 </td>
-                <td>{post.nickname}</td>
-                <td>{post.date}</td>
+                <td>{reply.nickname}</td>
+                <td>{reply.writeDate}</td>
               </tr>
             ))}
           </tbody>
