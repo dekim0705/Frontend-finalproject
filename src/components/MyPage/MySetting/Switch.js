@@ -54,7 +54,12 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const StyledSwitch = () => {
+const StyledSwitch = ({ checked, onChange }) => {
+  const handleChange = (event) => {
+    const checkedValue = event.target.checked;
+    onChange(checkedValue);
+  };
+
   return (
     <>
       <FormControlLabel
@@ -63,10 +68,10 @@ const StyledSwitch = () => {
             sx={{
               m: 1,
             }}
-            defaultChecked
+            checked={checked}
+            onChange={handleChange}
           />
         }
-        // label="iOS style"
       />
     </>
   );
