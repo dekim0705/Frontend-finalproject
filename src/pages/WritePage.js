@@ -6,6 +6,7 @@ import RouteByKakao from "../components/Write/RouteByKakao";
 import ContentField from "../components/Write/ContentField";
 import PlaceTag from "../components/Write/PlaceTag";
 import PostAxiosApi from "../api/PostAxiosApi";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const StyledButton = styled.button`
 `;
 
 const WritePage = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem('accessToken');
   const [post, setPost] = useState({
     title: "",
@@ -102,12 +104,25 @@ const WritePage = () => {
 
   const handleClick = async () => {
     try {
+      // pins routeNum 기준 중복되면 삭제 해야 함.
+      let uniquePins = pins.reduce((acc, current) => {
+        const x = acc.find(item => item.routeNum === current.routeNum);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
       const postPinDto = {
         post,
-        pins
+        pins: uniquePins
       };
       const response = await PostAxiosApi.createPost(postPinDto, token);
-      console.log("🔴 제발 .. : " + response);
+      console.log("🔴 제발 .. : " + response.data);
+      if (response.data === "글 작성 성공❤️") {
+        navigate('/home');
+      }
     } catch (error) {
       console.error("🔴 : " + JSON.stringify(error.response.data));
     }

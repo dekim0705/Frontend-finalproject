@@ -22,13 +22,14 @@ const Region = ({ onRegionChange }) => {
             지역
           </InputLabel>
           <NativeSelect
-            defaultValue={1}
+            defaultValue={"1"}
             onChange={onRegionChange}
             inputProps={{
               name: 'age',
               id: 'uncontrolled-native',
             }}
           >
+            <option value={"1"} disabled>지역 선택</option>
             <option value={"SEOUL"}>서울</option>
             <option value={"INCHEON"}>인천</option>
             <option value={"GYEONGGI"}>경기</option>

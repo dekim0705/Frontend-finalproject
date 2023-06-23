@@ -22,13 +22,14 @@ const Theme = ({ onThemeChange }) => {
             코스 테마
           </InputLabel>
           <NativeSelect
-            defaultValue={"맛집 코스"}
+            defaultValue={"1"}
             onChange={onThemeChange}
             inputProps={{
               name: 'age',
               id: 'uncontrolled-native',
             }}
           >
+            <option value={"1"} disabled>테마 선택</option>
             <option value={"맛집 코스"}>맛집 코스</option>
             <option value={"힐링 코스"}>힐링 코스</option>
             <option value={"도보 코스"}>도보 코스</option>
