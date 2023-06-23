@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import { useLocation } from "react-router-dom";
-import { SearchContext } from "../context/SearchContext";
+import { PostContext } from "../context/PostContext";
 
 const KeywordContainer = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const KeywordContainer = styled.div`
   gap: 10px;
   margin: 20px 0;
   @media screen and (max-width: 768px) {
-    margin-left: 24px;
+    margin-left: 2px;
   }
   h1 {
     color: var(--point-color);
@@ -19,18 +19,30 @@ const KeywordContainer = styled.div`
   }
 `;
 
+const ContainerWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
+  min-width: 350px;
   gap: 8px;
   flex-wrap: wrap;
   color: var(--text-color);
   @media screen and (max-width: 768px) {
     width: 90%;
+    min-width: 90%;
     margin: 0 auto;
   }
 `;
+
+
 const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -79,7 +91,7 @@ const SearchResultPage = () => {
   // const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const searchInput = queryParams.get("q");
-  const { resultData } = useContext(SearchContext);
+  const { resultData } = useContext(PostContext);
 
   return (
     <AppLayout>
@@ -87,7 +99,7 @@ const SearchResultPage = () => {
         <p>검색어 : </p>
         <h1>{searchInput}</h1>
       </KeywordContainer>
-      <>
+      <ContainerWrapper>
         {resultData.length > 0 ? (
           resultData.map((resultData) => (
             <Container key={resultData.id}>
@@ -120,7 +132,7 @@ const SearchResultPage = () => {
         ) : (
           <p>게시글이 없습니다 ㅜㅜ </p>
         )}
-      </>
+      </ContainerWrapper>
     </AppLayout>
   );
 };

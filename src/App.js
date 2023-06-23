@@ -19,7 +19,7 @@ import KakaoCallback from "./components/Login/KakaoCallback";
 import UserPolicy from "./components/Join/UserPolicy";
 import UserAgreements from "./components/Join/UserAgreements";
 import SearchResultPage from "./pages/SearchResultPage";
-import SearchStore from "./context/SearchContext";
+import SearchStore from "./context/PostContext";
 
 const GlobalStyle = createGlobalStyle`
   * {

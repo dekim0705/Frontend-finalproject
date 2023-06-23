@@ -48,7 +48,7 @@ const HomeAxiosApi = {
   // 🍉 키워드 검색
   searchPosts: async (keyword, token) => {
     try {
-      return await axios.get(`${KH_DOMAIN}/home/search`, {
+      return await axios.get(`${KH_DOMAIN}/home/posts/search`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -61,7 +61,24 @@ const HomeAxiosApi = {
       throw error;
     }
   },
-  // 🍉 북마크 상위 5개
+  // 🍉 북마크 추가
+  addBookmark: async (postId, folderName, token) => {
+    try {
+      return await axios.post(
+        `${KH_DOMAIN}/home/post/${postId}/folder/${encodeURIComponent(folderName)}/bookmark`, 
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 😓 북마크 상위 5개
   top5Bookmark: async (token) => {
     try {
       return await axios.get(KH_DOMAIN + "/home/rank", {

@@ -15,7 +15,7 @@ import SearchIcon from "../../resource/header_search.svg";
 import AlarmDropdown from "../Home/AlarmDropdown";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
-import { SearchContext } from "../../context/SearchContext";
+import { PostContext } from "../../context/PostContext";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -117,7 +117,7 @@ const Header = () => {
   const token = localStorage.getItem("accessToken");
 
   const [searchInput, setSearchInput] = useState("");
-  const { setResultData } = useContext(SearchContext);
+  const { setResultData } = useContext(PostContext);
   const navigate = useNavigate();
 
   const handleSearchInputChange = (e) => setSearchInput(e.target.value);
