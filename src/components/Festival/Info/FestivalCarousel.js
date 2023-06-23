@@ -1,124 +1,115 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import thumbnail from "../../../resource/축제썸네일.jpg";
-import thumbnail2 from "../../../resource/축제썸네일2.png";
-import thumbnail3 from "../../../resource/축제썸네일3.jpg";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styled from 'styled-components';
+import Slider from 'react-slick';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
+const CarouselContainer = styled.div`
+  width: 80%;
+  margin: 0 auto;
 
-const Slide = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Button = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 3.3rem;
-  color: gray;
-  padding: 0px;
-
-  svg {
-    font-size: 3rem;
-    font-weight: bold;
+  .slick-prev:before,
+  .slick-next:before {
+    font-family: 'slick';
+    font-size: 30px;
+    line-height: 1;
+    opacity: 0.65;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
   }
 `;
 
-const Window = styled.div`
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-`;
-
-const Flexbox = styled.div`
-  display: flex;
-  transition: transform 0.3s ease-out;
-  transform: ${({ current, imgSize }) => `translateX(-${current * (100 / imgSize * 2)}%)`};
-  @media (max-width: 600px) {
-    transform: ${({ current }) => `translateX(-${current * 100}%)`};
-  }
-`;
-
-const Img = styled.img`
-  width: 31.3%;
-  height: 180px;
-  object-fit: cover;
-  margin: 0px 7px;
+const Image = styled.img`
+  width: 95%;
   border-radius: 10px;
-  @media (max-width: 600px) {
-    width: 100%;
-    margin: 0px 10px;
-  }
+  margin: 0 auto;
+  height: 150px;
 `;
 
-const Position = styled.div`
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-`;
-
-const Dot = styled.div`
-  background: lightgray;
-  border-radius: 100%;
-  height: 10px;
-  width: 10px;
-  & + & {
-    margin-left: 20px;
-  }
-`;
-
-const CurrentDot = styled(Dot)`
-  background: gray;
-`;
-
-const Carousel = () => {
-  const [current, setCurrent] = useState(0);
-  const imgSize = useRef(3);
-
-  const moveSlide = (i) => {
-    let nextIndex = current + i;
-
-    if (nextIndex < 0) nextIndex = imgSize.current - 1;
-    else if (nextIndex >= imgSize.current) nextIndex = 0;
-
-    setCurrent(nextIndex);
-  };
+const Carousel = ({ contentId }) => {
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
-    imgSize.current = images.length;
-  }, []);
+    fetchImages();
+  }, [contentId]);
 
-  const images = [thumbnail, thumbnail2, thumbnail3,thumbnail, thumbnail2, thumbnail3 ];
+  const fetchImages = async () => {
+    try {
+      const imageUrl = `/B551011/KorService1/detailImage1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${contentId}&imageYN=Y&subImageYN=Y&numOfRows=9&pageNo=1&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}`;
+      const response = await axios.get(imageUrl, {
+        headers: {
+          "x-requested-with": "xhr",
+        },
+      });
+
+      const {
+        data: {
+          response: {
+            body: {
+              items: { item },
+            },
+          },
+        },
+      } = response;
+
+      if (item) {
+        const extractedImages = item.map((imageItem) => ({
+          contentid: imageItem.contentid,
+          originimgurl: imageItem.originimgurl,
+        }));
+
+        setImages(extractedImages);
+        console.log('이미지 가져오기ㅠㅠ', extractedImages);
+      }
+    } catch (error) {
+      console.error('이미지 호출 에러!!', error);
+    }
+  };
+
+  const renderImages = () => {
+    if (images.length === 1) {
+      return (
+        <div>
+          <Image src={images[0].originimgurl} />
+        </div>
+      );
+    } else {
+      return images.map((image, index) => (
+        <div key={index}>
+          <Image src={image.originimgurl} />
+        </div>
+      ));
+    }
+  };
+
+  const settings = {
+    dots: true,
+    arrows: true,
+    slidesToShow: 3,
+    slidesToScroll: 2,
+    infinite: true,
+    speed: 500,
+    prevArrow: <button className="slick-prev" />,
+    nextArrow: <button className="slick-next" />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
+  };
 
   return (
-    <Container>
-      <Slide>
-        <Button onClick={() => moveSlide(-1)}>
-          <NavigateBeforeIcon />
-        </Button>
-        <Window>
-          <Flexbox current={current} imgSize={imgSize.current}>
-            {images.map((src, i) => (
-              <Img key={i} src={src} alt={`Image ${i}`} imgSize={imgSize.current} />
-            ))}
-          </Flexbox>
-        </Window>
-        <Button onClick={() => moveSlide(1)}>
-          <NavigateNextIcon />
-        </Button>
-      </Slide>
-      <Position>
-        {images.map((_, i) => (i === current ? <CurrentDot key={i} /> : <Dot key={i} />))}
-      </Position>
-    </Container>
+    <CarouselContainer>
+      <Slider {...settings}>
+        {renderImages()}
+      </Slider>
+    </CarouselContainer>
   );
 };
 

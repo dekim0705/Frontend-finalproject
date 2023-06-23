@@ -5,7 +5,7 @@ import FestivalMap from "../components/Festival/Info/FestivalMap";
 import FestivalHeader from "../components/Festival/Info/FestivalHeader";
 import FestivalSummary from "../components/Festival/Info/FestivalSummary";
 import Recommend from "../components/Festival/Info/FestivalRecommend";
-import Carousel from "../components/Festival/Info/Carousel";
+import Carousel from "../components/Festival/Info/FestivalCarousel";
 import { useParams, useLocation } from 'react-router-dom';
 import FestivalAPI from "../components/Festival/FestivalAPI";
 

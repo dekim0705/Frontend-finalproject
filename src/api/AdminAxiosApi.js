@@ -78,8 +78,8 @@ const AdminAxiosApi = {
     try {
       return await axios.get(KH_DOMAIN + "/admin/report", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
       });
     } catch (error) {
@@ -92,8 +92,8 @@ const AdminAxiosApi = {
     try {
       return await axios.delete(KH_DOMAIN + "/admin/delete/users", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         data: userIds
       });
@@ -107,8 +107,8 @@ const AdminAxiosApi = {
     try {
       return await axios.delete(KH_DOMAIN + "/admin/delete/posts", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         data: postIds
       });
@@ -122,8 +122,8 @@ const AdminAxiosApi = {
     try {
       return await axios.delete(KH_DOMAIN + "/admin/delete/replies", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         data: replyIds
       });
@@ -137,8 +137,8 @@ deleteAds: async (adIds, token) => {
   try {
     return await axios.delete(KH_DOMAIN + "/admin/delete/ad", {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
       data: adIds
     });
@@ -147,6 +147,19 @@ deleteAds: async (adIds, token) => {
  }
 },
 
+// 🥨 광고 추가
+createAd: async (adDto, token) => {
+  try {
+    return await axios.post(KH_DOMAIN + "/admin/ad/new", adDto, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+},
 
 
 

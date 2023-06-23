@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from "../../firebase";
+import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Functions from '../../util/Functions';
 
 const PopupContainer = styled.div`
   position: fixed;
@@ -62,14 +66,52 @@ const PopupButton = styled.button`
 
 const AdPopup = ({ onAddAd, onClosePopup }) => {
   const [adName, setAdName] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [ads, setAds] = useState([]);
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    const getAds = async () => {
+      try {
+        const response = await AdminAxiosApi.getAllAds(token);
+        setAds(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await AdminAxiosApi.getAllAds(newToken);
+          setAds(response.data);
+        }
+      }
+    };
+    getAds();
+  }, [token]);
 
   const handleAdNameChange = (event) => {
     setAdName(event.target.value);
   };
 
-  const handleAddAd = () => {
-    onAddAd(adName);
-    setAdName('');
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+
+  const handleAddAd = async () => {
+    if (adName && selectedImage) {
+      try {
+        const storageRef = ref(storage, `images/${selectedImage.name}`);
+        await uploadBytes(storageRef, selectedImage);
+
+        const imgUrl = await getDownloadURL(storageRef);
+
+        const response = await AdminAxiosApi.createAd({ adName, imgUrl }, token);
+        onAddAd(response);
+
+        setAdName('');
+        setSelectedImage(null);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleClosePopup = () => {
@@ -87,7 +129,7 @@ const AdPopup = ({ onAddAd, onClosePopup }) => {
           value={adName}
           onChange={handleAdNameChange}
         />
-        <input type="file" accept="image/*" />
+       <input type="file" accept="image/*" onChange={handleImageChange} />
         <PopupButtonContainer>
           <PopupButton onClick={handleAddAd}>추가</PopupButton>
         </PopupButtonContainer>

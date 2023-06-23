@@ -11,7 +11,7 @@ import Pagination from '../Festival/Pagination';
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const Container = styled.div`
-  width: 80%;
+  width: 85%;
   display: flex;
   flex-direction: column;
   padding: 60px 0px;
@@ -54,7 +54,12 @@ const ButtonContainer = styled.div`
     background-color: var(--hover-color);
   }
 `;
-
+const ImageThumbnail = styled.img`
+  width: 55%; 
+  height: 60px; 
+  padding-top: 20px;
+  /* object-fit: cover; */
+`;
 
 const AdManagement = () => {
   const [ads, setAds] = useState([]);
@@ -180,8 +185,8 @@ const AdManagement = () => {
                    />
                 </td>
                 <td>{ad.adNum}</td>
-                <td>{ad.name}</td>
-                <td>{ad.imgUrl}</td>
+                <td>{ad.adName}</td>
+                <td>  <ImageThumbnail src={ad.imgUrl} alt="광고 이미지" /></td>
               </tr>
             ))}
           </tbody>
