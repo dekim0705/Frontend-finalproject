@@ -7,6 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from '../../util/Functions';
+import Pagination from '../Festival/Pagination';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -89,6 +90,9 @@ const PostManagement = () => {
   const token = localStorage.getItem("accessToken");
   const [selectAll, setSelectAll] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const postsPerPage = 8; // 페이지당 표시되는 게시물 수
+  
   
   useEffect(() => {
     const getPosts = async () => {
@@ -156,8 +160,20 @@ const PostManagement = () => {
     }
   };
   
-  
+  // 게시글 목록을 페이지별로 분할하는 함수
+  const getPagePosts = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return posts.slice(startIndex, endIndex);
+  };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}. ${month} . ${day}`;
+  };
   return (
     <>
       <Container>
@@ -197,7 +213,7 @@ const PostManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {posts.map((post) => (
+            {getPagePosts().map((post) => (
               <tr key={post.id}>
                 <td>
                 <Checkbox
@@ -219,7 +235,7 @@ const PostManagement = () => {
                 </TitleLink>
                 </td>
                 <td>{post.nickname}</td>
-                <td>{post.writeDate}</td>
+                <td>{formatDate(post.writeDate)}</td>
               </tr>
             ))}
           </tbody>
@@ -227,7 +243,15 @@ const PostManagement = () => {
         <Button onClick={handleDeletePosts}>
           삭제
         </Button>
+        {posts.length > postsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(posts.length / postsPerPage)}
+          onPageChange={setCurrentPage}
+        />
+        )}
       </Container>
+
     </>
   );
 };  

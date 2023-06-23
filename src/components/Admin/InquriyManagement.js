@@ -4,6 +4,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { pink } from '@mui/material/colors';
 import Functions from "../../util/Functions";
 import AdminAxiosApi from '../../api/AdminAxiosApi';
+import Pagination from '../Festival/Pagination';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -124,6 +125,8 @@ const InquiryManagement = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [Details, setDetails] = useState(null);
   const token = localStorage.getItem("accessToken");
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const postsPerPage = 8; 
 
 
   useEffect(() => {
@@ -190,6 +193,19 @@ const InquiryManagement = () => {
     setDetails(null);
   };
 
+  const getPageInquriry = () => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return inquiries.slice(startIndex, endIndex);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}. ${month} . ${day}`;
+  };
   return (
     <>
       <Container>
@@ -218,7 +234,7 @@ const InquiryManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {inquiries.map((inquiry) => (
+            {getPageInquriry().map((inquiry) => (
               <tr key={inquiry.inquiryNum}>
                 <td>
                 <Checkbox
@@ -238,7 +254,7 @@ const InquiryManagement = () => {
                 {inquiry.inquiryContent.length > 15 ? `${inquiry.inquiryContent.substring(0, 16)}···` : inquiry.inquiryContent} 
                </td>
                 <td>{inquiry.nickname}</td>
-                <td>{inquiry.inquiryDate}</td>
+                <td>{formatDate(inquiry.inquiryDate)}</td>
                 <td>
                <div> <StatusBadge status={inquiry.inquiryStatus}> {inquiry.inquiryStatus} </StatusBadge> </div>
               </td>
@@ -249,6 +265,13 @@ const InquiryManagement = () => {
         <Button onClick={handleConfirm}>
           확인
         </Button>
+        {inquiries.length > postsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(inquiries.length / postsPerPage)}
+          onPageChange={setCurrentPage}
+        />
+        )}
       </Container>
       {popupVisible && (
         <PopupContainer>

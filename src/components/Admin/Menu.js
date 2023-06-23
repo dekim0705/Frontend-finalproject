@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 40px;
   width: 18%;
   height: 100%;
   border-right: 1px solid var(--line-color);
