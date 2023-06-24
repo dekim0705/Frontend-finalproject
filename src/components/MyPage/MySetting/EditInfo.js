@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ProfileImage from '../../../resource/profile.jpeg';
 import MuiTextField from '../../Join/TextField';
 import Button from '../../Join/Button';
 import { EditInfoNav, SettingsNav } from '../Navs';
 import { ColumnWrapper } from '../../Join/Wrappers';
 import Withdraw from './Withdraw';
 import RegionSelectBox from './RegionSelectBox';
-import ProfileImageUploader from './EditPfImg';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import Functions from '../../../util/Functions';
+import JoinAxiosApi from '../../../api/JoinAxiosApi';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { storage } from "../../../firebase";
+import { useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
   margin: 40px auto;
@@ -39,86 +43,207 @@ const Notice = styled.p`
   margin-left: 1rem;
 `;
 
+
+const ProfileImageUploaderContainer = styled.div`
+  margin-top: 1rem;
+  position: relative;
+  width: 180px;
+  height: 180px;
+  @media screen and (max-width: 768px) {
+    width: 110px;
+    height: 110px;
+  }
+`;
+
+const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
+
+const ProfileImageUploaderOverlay = styled.label`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  ${ProfileImageUploaderContainer}:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 const EditInfo = () => {
+  const navigate = useNavigate();
 
-  const dummyData = useMemo(
-      () => [
-        { id: 1, nickname: '자바광팬아님', comment: '안녕하세요! 재밌는 데이트를 즐겨볼까용?', email: 'nojava@gmail.com' }
-      ],[]
-  );
+  const [currentInfo, setCurrentInfo] = useState(null);
+  const token = Functions.getAccessToken();
 
-  const [nickname, setNickname] = useState(dummyData[0].nickname);
-  const [isNickname, setIsNickname] = useState(false);
-  const [isNicknameValid, setIsNicknameValid] = useState(false);
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+  const [pfImg, setPfImg] = useState('');
 
-  const [comment, setComment] = useState(dummyData[0].comment);
-  const [isComment, setIsComment] = useState(false);
-  const [isCommentValid, setIsCommentValid] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const [isNickname, setIsNickname] = useState(true);
+  const [nicknameHelperText, setNicknameHelperText] = useState('');
 
-  const [region, setRegion] = useState("");
+  const [comment, setComment] = useState('');
+  const [isComment, setIsComment] = useState(true);
+  const [commentHelperText, setCommentHelperText] = useState('');
 
-  const email = dummyData[0].email;
+  const [email, setEmail] = useState('');
+  const [region, setRegion] = useState('');
 
-  const dummyNicknameList = ['user1', 'user2', 'user3'];
+  const updateUserInfo = (response) => {
+    if (response && response.data) {
+      const { nickname, email, userComment, userRegion, pfImg } = response.data;
+      setNickname(nickname);
+      setEmail(email);
+      setComment(userComment);
+      setRegion(userRegion);
+      setPfImg(pfImg);
+    }
+  };
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const response = await UserAxiosApi.userInfo(token);
+        updateUserInfo(response);
+        setCurrentInfo(response.data);
+        console.log("🍒 UserInfo : ", response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userInfo(newToken);
+          updateUserInfo(response);
+          setCurrentInfo(response.data);
+        }
+      }
+    };
+    getUserInfo();
+  }, [token])
 
 
-  const onChangeNickname = (e) => {
-    const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-z0-9가-힣]{2,10}$/;
+  const onChangeNickname = async (e) => {
+    const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
     const nicknameCurrent = e.target.value;
     setNickname(nicknameCurrent);
-    setIsNicknameValid(nicknameRegex.test(nicknameCurrent));
-
-    const isNicknameAvailable =
-      nicknameCurrent !== dummyData[0].nickname &&
-      !dummyNicknameList.includes(nicknameCurrent);
-      setIsNicknameAvailable(isNicknameAvailable);
-
-    if (nicknameCurrent === dummyData[0].nickname || (nicknameRegex.test(nicknameCurrent) && isNicknameAvailable)) {
-      setIsNickname(true);
+  
+    if (nicknameCurrent === currentInfo.nickname) {
+      setNicknameHelperText(''); 
+      setIsNickname(true); 
     } else {
-      setIsNickname(false);
+      // 닉네임 중복 확인
+      const checkNickname = async (nicknameCurrent) => {
+        try {
+          const memberCheck = await JoinAxiosApi.dupNickname(nicknameCurrent);  
+          if (memberCheck.data === false) {
+            setNicknameHelperText('이미 사용 중인 닉네임입니다.');
+            setIsNickname(false);
+          } else {
+            setNicknameHelperText('사용 가능한 닉네임입니다.');
+            setIsNickname(true);
+          }
+        } catch (error) {
+          console.log("닉네임 중복 여부 확인 오류: ", error);
+        }
+      };
+      if (nicknameRegex.test(nicknameCurrent)) {
+        await checkNickname(nicknameCurrent);
+      } else {
+        setIsNickname(false);
+        setNicknameHelperText('닉네임은 2~8자의 영문, 숫자, 한글로 이루어져야 합니다.');
+      }
     }
   };
-
-  useEffect(() => {
-    if (nickname === dummyData[0].nickname) {
-      setIsNickname(true);
-    } else {
-      setIsNickname(isNicknameValid && isNicknameAvailable);
-    }
-  }, [nickname, isNicknameValid, isNicknameAvailable, dummyData]);
 
   const onChangeComment = (e) => {
-    const commentRegex = /^.{0,30}$/;
+    const commentRegex = /^.{0,20}$/;
     const commentCurrent = e.target.value;
     setComment(commentCurrent);
-    setIsCommentValid(commentRegex.test(commentCurrent));
-    setIsComment(commentCurrent === dummyData[0].comment || isCommentValid);
-  };
-  
-  useEffect(() => {
-    setIsComment(comment === dummyData[0].comment || isCommentValid);
-  }, [comment, isCommentValid, dummyData]);
-  
-  const getHelperText = () => {
-    if (comment === dummyData[0].comment || isCommentValid) {
-      return '';
+    if (commentRegex.test(commentCurrent) || commentCurrent === currentInfo.userComment) {
+      setIsComment(true)
+      setCommentHelperText('');
     } else {
-      return '한 줄 소개는 30자 이내로 입력 가능합니다.';
+      setIsComment(false);
+      setCommentHelperText('한 줄 소개는 20자 이내로 입력 가능합니다.');
     }
+  };
+
+
+  // 프로필사진
+  const imageInputRef = useRef(null);
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const imageRef = ref(storage, `profile/${currentInfo.id}_${file.name}`);
+    await uploadBytes(imageRef, file);
+    const imageUrl = await getDownloadURL(imageRef);
+    setPfImg(imageUrl);
+
+    if (imageInputRef.current) {
+      imageInputRef.current.value = null;
+    }
+  };
+
+  const deleteProfileImage = (imageUrl) => {
+    const imageRef = ref(storage, imageUrl);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log('기존 프사 삭제 성공');
+      })
+      .catch((error) => {
+        console.log('기존 프사 삭제 실패', error);
+      });
   };
 
   const handleRegionChange = (value) => {
     setRegion(value);
   };
+  
 
-  const handleUpdateInfo = () => {
+  const handleUpdateInfo = async () => {
     if (isNickname && isComment) {
-      console.log('🩷수정 성공 : ');
-      console.log(nickname, comment, region);
+      const updatedInfo = {
+        pfImg: pfImg,
+        nickname: nickname,
+        userComment: comment,
+        userRegion: region
+      };
+
+      if (currentInfo && currentInfo.pfImg && currentInfo.pfImg !== pfImg) {
+        deleteProfileImage(currentInfo.pfImg);
+      } 
+
+      try {
+        await UserAxiosApi.updateUserInfo(token, updatedInfo);
+        alert("회원 정보가 수정되었습니다.");
+        navigate('/home');
+        console.log('회원정보 수정 성공!', updatedInfo);
+      } catch (error) {
+        console.log('회원정보 수정 실패:', error);
+      }
     } else {
-      console.log('🖤수정 실패');
+      console.log('회원정보 수정 실패 (입력값 필요)');
     }
   };
 
@@ -129,18 +254,24 @@ const EditInfo = () => {
       <Container>
         <EditInfoNav /> 
         <ColumnWrapper gap="2rem" width="60%" alignItems="center">
-            <ProfileImageUploader defaultImage={ProfileImage} />
+          <ProfileImageUploaderContainer>
+            <ProfileImage src={pfImg || (currentInfo && currentInfo.pfImg)} alt="Profile" />
+              <ProfileImageUploaderOverlay htmlFor="image-upload-input">
+              <input
+                id="image-upload-input"
+                type="file"
+                ref={imageInputRef}
+                style={{ display: 'none' }}
+                onChange={handleImageChange}
+              />
+              프로필 사진 변경
+              </ProfileImageUploaderOverlay>
+          </ProfileImageUploaderContainer>
           <MuiTextField 
             label='닉네임' 
             value={nickname} 
             onChange={onChangeNickname} 
-            helperText={
-              (nickname === '자바광팬아님') ? '' :
-              (isNicknameValid && isNicknameAvailable) ? '사용 가능한 닉네임입니다.' :
-              (isNicknameValid && !isNicknameAvailable) ? '이미 사용 중인 닉네임입니다.' :
-              (!isNicknameValid && isNicknameAvailable) ? '닉네임은 2~10자의 영문, 숫자, 한글로 이루어져야 합니다.' :
-              '닉네임은 2~10자의 영문, 숫자, 한글로 이루어져야 합니다.'
-            }            
+            helperText={nicknameHelperText}            
             isValid={isNickname}
             errorColor="#66002f"
           />
@@ -154,12 +285,12 @@ const EditInfo = () => {
             label="한 줄 소개"
             value={comment}
             onChange={onChangeComment}
-            helperText={getHelperText()}
-            isValid={isCommentValid}
+            helperText={commentHelperText}
+            isValid={isComment}
             errorColor="#66002f"
           />
           <div className='align_start'>
-            <RegionSelectBox value={region} onChange={handleRegionChange} />
+          <RegionSelectBox value={region} onRegionUpdate={handleRegionChange} />
           </div>          
           <Button onClick={handleUpdateInfo}>회원정보 수정</Button>
         </ColumnWrapper>
