@@ -86,7 +86,7 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
     // 회원의 알림 수신 상태 변경  
     updateNotificationStatus: async (token, newStatus) => {
       try {
-        return await axios.put(KH_DOMAIN + "/mypage/notification-status", null, {
+        return await axios.put(KH_DOMAIN + "/mypage/notification-status", {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
@@ -99,8 +99,33 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
         throw error;
       }
     },
+    // 회원정보 
+    userInfo: async (token) => {
+      try {
+        return await axios.get(KH_DOMAIN + "/mypage/information", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 회원정보 수정
+    updateUserInfo: async (token, updatedInfo) => {
+      try {
+        return await axios.put(KH_DOMAIN + "/mypage/information", updatedInfo, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
     
-
   };
 export default UserAxiosApi;
 
