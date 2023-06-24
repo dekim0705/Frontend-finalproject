@@ -47,6 +47,18 @@ const PostAxiosApi = {
     }
   },
   // 🍉 게시글 삭제
+  deletePost: async (postId, token) => {
+    try {
+      return await axios.delete(`${KH_DOMAIN}/posts/${postId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default PostAxiosApi;
