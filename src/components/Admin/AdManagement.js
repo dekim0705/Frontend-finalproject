@@ -31,6 +31,7 @@ const Table = styled.table`
     padding: 1px;
     border-bottom: 1px solid var(--line-color);
     text-align: center;
+    vertical-align: middle;
   }
   th {
     font-weight: bold;
@@ -55,10 +56,10 @@ const ButtonContainer = styled.div`
   }
 `;
 const ImageThumbnail = styled.img`
-  width: 55%; 
+  width: 50%; 
   height: 60px; 
-  padding-top: 20px;
-  /* object-fit: cover; */
+  object-fit: contain;
+  justify-content: center;
 `;
 
 const AdManagement = () => {

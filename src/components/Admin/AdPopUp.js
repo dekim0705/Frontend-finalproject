@@ -100,14 +100,14 @@ const AdPopup = ({ onAddAd, onClosePopup }) => {
       try {
         const storageRef = ref(storage, `images/${selectedImage.name}`);
         await uploadBytes(storageRef, selectedImage);
-
         const imgUrl = await getDownloadURL(storageRef);
-
         const response = await AdminAxiosApi.createAd({ adName, imgUrl }, token);
         onAddAd(response);
-
         setAdName('');
         setSelectedImage(null);
+        alert('광고가 등록되었습니다.');
+        onClosePopup(); 
+        window.location.reload(); // 새로고침
       } catch (error) {
         console.log(error);
       }
