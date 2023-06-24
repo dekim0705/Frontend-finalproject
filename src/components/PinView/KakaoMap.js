@@ -1,7 +1,7 @@
 // ✨ 기본 지도 띄우기만 한 상태임. 추후 db에서 해당 게시글 경로 데이터 가져와야 함.
 import React, { useEffect, useRef } from "react";
 
-const KakaoMap = () => {
+const KakaoMap = ({ postData }) => {
   const mapRef = useRef();
 
   useEffect(() => {

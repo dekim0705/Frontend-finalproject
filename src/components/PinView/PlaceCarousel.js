@@ -9,21 +9,17 @@ const contentStyle = {
   background: "#364d79",
 };
 
-const PlaceCarousel = () => {
+const PlaceCarousel = ({ postData }) => {
+  if (!postData) {
+    return <p>데이터가 없습니다!</p>;
+  }
   return (
     <Carousel autoplay>
-      <div>
-        <h3 style={contentStyle}>1</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>2</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>3</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>4</h3>
-      </div>
+      {postData.placeTag.map((place, index) => (
+        <div key={index}>
+          <h3 style={contentStyle}>{postData.placeTag}</h3>
+        </div>
+      ))}
     </Carousel>
   );
 };

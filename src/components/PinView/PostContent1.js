@@ -16,6 +16,7 @@ const CommentField = styled.div`
     border: 1px solid #c8c8c8;
     flex: 1;
     padding: 20px 10px;
+    min-height: 54.8px;
     border-radius: 8px;
     p {
       font-size: 0.8em;
@@ -23,23 +24,26 @@ const CommentField = styled.div`
   }
 `;
 
-const PostContent1 = () => {
+const PostContent1 = ({ postData }) => {
+  if (!postData) {
+    return <p>데이터가 없습니다!</p>
+  }
 
   return (
     <Container>
       <CommentField>
         <div className="form">
-          <p>조용한 분위기</p>
+          <p>{postData.comment[0]}</p>
         </div>
         <div className="form">
-          <p>웨이팅을 할 수 있어요</p>
+          <p>{postData.comment[1]}</p>
         </div>
         <div className="form">
-          <p>대중교통이 편해요</p>
+          <p>{postData.comment[2]}</p>
         </div>
       </CommentField>
-      <KakaoMap />
-      <PlaceCarousel />
+      <KakaoMap postData={postData} />
+      <PlaceCarousel postData={postData} />
     </Container>
   );
 }

@@ -49,7 +49,7 @@ function App() {
             <Route path="/password" element={<ResetPwdPage />} />
             <Route path="/membership/*" element={<MembershipPage />}></Route>
             <Route path="/write" element={<WritePage />} />
-            <Route path="/view" element={<PinViewPage />} />
+            <Route path="/post/:postId" element={<PinViewPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/mypage/*" element={<MyPage />} />
             <Route path="/contact" element={<ChatbotPage />} />

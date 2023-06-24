@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
 import moment from 'moment';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    max-width: 1470px;
+    margin: 0 auto;
+  }
+`;
 
 const KeywordContainer = styled.div`
   display: flex;
@@ -89,13 +96,18 @@ const StyledThumbnail = styled.div`
 
 const SearchResultPage = () => {
   const location = useLocation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const searchInput = queryParams.get("q");
   const { resultData } = useContext(PostContext);
 
+  const handleClickPost = (postId) => {
+    navigate(`/post/${postId}`);
+  };
+
   return (
     <AppLayout>
+      <GlobalStyle />
       <KeywordContainer>
         <p>검색어 : </p>
         <h1>{searchInput}</h1>
@@ -103,7 +115,7 @@ const SearchResultPage = () => {
       <ContainerWrapper>
         {resultData.length > 0 ? (
           resultData.map((result) => (
-            <Container key={result.id}>
+            <Container key={result.id} onClick={() => handleClickPost(result.postId)}>
               <PostHeader>
                 <AuthorHeader>
                   <img

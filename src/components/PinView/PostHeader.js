@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Container } from "../../util/ViewFormStyle";
-import profileImg from "../../resource/profile.jpeg";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
@@ -59,31 +58,34 @@ const CommonStyle = styled.div`
 const PostDetailInfo = styled(CommonStyle)``;
 const PostConcept = styled(CommonStyle)``;
 
-const PostHeader = () => {
+const PostHeader = ({ postData }) => {
+  if (!postData) {
+    return <p>데이터 가지고 오는 중 입니다!</p>
+  }
   return (
     <Container>
       <AuthorHeader>
-        <img src={profileImg} alt="" />
-        <h1>닉네임이들어가요</h1>
+        <img src={postData.pfImg} alt="" />
+        <h1>{postData.nickname}</h1>
       </AuthorHeader>
       <PostInfo>
         <Wrapper>
-          <h1>서울의 고즈넉한 한옥 즐기기</h1>
+          <h1>{postData.title}</h1>
           <div className="iconWrapper">
             <BookmarkBorderIcon />
             <ReportBlockDropdown />
           </div>
         </Wrapper>
-        <p>서울시 중구</p>
+        <p>{postData.district}</p>
       </PostInfo>
       <PostDetailInfo>
         <div className="form">
           <BookmarkBorderIcon />
-          <p>132</p>
+          <p>{postData.bookmarkCount}</p>
         </div>
         <div className="form">
           <VisibilityIcon />
-          <p>1232</p>
+          <p>{postData.viewCount}</p>
         </div>
         <div className="form">
           <ShareIcon style={{ color: '#FF62AD'}} />
@@ -93,11 +95,11 @@ const PostHeader = () => {
       <PostConcept>
         <div className="form">
           <CalendarMonthIcon />
-          <p>당일 치기</p>
+          <p>{postData.course}</p>
         </div>
         <div className="form">
           <FavoriteBorderIcon />
-          <p>힐링 코스</p>
+          <p>{postData.theme}</p>
         </div>
       </PostConcept>
     </Container>

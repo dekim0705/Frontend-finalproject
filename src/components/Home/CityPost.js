@@ -6,6 +6,7 @@ import BookmarkModal from "../../util/modal/BookmarkModal";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -46,6 +47,10 @@ const PostTitle = styled.div`
   h1 {
     font-weight: 800;
     font-size: 1.3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
   }
   p {
     font-size: 1.1em;
@@ -62,6 +67,7 @@ const StyledThumbnail = styled.div`
 `;
 
 const CityPost = ({ selectedCity }) => {
+  const navigate = useNavigate();
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [folders, setFolders] = useState([]);
@@ -88,6 +94,7 @@ const CityPost = ({ selectedCity }) => {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
+          console.log("🦜 : " + JSON.stringify(response.data, null, 2));
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }
@@ -115,11 +122,15 @@ const CityPost = ({ selectedCity }) => {
     getPosts();
   }, [selectedCity, token]);
 
+  const handleClickPost = (postId) => {
+    navigate(`/post/${postId}`);
+  };
+
   return (
     <>
       {postInfos.length > 0 ? (
         postInfos.map((postInfo) => (
-          <Container key={postInfo.postId}>
+          <Container key={postInfo.postId} onClick={() => handleClickPost(postInfo.postId)}>
             <PostHeader>
               <AuthorHeader>
                 <img
