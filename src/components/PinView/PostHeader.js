@@ -1,12 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { Container } from "../../util/ViewFormStyle";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ShareIcon from '@mui/icons-material/Share';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ShareIcon from "@mui/icons-material/Share";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ReportBlockDropdown from "../../util/modal/ReportBlockDropdown";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LineShareButton,
+} from "react-share";
+import FacebookIcon from "../../resource/facebook.png";
+import TwitterIcon from "../../resource/twitter.png";
+import LineIcon from "../../resource/line.png";
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -48,6 +56,7 @@ const CommonStyle = styled.div`
   gap: 10px;
   .form {
     display: flex;
+    gap: 3px;
     align-items: center;
     p {
       font-size: 0.8em;
@@ -55,12 +64,16 @@ const CommonStyle = styled.div`
     }
   }
 `;
-const PostDetailInfo = styled(CommonStyle)``;
+const PostDetailInfo = styled(CommonStyle)`
+  .forms {
+    margin-top: 4px;
+  }
+`;
 const PostConcept = styled(CommonStyle)``;
 
 const PostHeader = ({ postData }) => {
   if (!postData) {
-    return <p>데이터 가지고 오는 중 입니다!</p>
+    return <p>데이터 가지고 오는 중 입니다!</p>;
   }
   return (
     <Container>
@@ -87,9 +100,28 @@ const PostHeader = ({ postData }) => {
           <VisibilityIcon />
           <p>{postData.viewCount}</p>
         </div>
-        <div className="form">
-          <ShareIcon style={{ color: '#FF62AD'}} />
-          <p style={{ color: '#FF62AD', fontWeight: 'bold', cursor: 'pointer' }}>공유하기</p>
+        <div className="forms">
+          <FacebookShareButton url={window.location.href} quote={postData.title}>
+            <img
+              src={FacebookIcon}
+              alt="Facebook"
+              style={{ width: "22px", height: "22px" }}
+            />
+          </FacebookShareButton>
+          <TwitterShareButton url={window.location.href} title={postData.title}>
+            <img
+              src={TwitterIcon}
+              alt="Twitter"
+              style={{ width: "22px", height: "22px" }}
+            />
+          </TwitterShareButton>
+          <LineShareButton url={window.location.href} subject={postData.title}>
+            <img
+              src={LineIcon}
+              alt="Line"
+              style={{ width: "22px", height: "22px" }}
+            />
+          </LineShareButton>
         </div>
       </PostDetailInfo>
       <PostConcept>
@@ -104,6 +136,6 @@ const PostHeader = ({ postData }) => {
       </PostConcept>
     </Container>
   );
-}
+};
 
 export default PostHeader;

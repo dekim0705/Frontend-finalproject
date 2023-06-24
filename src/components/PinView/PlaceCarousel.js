@@ -26,7 +26,7 @@ const StyledContent = styled.div`
     border: 1px solid var(--point-color);
     box-shadow: 0px 15px 20px rgba(244, 97, 159, 0.23);
     color: #2e2e2e;
-    transition-duration: 0.55s;
+    transition-duration: 0.35s;
   }
 `;
 
