@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../common/Logo";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Container = styled.div`
@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 40px;
+  margin-top: 35px;
   width: 18%;
   height: 100%;
   border-right: 1px solid var(--line-color);
@@ -49,6 +49,13 @@ const LogoutContainer = styled.div`
 `;
 
 const Menu = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <>
       <Container>
@@ -72,7 +79,7 @@ const Menu = () => {
           <StyledLink to="/admin/report">
             <p>신고 관리</p>
           </StyledLink>
-          <LogoutContainer>
+          <LogoutContainer onClick={handleLogout}>
             <LogoutIcon />
           </LogoutContainer>
         </ul>
