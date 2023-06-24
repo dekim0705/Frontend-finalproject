@@ -283,7 +283,7 @@ const InquiryManagement = () => {
               </PopupContent>
               <PopupContent>
                 <PopupTitle>회원 이메일</PopupTitle>
-                <Email>{Details.email}</Email>
+                <Email>{Details.inquiryEmail}</Email>
               </PopupContent>
             </>
           )}
