@@ -17,7 +17,7 @@ const PlaceCarousel = ({ postData }) => {
     <Carousel autoplay>
       {postData.placeTag.map((place, index) => (
         <div key={index}>
-          <h3 style={contentStyle}>{postData.placeTag}</h3>
+          <h3 style={contentStyle}>{place}</h3>
         </div>
       ))}
     </Carousel>

@@ -5,12 +5,33 @@ const KakaoMap = ({ postData }) => {
   const mapRef = useRef();
 
   useEffect(() => {
+    let mapCenter = new window.kakao.maps.LatLng(33.450701, 126.570667);
+    const level = 3;
+  
+    if(postData.pins && Array.isArray(postData.pins) && postData.pins.length > 0) {
+      const firstPin = postData.pins[0];
+      mapCenter = new window.kakao.maps.LatLng(firstPin.latitude, firstPin.longitude);
+    }
+  
     const options = {
-      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3
+      center: mapCenter,
+      level: level
     };
-    new window.kakao.maps.Map(mapRef.current, options);
-  },[]);
+    
+    const map = new window.kakao.maps.Map(mapRef.current, options);
+  
+    if(postData.pins && Array.isArray(postData.pins)) {
+      postData.pins.forEach((pin) => {
+        const markerPosition = new window.kakao.maps.LatLng(pin.latitude, pin.longitude);
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition
+        });
+  
+        marker.setMap(map);
+      });
+    }
+  },[postData]);
+  
 
   return (
     <div
