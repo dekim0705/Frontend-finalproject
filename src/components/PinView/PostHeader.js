@@ -85,7 +85,7 @@ const PostHeader = ({ postData }) => {
           <h1>{postData.title}</h1>
           <div className="iconWrapper">
             <BookmarkBorderIcon />
-            <ReportBlockDropdown />
+            <ReportBlockDropdown postData={postData} />
           </div>
         </Wrapper>
         <p>{postData.district}</p>

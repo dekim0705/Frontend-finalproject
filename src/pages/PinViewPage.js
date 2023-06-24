@@ -24,8 +24,6 @@ const PinViewPage = () => {
         const response = await PostAxiosApi.viewPost(postId, token);
         setPostData(response.data);
         SetShowUpdateDelete(response.data.pfImg === userPfImg);
-        console.log("❤️ : " + userPfImg);
-        console.log("🦜 : " + showUpdateDelete);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
