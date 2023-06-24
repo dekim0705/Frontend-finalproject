@@ -60,7 +60,7 @@ const StyledLink = styled(Link)`
 const Thumbnail = styled.img`
   width: 100%;
   height: 210px;
-  min-width: 230px;
+  min-width: 240px;
   border-radius: 15px;
   margin-bottom: 10px;
   margin-right: 100px;
