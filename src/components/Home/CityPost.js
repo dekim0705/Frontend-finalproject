@@ -7,6 +7,7 @@ import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
 
 const Container = styled.div`
   display: flex;
@@ -132,6 +133,34 @@ const CityPost = ({ selectedCity }) => {
     };
     getPosts();
   }, [selectedCity, token]);
+
+  useEffect(() => {
+    const getBookmarkedPosts = async () => {
+      try {
+        const bookmarkedPosts = await Promise.all(
+          postInfos.map((post) =>
+            BookmarkAxiosApi.isBookmark(post.postId, token).then(
+              (res) => res.data
+            )
+          )
+        );
+
+        setBookmarked(
+          bookmarkedPosts
+            .map((isBookmarked, index) =>
+              isBookmarked ? postInfos[index].postId : null
+            )
+            .filter(Boolean)
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (postInfos.length > 0) {
+      getBookmarkedPosts();
+    }
+  }, [postInfos, token]);
 
   const handleClickPost = (postId) => {
     navigate(`/post/${postId}`);
