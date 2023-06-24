@@ -74,8 +74,10 @@ const CityPost = ({ selectedCity }) => {
   const token = localStorage.getItem("accessToken");
   // 게시글 정보 🌸
   const [postInfos, setPostInfos] = useState([]);
+  const [selectedPostId, setSelectedPostId] = useState(0);
 
   const handleBookmark = (postId) => {
+    setSelectedPostId(postId);
     setBookmarked((prevBookmarked) => {
       if (prevBookmarked.includes(postId)) {
         return prevBookmarked.filter((id) => id !== postId); // 북마크 제거
@@ -164,7 +166,10 @@ const CityPost = ({ selectedCity }) => {
               ) : (
                 <BookmarkBorderIcon
                   sx={{ cursor: "pointer" }}
-                  onClick={() => handleBookmark(postInfo.postId)}
+                  onClick={() => {
+                    handleBookmark(postInfo.postId);
+                    toggleModal();
+                  }}
                 />
               )}
             </PostHeader>
@@ -173,6 +178,7 @@ const CityPost = ({ selectedCity }) => {
               handleClose={toggleModal}
               folders={folders}
               addFolder={handleAddFolder}
+              postId={selectedPostId}
               handleBookmark={() => handleBookmark(postInfo.postId)}
             />
             <PostTitle onClick={() => handleClickPost(postInfo.postId)}>

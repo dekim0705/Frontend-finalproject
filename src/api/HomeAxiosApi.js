@@ -74,11 +74,11 @@ const HomeAxiosApi = {
       throw error;
     }
   },
-  // 💀 북마크 추가
+  // 🍉 북마크 추가
   addBookmark: async (postId, folderName, token) => {
     try {
       return await axios.post(
-        `${KH_DOMAIN}/home/post/${postId}/folder/${encodeURIComponent(folderName)}/bookmark`, 
+        `${KH_DOMAIN}/home/post/${postId}/folder/${folderName}/bookmark`, 
         {},
         {
           headers: {

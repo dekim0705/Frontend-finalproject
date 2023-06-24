@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
+import Functions from "../Functions";
 
 const ModalBackground = styled.div`
   color: var(--text-color);
@@ -69,27 +71,40 @@ const ModalContainer = styled.div`
   }
 `;
 
-const BookmarkModal = ({ open, handleClose, folders, addFolder, handleBookmark }) => {
+const BookmarkModal = ({ open, handleClose, addFolder, postId, handleBookmark }) => {
+  const token = localStorage.getItem('accessToken');
   const [folderName, setFolderName] = useState("");
-  const [selectedFolder, setSelectedFolder] = useState("");
 
   const handleFolderNameChange = (event) => {
     setFolderName(event.target.value);
   };
 
-  const handleFolderSelect = (event) => {
-    setSelectedFolder(event.target.value);
-  };
-
   const handleAddFolder = () => {
     addFolder(folderName);
     setFolderName("");
+    const addBookmark = async () => {
+      try {
+        const response = await HomeAxiosApi.addBookmark(postId, folderName, token);
+        console.log("💀 : " + response.data);
+        if (response.data === '북마크 추가 성공 ❤️') {
+          handleClose(true);
+          handleBookmark(postId);
+        }
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.addBookmark(postId, folderName, token);
+          console.log(response.data);
+          if (response.data === '북마크 추가 성공 ❤️') {
+            handleClose(true);
+            handleBookmark(postId);
+          }
+        }
+      }
+    };
+    addBookmark();
   };
-
-  const handleAddBookmark = () => {
-    handleBookmark();
-    handleClose(true);
-  }
 
   return (
     <ModalBackground open={open} onClick={handleClose}>
@@ -104,18 +119,6 @@ const BookmarkModal = ({ open, handleClose, folders, addFolder, handleBookmark }
           />
           <button onClick={handleAddFolder}>추가</button>
         </div>
-        {folders.length > 0 ? (
-          <select value={selectedFolder} onChange={handleFolderSelect}>
-            {folders.map((folder, index) => (
-              <option key={index} value={folder}>
-                {folder}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <p>폴더가 없습니다. 추가해주세요.</p>
-        )}
-        <button onClick={handleAddBookmark}>북마크 추가</button>
       </ModalContainer>
     </ModalBackground>
   );
