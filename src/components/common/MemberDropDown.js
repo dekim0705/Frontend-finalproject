@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
+import { UserContext } from "../../context/UserContext";
 
 const MemberDropDown = () => {
   const navigate = useNavigate();
@@ -33,22 +34,28 @@ const MemberDropDown = () => {
   const [profileImg, setProfileImg] = useState("");
   const token = Functions.getAccessToken();
 
+  // 🍉 멤버십 유무
+  const { setIsMembership } = useContext(UserContext);
+
   useEffect(() => {
     const getProfileImg = async () => {
       try {
-        const response = await HomeAxiosApi.pfImg(token);
-        setProfileImg(response.data);
+        const response = await HomeAxiosApi.userInfo(token);
+        console.log("🐓 : " + JSON.stringify(response.data, null, 2));
+        setProfileImg(response.data.pfImg);
+        setIsMembership(response.data.isMembership);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
-          const response = await HomeAxiosApi.pfImg(newToken);
-          setProfileImg(response.data);
+          const response = await HomeAxiosApi.userInfo(newToken);
+          setProfileImg(response.data.pfImg);
+          setIsMembership(response.data.isMembership);
         }
       }
     };
     getProfileImg();
-  }, [token]);
+  }, [token, setIsMembership]);
 
   return (
     <div>

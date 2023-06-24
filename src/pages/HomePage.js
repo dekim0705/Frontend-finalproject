@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 // import Ad from "../components/Home/Ad";
 import City from "../components/Home/City";
 import CityPost from "../components/Home/CityPost";
+import Ad from "../components/Home/Ad";
+import { UserContext } from "../context/UserContext";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -21,8 +23,12 @@ const PostWrapper = styled.div`
 `;
 
 const HomePage = () => {
-  // 📌 추후 멤버십 유무에 따라 광고 노출 여부 결정할 예정
-  // const [showAd, setShowAd] = useState(true);
+  const { isMembership } = useContext(UserContext);
+  const [showAd, setShowAd] = useState(isMembership === 'FREE');
+
+  useEffect(() => {
+    setShowAd(isMembership === 'FREE');
+  }, [isMembership]);
 
   // 지역 선택 상태 관리
   const [selectedCity, setSelectedCity] = useState(null);
@@ -30,7 +36,7 @@ const HomePage = () => {
   return (
     <>
       <AppLayout>
-        {/* {showAd && <Ad />} */}
+        {showAd && <Ad />}
         <GlobalStyle />
         <City setSelectedCity={setSelectedCity}/>
         <PostWrapper>

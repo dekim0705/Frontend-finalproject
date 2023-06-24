@@ -3,10 +3,10 @@ import axios from "axios";
 const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
 
 const HomeAxiosApi = {
-  // 🍉 회원 프로필 이미지
-  pfImg: async (token) => {
+  // 🍉 회원 정보
+  userInfo: async (token) => {
     try {
-      return await axios.get(KH_DOMAIN + "/home/profile", {
+      return await axios.get(KH_DOMAIN + "/home/userInfo", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -61,7 +61,20 @@ const HomeAxiosApi = {
       throw error;
     }
   },
-  // 🍉 북마크 추가
+  // 🍉 광고 가져오기
+  adImg: async (token) => {
+    try {
+      return await axios.get(KH_DOMAIN + "/home/ads", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 💀 북마크 추가
   addBookmark: async (postId, folderName, token) => {
     try {
       return await axios.post(
@@ -78,7 +91,7 @@ const HomeAxiosApi = {
       throw error;
     }
   },
-  // 😓 북마크 상위 5개
+  // 💀 북마크 상위 5개
   top5Bookmark: async (token) => {
     try {
       return await axios.get(KH_DOMAIN + "/home/rank", {

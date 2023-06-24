@@ -94,7 +94,6 @@ const CityPost = ({ selectedCity }) => {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
-          console.log("🦜 : " + JSON.stringify(response.data, null, 2));
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }

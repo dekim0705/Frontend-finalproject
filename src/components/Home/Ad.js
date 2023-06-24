@@ -1,6 +1,7 @@
-import React from "react";
-import adImg from "../../resource/광고.png"
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Functions from "../../util/Functions";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
 
 const Container = styled.div`
   width: 100%;
@@ -10,7 +11,7 @@ const Container = styled.div`
   z-index: 5;
   @media screen and (max-width:768px) {
     position: sticky;
-    top: 150px;
+    top: 166px;
     z-index: 5;
   }
 `;
@@ -21,6 +22,7 @@ const StyledImage = styled.div`
   img {
     width: 100%;
     height: fit-content;
+    max-width: 100%;
   }
   @media screen and (max-width:768px) {
     width: 90%;
@@ -28,14 +30,44 @@ const StyledImage = styled.div`
 `;
 
 const Ad = () => {
+  const token = localStorage.getItem("accessToken");
+
+  const [adsImg, setAdsImg] = useState([]);
+  const [currentAd, setCurrentAd] = useState(0);
+
+  useEffect(() => {
+    const getAdsImg = async () => {
+      try {
+        const response = await HomeAxiosApi.adImg(token);
+        setAdsImg(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.adImg(newToken);
+          setAdsImg(response.data);
+        }
+      }
+    };
+    getAdsImg();
+  }, [token]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentAd((currentAd + 1) % adsImg.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [adsImg, currentAd]);
 
   return (
     <Container>
       <StyledImage>
-        <img src={adImg} alt="" />
+        {adsImg.length > 0 && (
+          <img src={adsImg[currentAd].imgUrl} alt={adsImg[currentAd].name} />
+        )}
       </StyledImage>
     </Container>
   );
-}
+};
 
 export default Ad;
