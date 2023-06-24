@@ -8,6 +8,7 @@ import ReplyWrite from "../components/PinView/ReplyWrite";
 import ReplyList from "../components/PinView/ReplyList";
 import PostAxiosApi from "../api/PostAxiosApi";
 import Functions from "../util/Functions";
+import UpdateDelete from "../components/PinView/UpdateDelete";
 
 const PinViewPage = () => {
   const token = localStorage.getItem('accessToken');
@@ -37,6 +38,7 @@ const PinViewPage = () => {
     <>
       <AppLayout>
         <PostHeader postData={postData} />
+        <UpdateDelete postId={postId}/>
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />
         <ReplyWrite />

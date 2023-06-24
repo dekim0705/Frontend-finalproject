@@ -20,6 +20,7 @@ import UserPolicy from "./components/Join/UserPolicy";
 import UserAgreements from "./components/Join/UserAgreements";
 import SearchResultPage from "./pages/SearchResultPage";
 import SearchStore from "./context/PostContext";
+import EditPage from "./pages/EditPage";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -50,6 +51,7 @@ function App() {
             <Route path="/membership/*" element={<MembershipPage />}></Route>
             <Route path="/write" element={<WritePage />} />
             <Route path="/post/:postId" element={<PinViewPage />} />
+            <Route path="/edit/:postId" element={<EditPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/mypage/*" element={<MyPage />} />
             <Route path="/contact" element={<ChatbotPage />} />
