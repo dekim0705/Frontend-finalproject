@@ -109,10 +109,18 @@ const ReplyManagement = () => {
   getReplies();
 }, [token]);
 
-  const handleSearch = () => {
-    // 검색 기능 구현 예정
-  };
 
+  // 댓글 검색
+  const handleSearch = async (event) => {
+    if (event.key === 'Enter' || event.target.tagName.toLowerCase() === 'svg') {
+      try {
+        const response = await AdminAxiosApi.searchReplies(searchKeyword, token);
+        setReplies(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+      }
+    }
+  };
  
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
@@ -179,11 +187,13 @@ const ReplyManagement = () => {
           <div className="wrapper">
             <input
               type="text"
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
               onKeyDown={handleSearch}
               placeholder="댓글 내용 / 작성자"
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
-              <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
+            <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 , cursor: 'pointer' }}onClick={handleSearch}  />
             </Box>
           </div>
         </SearchContainer>
