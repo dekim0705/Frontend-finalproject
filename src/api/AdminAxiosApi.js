@@ -161,6 +161,53 @@ createAd: async (adDto, token) => {
   }
 },
 
+// 🥨 회원 검색
+searchUsers: async (keyword, token) => {
+  try {
+    return await axios.get(KH_DOMAIN + "/admin/user/search", {
+      params: { keyword },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+},
+
+// 🥨 게시글 검색
+searchPosts: async (keyword, token) => {
+  try {
+    return await axios.get(KH_DOMAIN + "/admin/posts/search", {
+      params: { keyword },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+},
+
+// 🥨 댓글 검색
+searchReplies: async (keyword, token) => {
+  try {
+    return await axios.get(KH_DOMAIN + "/admin/replies/search", {
+      params: { keyword },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+},
+
+
+
 
 
 }
