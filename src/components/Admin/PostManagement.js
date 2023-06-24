@@ -89,7 +89,7 @@ const PostManagement = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const token = localStorage.getItem("accessToken");
   const [selectAll, setSelectAll] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
   const postsPerPage = 8; // 페이지당 표시되는 게시물 수
   
@@ -111,8 +111,16 @@ const PostManagement = () => {
     getPosts();
   }, [token]);
 
-  const handleSearch = () => {
-    // 검색 기능 구현 예정
+  // 게시글 검색
+  const handleSearch = async (event) => {
+    if (event.key === 'Enter' || event.target.tagName.toLowerCase() === 'svg') {
+      try {
+        const response = await AdminAxiosApi.searchPosts(searchKeyword, token);
+        setPosts(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+      }
+    }
   };
 
   const handleSelectAllChange = (event) => {
@@ -182,11 +190,13 @@ const PostManagement = () => {
           <div className="wrapper">
             <input
               type="text"
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
               onKeyDown={handleSearch}
               placeholder="글 제목 / 작성자 "
             />
             <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
-              <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} />
+              <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 , cursor: 'pointer' }}onClick={handleSearch}  />
             </Box>
           </div>
         </SearchContainer>
