@@ -55,11 +55,16 @@ const LoginForm = () => {
       const userData = JSON.stringify(userInfoResponse, null, 2);
       const userDataObject = JSON.parse(userData);
 
-      if (userInfoResponse.status === 200) {
+      if (userInfoResponse.status === 200 && userDataObject.data.authority === 'ROLE_USER') {
         localStorage.setItem('accessToken', userDataObject.data.accessToken);
         localStorage.setItem('refreshToken', userDataObject.data.refreshToken);
 
         navigate("/home");
+      } else if (userInfoResponse.status === 200 && userDataObject.data.authority === 'ROLE_ADMIN') {
+        localStorage.setItem('accessToken', userDataObject.data.accessToken);
+        localStorage.setItem('refreshToken', userDataObject.data.refreshToken);
+
+        navigate("/admin");
       }
     } catch (error) {
       console.log(error);
