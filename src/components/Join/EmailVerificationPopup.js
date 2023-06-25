@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import JoinAxiosApi from '../../api/JoinAxiosApi';
 
 const PopupContainer = styled.div`
   position: fixed;
@@ -68,21 +70,50 @@ const PopupButton = styled.button`
   }
 `;
 
-const EmailVerificationPopup = ({ onVerify, onVerificationSuccess }) => {
-  const [verificationKey, setVerificationKey] = useState('');
+const EmailVerificationPopup = ({ email }) => {
+  const navigate = useNavigate();
+  const [authKey, setAuthKey] = useState('');
 
   const handleVerificationKeyChange = (event) => {
-    setVerificationKey(event.target.value);
+    setAuthKey(event.target.value);
   };
 
-  const handleVerifyEmail = () => {
-    if (verificationKey === 'authKey') {
-      onVerify();
-      onVerificationSuccess();
-    } else {
-      alert('인증키를 확인해 주세요.');
-      setVerificationKey('');
+  const verifyAuthKey = async (email, authKey) => {
+    try {
+      await JoinAxiosApi.confirmAuthKey(email, authKey);
+      console.log("🍒 인증 성공: ", email, authKey);
+      return true; 
+    } catch (error) {
+      console.error("😰 인증 실패: ",error);
+      return false; 
     }
+  };
+  
+  const handleVerifyEmail = async () => {
+    if (!authKey) {
+      alert('인증키를 입력해 주세요.');
+      setAuthKey('');
+      return;
+    }
+  
+    try {
+      const response = await verifyAuthKey(email, authKey);
+      console.log(response)
+      if (response === true) {
+        onVerificationSuccess();
+      } else {
+        alert('인증키를 확인해 주세요.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const onVerificationSuccess = () => {
+    alert('인증되었습니다! 로그인해 주세요.');
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
   };
 
   return (
@@ -94,7 +125,7 @@ const EmailVerificationPopup = ({ onVerify, onVerificationSuccess }) => {
           <PopupInput
             type="text"
             placeholder="인증 키를 입력하세요"
-            value={verificationKey}
+            value={authKey}
             onChange={handleVerificationKeyChange}
           />
           <PopupButtonContainer>

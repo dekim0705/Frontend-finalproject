@@ -151,19 +151,6 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
         throw error;
       }
     },
-    // 회원가입
-    createUser: async(userData) => {
-      try {
-        return await axios.post(KH_DOMAIN + "/auth/join", userData, {
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   'Authorization': 'Bearer ' + 
-          // }
-        })
-      } catch(error) {
-        throw error;
-      }
-    }
   };
 export default UserAxiosApi;
 
