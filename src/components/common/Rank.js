@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
+import { useNavigate } from "react-router-dom";
 
 const StyledRank = styled.div`
   width: 16%;
@@ -65,6 +66,7 @@ const RankDetail = styled.div`
   }
 `;
 const Rank = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem('accessToken');
   const [rankData, setRankData] = useState([]);
 
@@ -85,6 +87,10 @@ const Rank = () => {
     getTop5Bookmark();
   }, [token]);
 
+  const handleClickRank = (postId) => {
+    navigate(`/post/${postId}`);
+  }
+
   return (
     <StyledRank>
       <Container>
@@ -93,7 +99,7 @@ const Rank = () => {
           <p>북마크가 없습니다.😓</p>
         ) : (
           rankData.map((item, index) => (
-            <RankItem key={index}>
+            <RankItem key={index} onClick={() => handleClickRank(item.id)}>
               <h1>{index + 1}</h1>
               <RankDetail>
                 <h2>{item.title}</h2>
