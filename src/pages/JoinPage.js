@@ -7,6 +7,7 @@ import { ColumnWrapper } from '../components/Join/Wrappers';
 import Button from '../components/Join/Button';
 import Agreement from '../components/Join/Agreement';
 import EmailVerificationPopup from '../components/Join/EmailVerificationPopup';
+import UserAxiosApi from '../api/UserAxiosApi';
 
 const StyledContainer = styled.div`
   margin: 20px auto;
@@ -75,6 +76,23 @@ const JoinPage = () => {
     setIsNickname(nicknameRegex.test(nicknameCurrent))
   }
 
+  const handleJoinBtn = async() => {
+    if (isNickname && isPwd && isConPwd && isEmail) {
+      const userData = {
+        email : inputEmail,
+        pwd : inputPwd,
+        nickname : inputNickname
+      };
+      try {
+        await UserAxiosApi.createUser(userData);
+        setShowEmailVerificationPopup(true);
+        
+        }catch (error) {
+          console.log("회원가입 실패", error)
+      } 
+    }
+  }
+
   const handleVerificationSuccess = () => {
     alert('인증되었습니다! 로그인해 주세요.');
     setTimeout(() => {
@@ -137,7 +155,7 @@ const JoinPage = () => {
         errorColor="#66002f"
       />
       <Agreement />
-      <Button onClick={() => setShowEmailVerificationPopup(true)}>가 입 하 기</Button>
+      <Button onClick={handleJoinBtn}>가 입 하 기</Button>
       {showEmailVerificationPopup && (
         <EmailVerificationPopup
           onVerify={() => {}}
