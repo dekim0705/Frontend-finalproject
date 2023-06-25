@@ -107,7 +107,7 @@ const HomeAxiosApi = {
       throw error;
     }
   },
-  // 💀 북마크 상위 5개
+  // 🍉 북마크 상위 5개
   top5Bookmark: async (token) => {
     try {
       return await axios.get(KH_DOMAIN + "/home/rank", {
