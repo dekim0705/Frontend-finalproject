@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import AuthAxiosApi from "../../api/AuthAxiosApi";
 
 const Container = styled.div`
   color: var(--text-color);
@@ -43,22 +44,47 @@ const BtnStyle = styled.button`
 const AuthBtn = styled(BtnStyle)`
   width: 100%;
 `;
+
 const EmailForm = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
 
-  const handleConfirm = () => {
-    alert('사용자 확인이 완료되었습니다. 👌');
+  const handleConfirm = async () => {
+    try {
+      const response = await AuthAxiosApi.email(email);
+      if (response.data) {
+        alert('존재하는 이메일 입니다. 👌');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('입력한 이메일이 유효하지 않습니다. 다시 확인해주세요. 😓');
+    }
   }
 
-  const handleAuthForm = () => {
-    navigate('/');
-    
+  const handleAuthForm = async () => {
+    try {
+      const response = await AuthAxiosApi.resetPwd(email);
+      if (response.data === '임시 비밀번호 발송 및 업데이트 완료 ❤️') {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  }
+
   return (
     <Container>
       <h1>가입한 이메일 주소를 입력해주세요.</h1>
       <WrapperEmailForm>
-        <input type="text" placeholder="아이디(이메일)" />
+        <input 
+          type="text" 
+          placeholder="아이디(이메일)"
+          onChange={handleEmailChange}
+        />
         <BtnStyle onClick={handleConfirm}>확인</BtnStyle>
       </WrapperEmailForm>
       <AuthBtn onClick={handleAuthForm}>이메일로 임시 비밀번호 받기</AuthBtn>
