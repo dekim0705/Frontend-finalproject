@@ -68,7 +68,7 @@ const HomeAxiosApi = {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
-        }
+        },
       });
     } catch (error) {
       throw error;
@@ -78,8 +78,24 @@ const HomeAxiosApi = {
   addBookmark: async (postId, folderName, token) => {
     try {
       return await axios.post(
-        `${KH_DOMAIN}/home/post/${postId}/folder/${folderName}/bookmark`, 
+        `${KH_DOMAIN}/home/post/${postId}/folder/${folderName}/bookmark`,
         {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 북마크 삭제
+  deleteBookmark: async (postId, folderName, token) => {
+    try {
+      return await axios.delete(
+        `${KH_DOMAIN}/home/post/${postId}/folder/${folderName}/bookmark`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,13 +113,13 @@ const HomeAxiosApi = {
       return await axios.get(KH_DOMAIN + "/home/rank", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        }
+          Authorization: "Bearer " + token,
+        },
       });
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default HomeAxiosApi;

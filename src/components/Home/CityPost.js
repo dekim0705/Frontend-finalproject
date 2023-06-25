@@ -76,16 +76,22 @@ const CityPost = ({ selectedCity }) => {
   // 게시글 정보 🌸
   const [postInfos, setPostInfos] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(0);
+  const [bookmarkInfo, setBookmarkInfo] = useState({});
 
-  const handleBookmark = (postId) => {
+  const handleBookmark = async (postId) => {
     setSelectedPostId(postId);
-    setBookmarked((prevBookmarked) => {
-      if (prevBookmarked.includes(postId)) {
-        return prevBookmarked.filter((id) => id !== postId); // 북마크 제거
-      } else {
-        return [...prevBookmarked, postId]; // 북마크 추가
+    if (bookmarked.includes(postId)) {
+      // 북마크 삭제
+      try {
+        const folderName = bookmarkInfo[postId];
+        await HomeAxiosApi.deleteBookmark(postId, folderName, token);
+        setBookmarked((prevBookmarked) => prevBookmarked.filter((id) => id !== postId));
+      } catch (error) {
+        console.error(error);
       }
-    });
+    } else {
+      setBookmarked((prevBookmarked) => [...prevBookmarked, postId]);
+    }
   };
 
   const handleAddFolder = (folderName) => {
@@ -137,21 +143,22 @@ const CityPost = ({ selectedCity }) => {
   useEffect(() => {
     const getBookmarkedPosts = async () => {
       try {
-        const bookmarkedPosts = await Promise.all(
+        const bookmarkedPostsInfo = await Promise.all(
           postInfos.map((post) =>
-            BookmarkAxiosApi.isBookmark(post.postId, token).then(
-              (res) => res.data
-            )
+            BookmarkAxiosApi.isBookmarkAndFolderName(post.postId, token)
           )
         );
 
-        setBookmarked(
-          bookmarkedPosts
-            .map((isBookmarked, index) =>
-              isBookmarked ? postInfos[index].postId : null
-            )
-            .filter(Boolean)
-        );
+        const bookmarkedPosts = bookmarkedPostsInfo.map((info, index) => info.data.isBookmarked ? postInfos[index].postId : null).filter(Boolean);
+
+        setBookmarkInfo(bookmarkedPostsInfo.reduce((acc, info, index) => {
+          if (info.data.isBookmarked) {
+            acc[postInfos[index].postId] = info.data.folderName;
+          }
+          return acc;
+        }, {}));
+
+        setBookmarked(bookmarkedPosts);
       } catch (error) {
         console.error(error);
       }
