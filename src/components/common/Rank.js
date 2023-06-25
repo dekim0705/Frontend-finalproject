@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
+import Functions from "../../util/Functions";
 
 const StyledRank = styled.div`
   width: 16%;
@@ -73,7 +74,12 @@ const Rank = () => {
         const response = await HomeAxiosApi.top5Bookmark(token);
         setRankData(response.data.content);
       } catch (error) {
-
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.top5Bookmark(newToken);
+          setRankData(response.data.content);
+        }
       }
     };
     getTop5Bookmark();
@@ -83,18 +89,22 @@ const Rank = () => {
     <StyledRank>
       <Container>
         <Title>인기 데이트 코스📍</Title>
-        {rankData.map((item, index) => (
-          <RankItem key={index}>
-            <h1>{index + 1}</h1>
-            <RankDetail>
-              <h2>{item.title}</h2>
-              <p>{item.bookmarkCount} Likes</p>
-            </RankDetail>
-          </RankItem>
-        ))}
+        {rankData.length === 0 ? (
+          <p>북마크가 없습니다.😓</p>
+        ) : (
+          rankData.map((item, index) => (
+            <RankItem key={index}>
+              <h1>{index + 1}</h1>
+              <RankDetail>
+                <h2>{item.title}</h2>
+                <p>{item.bookmarkCount} Likes</p>
+              </RankDetail>
+            </RankItem>
+          ))
+        )}
       </Container>
     </StyledRank>
   );
-};
+}
 
 export default Rank;

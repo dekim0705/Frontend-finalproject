@@ -62,12 +62,14 @@ const Ad = () => {
   return (
     <Container>
       <StyledImage>
-        {adsImg.length > 0 && (
+        {adsImg.length === 0 ? (
+          <p>광고가 없습니다.</p>
+        ) : (
           <img src={adsImg[currentAd].imgUrl} alt={adsImg[currentAd].name} />
         )}
       </StyledImage>
     </Container>
   );
-};
+}
 
 export default Ad;
