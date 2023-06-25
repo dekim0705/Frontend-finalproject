@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import { useNavigate } from 'react-router-dom';
+import Functions from '../../../util/Functions';
 
 const StyledWithdraw = styled.button`
   position: relative;
@@ -92,15 +95,25 @@ const Backdrop = styled.div`
 `;
 
 const Withdraw = ({ children }) => {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const token = Functions.getAccessToken();
+
 
   const handleWithdrawClick = () => {
     setShowPopup(true);
   };
 
-  const handleWithdrawConfirm = () => {
-    console.log('회원 탈퇴 진행');
-    setShowPopup(false);
+  const handleWithdrawConfirm = async() => {
+    try {
+      await UserAxiosApi.deleteUser(token);
+      alert("회원 탈퇴가 완료되었습니다.");
+      localStorage.clear();
+      navigate("/");
+    } catch (error) {
+      console.log("회원 탈퇴 실패");
+      setShowPopup(false);
+    }
   };
 
   const handleWithdrawCancel = () => {
