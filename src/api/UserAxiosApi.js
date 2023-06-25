@@ -124,7 +124,8 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
       } catch (error) {
         throw error;
       }
-    },
+    },       
+     // 🍒 회원 비밀번호 변경
     updateUserPwd: async (token, newPwd) => {
       try {
         return await axios.put(KH_DOMAIN + "/mypage/pwd", newPwd, {
@@ -137,7 +138,32 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
         throw error;
       }
     },
-    
+    // 🍒 회원 탈퇴
+    deleteUser: async(token) => {
+      try {
+        return await axios.delete(KH_DOMAIN + "/mypage/information", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 회원가입
+    createUser: async(userData) => {
+      try {
+        return await axios.post(KH_DOMAIN + "/auth/join", userData, {
+          // headers: {
+          //   'Content-Type': 'application/json',
+          //   'Authorization': 'Bearer ' + 
+          // }
+        })
+      } catch(error) {
+        throw error;
+      }
+    }
   };
 export default UserAxiosApi;
 

@@ -6,7 +6,7 @@ const PopupContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400%;
+  width: 30%;
   background-color: #ffffff;
   padding: 15px;
   border: 1px solid gray;
