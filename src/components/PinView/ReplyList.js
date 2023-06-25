@@ -24,7 +24,7 @@ const StyledReplyForm = styled.div`
     display: flex;
     align-items: center;
     h1 {
-      width: 100px;
+      width: fit-content;
       font-size: 0.9em;
       font-weight: 900;
     }
@@ -36,13 +36,12 @@ const StyledReplyForm = styled.div`
 `;
 
 const ContentStyled = styled.div`
-  width: 48vw;
+  width: 47.5vw;
   background-color: var(--hover-color);
   padding: 20px;
-  font-size: 0.9em;
   margin-top: 10px;
   line-height: 1.3em;
-  border-radius: 8px;
+  border-radius: 4px;
   @media screen and (max-width:768px) {
     width: 75vw;
   }
