@@ -5,9 +5,12 @@ import Button from '../../Join/Button';
 import { EditInfoNav, SettingsNav } from '../Navs';
 import { ColumnWrapper } from '../../Join/Wrappers';
 import { useNavigate } from 'react-router-dom';
+import UserAxiosApi from '../../../api/UserAxiosApi';
+import Functions from '../../../util/Functions';
 
 const EditPwd = () => {
   const navigate = useNavigate();
+  const token = Functions.getAccessToken();
   const [pwd, setPwd] = useState('');
   const [conPwd, setConPwd]  = useState('');  
   const [isPwd, setIsPwd] = useState(false);
@@ -33,18 +36,23 @@ const EditPwd = () => {
       }
     }
 
-    const handleBtnClick  = async() => {
+    const handleBtnClick = async () => {
       if (!isPwd || !isConPwd) {
-        alert('비밀번호를 확인해 주세요')
+        alert('새로운 비밀번호를 확인해주세요.');
         return;
       }
+      
+      const newPwd = { pwd };
+      
       try {
-        alert('비밀번호가 변경 되었습니다.')
-        navigate('/mypage')
+        await UserAxiosApi.updateUserPwd(token, newPwd);
+        alert('비밀번호가 변경되었습니다.');
+        navigate('/mypage');
       } catch (error) {
         console.error('비밀번호 변경 실패..');
       }
-    }
+    };
+    
       
   return(
     <>
