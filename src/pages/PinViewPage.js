@@ -46,7 +46,7 @@ const PinViewPage = () => {
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />
         <ReplyWrite postData={postData} />
-        <ReplyList />
+        <ReplyList postData={postData} />
       </AppLayout>
     </>
   );

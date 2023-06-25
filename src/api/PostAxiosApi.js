@@ -76,6 +76,19 @@ const PostAxiosApi = {
       throw error;
     }
   },
+  // 🍉 댓글 조회
+  viewReply: async (postId, token) => {
+    try {
+      return await axios.get(`${KH_DOMAIN}/posts/${postId}/reply`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default PostAxiosApi;
