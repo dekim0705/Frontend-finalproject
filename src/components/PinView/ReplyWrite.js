@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
-import profileImg from "../../resource/profile.jpeg";
-import CreateIcon from '@mui/icons-material/Create';
+import CreateIcon from "@mui/icons-material/Create";
+import PostAxiosApi from "../../api/PostAxiosApi";
+import { UserContext } from "../../context/UserContext";
+import Functions from "../../util/Functions";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -32,18 +34,57 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const ReplyWrite = () => {
+const ReplyWrite = ({ postData }) => {
+  const token = localStorage.getItem("accessToken");
+  const { userPfImg } = useContext(UserContext);
+  const [reply, setReply] = useState("");
+
+  const handleContentChange = (e) => {
+    setReply(e.target.value);
+  };
+
+  const handleClick = async () => {
+    try {
+      const replyUserDto = {
+        content: reply,
+      };
+      const response = await PostAxiosApi.createReply(
+        postData.postId,
+        replyUserDto,
+        token
+      );
+      console.log("🍔 : " + response.data);
+      if (response.data === true) {
+        alert("댓글이 작성되었습니다.");
+        window.location.reload();
+      }
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const replyUserDto = {
+          content: reply,
+        };
+        const response = await PostAxiosApi.createReply(postData.postId, replyUserDto, newToken);
+        console.log("🍔 : " + response.data);
+      }
+    }
+  };
 
   return (
     <StyledContainer>
-      <h1>후기</h1>
+      <h1>댓글</h1>
       <StyledReplyForm>
-        <img src={profileImg} alt="" />
-        <textarea type="text" placeholder="감정을 존중하며 표현해주시길 바랍니다. 좋은 후기는 모두에게 도움이 됩니다." />
-        <CreateIcon style={{ cursor: 'pointer' }} />
+        <img src={userPfImg} alt="" />
+        <textarea
+          type="text"
+          placeholder="감정을 존중하며 표현해주시길 바랍니다. 좋은 후기는 모두에게 도움이 됩니다."
+          onChange={handleContentChange}
+        />
+        <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
     </StyledContainer>
   );
-}
+};
 
 export default ReplyWrite;

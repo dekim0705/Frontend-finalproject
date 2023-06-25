@@ -59,6 +59,23 @@ const PostAxiosApi = {
       throw error;
     }
   },
+  // 🍉 댓글 작성
+  createReply: async (postId, replyUserDto, token) => {
+    try {
+      return await axios.post(
+        KH_DOMAIN + `/posts/${postId}/reply`,
+        JSON.stringify(replyUserDto),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default PostAxiosApi;

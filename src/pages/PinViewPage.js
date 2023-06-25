@@ -45,7 +45,7 @@ const PinViewPage = () => {
         {showUpdateDelete && <UpdateDelete postId={postId} />}
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />
-        <ReplyWrite />
+        <ReplyWrite postData={postData} />
         <ReplyList />
       </AppLayout>
     </>
