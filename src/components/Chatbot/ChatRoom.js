@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Profile from "../../resource/chat_profile.jpeg";
 import SendIcon from "@mui/icons-material/Send";
+import ChatbotAxiosApi from "../../api/ChatbotAxiosApi";
+import Functions from "../../util/Functions";
 
 const ChatRoomContainer = styled.div`
   position: relative;
@@ -180,10 +182,12 @@ const SendButton = styled.button`
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("")
+  const [emailInputValue, setEmailInputValue] = useState("");
   const messageContainerRef = useRef(null);
   const [isEmailRequired, setIsEmailRequired] = useState(false);
   const [isInputActive, setIsInputActive] = useState(false);
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const startMessage = {
@@ -287,6 +291,7 @@ const ChatRoom = () => {
       const emailMessage = {
         text: <>답변을 받으실 이메일 주소를 입력해주세요😆 </>,
         isUserMessage: false,
+        isEmailRequired: true,
       };
       updatedMessages = [...updatedMessages, emailMessage];
       setIsEmailRequired(false);
@@ -295,12 +300,27 @@ const ChatRoom = () => {
         text: <>문의가 성공적으로 접수되었습니다!  <br /> 확인 후 빠른 시일 내에 답변드리겠습니다 💗</>,
         isUserMessage: false,
       };
-      updatedMessages = [...updatedMessages, botMessage];
+
+      const chatbotDto = {
+        inquiryContent: inputValue,
+        inquiryEmail: emailInputValue, // 입력한 이메일 주소를 저장
+      };
+
+      ChatbotAxiosApi.createInquiry(chatbotDto, token)
+        .then((response) => {
+          console.log("문의 접수 성공");
+          setMessages([...updatedMessages, botMessage]);
+        })
+        .catch((error) => {
+          console.log("문의 접수 실패", error);
+        });
     }
 
     setMessages(updatedMessages);
     setInputValue("");
   };
+
+
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
