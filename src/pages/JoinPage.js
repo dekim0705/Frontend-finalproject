@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import MuiTextField from "../components/Join/TextField";
 import styled from 'styled-components';
 import Symbol from '../components/Join/Symbol';
@@ -7,7 +6,7 @@ import { ColumnWrapper } from '../components/Join/Wrappers';
 import Button from '../components/Join/Button';
 import Agreement from '../components/Join/Agreement';
 import EmailVerificationPopup from '../components/Join/EmailVerificationPopup';
-import UserAxiosApi from '../api/UserAxiosApi';
+import JoinAxiosApi from '../api/JoinAxiosApi';
 
 const StyledContainer = styled.div`
   margin: 20px auto;
@@ -42,17 +41,47 @@ const JoinPage = () => {
   const [isPwd, setIsPwd] = useState(false);
   const [isConPwd, setIsConPwd] = useState(false);
 
-  const navigate = useNavigate();
+  const [nicknameHelpText, setNicknameHelpText] = useState('');
+  const [emailHelpText, setEmailHelpText] = useState('');
+
+  const [isAgreementsChecked, setIsAgreementsChecked] = useState(false);
+  const [isPushChecked, setIsPushChecked] = useState(false); 
+
   const [showEmailVerificationPopup, setShowEmailVerificationPopup] = useState(false);
 
+
   // 이메일
-  const onChangeEmail = (e) => {
+  const onChangeEmail = async(e) => {
     const emailRegEx = /^[a-zA-Z0-9+-/_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     const emailCurrent = e.target.value
-    setInputEmail(e.target.value);
-    console.log('❗️ email : ', inputEmail)
-    setIsEmail(emailRegEx.test(emailCurrent))
-  }
+    setInputEmail(emailCurrent);
+
+    if (emailCurrent === "") {
+      setEmailHelpText("");
+    } else { // 중복 검사
+      const checkEmail = async(emailCurrent) => {
+        try {
+          const memberCheck = await JoinAxiosApi.dupEmail(emailCurrent);
+          if (memberCheck.data === false) {
+            setEmailHelpText('이미 사용 중인 이메일입니다.');
+            setIsEmail(false);
+          } else {
+            setEmailHelpText('사용 가능한 이메일입니다.');
+            setIsEmail(true);
+          }
+        } catch (error) {
+          console.log("이메일 중복 확인 오류: ", error);
+        }
+      };
+      if (emailRegEx.test(emailCurrent)) {
+        await checkEmail(emailCurrent);
+      } else {
+        setIsEmail(false);
+        setEmailHelpText('@를 포함한 이메일을 입력해 주세요.');
+      }
+    }
+  };
+
   // 비밀번호 (정규식 : 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합)
   const onChangePwd = (e) => {
     const pwdRegex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
@@ -61,6 +90,7 @@ const JoinPage = () => {
     console.log('❗️ pwd : ', inputPwd)
     setIsPwd(pwdRegex.test(pwdCurrent));
   }
+
   // 비밀번호 확인
   const onChangeConPwd = (e) => {
     const conPwdCurrent = e.target.value;
@@ -68,37 +98,73 @@ const JoinPage = () => {
     console.log('❗️ conPwd : ', inputConPwd)
     setIsConPwd(conPwdCurrent === inputPwd)
   }
+
   // 닉네임 (정규식 : 2 ~ 10자 한글, 영문, 숫자 사용 가능)
-  const onChangeNickname = (e) => {
+  const onChangeNickname = async (e) => {
     const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-z0-9가-힣]{2,10}$/;
     const nicknameCurrent = e.target.value;
     setInputNickname(nicknameCurrent);
-    setIsNickname(nicknameRegex.test(nicknameCurrent))
-  }
 
-  const handleJoinBtn = async() => {
+    if (nicknameCurrent === "") {
+      setNicknameHelpText("");
+    } else { // 중복 검사
+      const checkNickname = async(nicknameCurrent) => {
+        try {
+          const memberCheck = await JoinAxiosApi.dupNickname(nicknameCurrent);
+          if (memberCheck.data === false) {
+            setNicknameHelpText('이미 사용 중인 닉네임입니다.');
+            setIsNickname(false);
+          } else {
+            setNicknameHelpText('사용 가능한 닉네임입니다.');
+            setIsNickname(true);
+          }
+        } catch (error) {
+          console.log("닉네임 중복 확인 오류: ", error);
+        }
+      };
+      if (nicknameRegex.test(nicknameCurrent)) {
+        await checkNickname(nicknameCurrent);
+      } else {
+        setIsNickname(false);
+        setNicknameHelpText('닉네임은 2~8자의 영문, 숫자, 한글로 이루어져야 합니다.');
+      }
+    }
+  };
+
+  const handleAgreementChange = (checkedItems) => {
+    setIsAgreementsChecked(
+      checkedItems.includes('chk1') && checkedItems.includes('chk2')
+    );
+    setIsPushChecked(checkedItems.includes('chk3'))
+  };
+
+
+  const handleJoinBtn = async () => {
+    if (!isAgreementsChecked) {
+      alert("필수 약관에 동의해 주세요.")
+      return;
+    }
+
     if (isNickname && isPwd && isConPwd && isEmail) {
+      const isPush = isPushChecked ? "PUSH" : "NOPUSH";
       const userData = {
-        email : inputEmail,
-        pwd : inputPwd,
-        nickname : inputNickname
+        email: inputEmail,
+        pwd: inputPwd,
+        nickname: inputNickname,
+        isPush: isPush
       };
       try {
-        await UserAxiosApi.createUser(userData);
+        await JoinAxiosApi.createUser(userData);
         setShowEmailVerificationPopup(true);
-        
-        }catch (error) {
-          console.log("회원가입 실패", error)
-      } 
+        console.log("🍒회원가입 성공 : ", userData);
+      } catch (error) {
+        console.log("😰 회원가입 실패", error);
+      }
     }
-  }
-
-  const handleVerificationSuccess = () => {
-    alert('인증되었습니다! 로그인해 주세요.');
-    setTimeout(() => {
-      navigate('/');
-    }, 1000);
   };
+  
+
+
 
   return (
     <StyledContainer gap="30px">
@@ -114,7 +180,7 @@ const JoinPage = () => {
         onChange={onChangeNickname}
         placeholder="닉네임을 입력하세요"
         required
-        helperText={inputNickname ? isNickname ? '사용가능한 닉네임 입니다' : '2~10자의 닉네임을 입력해 주세요.(한글, 영문, 숫자 사용 가능)' : ''}
+        helperText={nicknameHelpText}
         isValid={isNickname}
         errorColor="#66002f"
       />
@@ -150,16 +216,15 @@ const JoinPage = () => {
         onChange={onChangeEmail}
         placeholder="이메일을 입력하세요"
         required
-        helperText={inputEmail ? (isEmail ? '올바른 형식입니다.' : '이메일 주소를 확인해 주세요.') : ''}
+        helperText={emailHelpText}
         isValid={isEmail}
         errorColor="#66002f"
       />
-      <Agreement />
+      <Agreement onAgreementChange={handleAgreementChange} />
       <Button onClick={handleJoinBtn}>가 입 하 기</Button>
       {showEmailVerificationPopup && (
         <EmailVerificationPopup
-          onVerify={() => {}}
-          onVerificationSuccess={handleVerificationSuccess}
+          email={inputEmail}
         />
       )}
     </StyledContainer>
