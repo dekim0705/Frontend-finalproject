@@ -183,11 +183,12 @@ const SendButton = styled.button`
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("")
-  const [emailInputValue, setEmailInputValue] = useState("");
   const messageContainerRef = useRef(null);
-  const [isEmailRequired, setIsEmailRequired] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
   const [isInputActive, setIsInputActive] = useState(false);
   const token = localStorage.getItem("accessToken");
+  const [inquiryContent, setInquiryContent] = useState("");
+  const [inquiryEmail, setInquiryEmail] = useState("");
 
   useEffect(() => {
     const startMessage = {
@@ -211,7 +212,8 @@ const ChatRoom = () => {
       };
 
       setIsInputActive(menuNumber === 5);
-      setIsEmailRequired(menuNumber === 5);
+      setIsEmail(false);
+
 
       const botMessage = {
         text: test(menuNumber),
@@ -224,7 +226,7 @@ const ChatRoom = () => {
 
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !isEmailRequired) {
+    if (e.key === "Enter" && !isEmail) {
       handleSendMessage();
     }
   };
@@ -273,53 +275,59 @@ const ChatRoom = () => {
     }
   };
 
+  // 스크롤 유지
   useEffect(() => {
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // 문의 작성
   const handleSendMessage = () => {
     const userMessage = {
       text: inputValue,
       isUserMessage: true,
     };
-
+  
     let updatedMessages = [...messages, userMessage];
-
-    if (isEmailRequired) {
+  
+    if (!isEmail && !inquiryContent) {
+      setInquiryContent(inputValue);
+      setIsEmail(true);
       const emailMessage = {
         text: <>답변을 받으실 이메일 주소를 입력해주세요😆 </>,
         isUserMessage: false,
-        isEmailRequired: true,
       };
-      updatedMessages = [...updatedMessages, emailMessage];
-      setIsEmailRequired(false);
-    } else {
+      updatedMessages = [...updatedMessages, emailMessage]; // 이메일 입력 요청 메시지 추가
+    } else if (isEmail) {
+      setInquiryEmail(inputValue);
       const botMessage = {
         text: <>문의가 성공적으로 접수되었습니다!  <br /> 확인 후 빠른 시일 내에 답변드리겠습니다 💗</>,
         isUserMessage: false,
       };
-
+  
       const chatbotDto = {
-        inquiryContent: inputValue,
-        inquiryEmail: emailInputValue, // 입력한 이메일 주소를 저장
+        inquiryContent: inquiryContent,
+        inquiryEmail: inputValue,
       };
-
+    
       ChatbotAxiosApi.createInquiry(chatbotDto, token)
         .then((response) => {
           console.log("문의 접수 성공");
           setMessages([...updatedMessages, botMessage]);
+          setIsEmail(false);
+          setInquiryContent("");
         })
         .catch((error) => {
           console.log("문의 접수 실패", error);
         });
     }
-
+    
     setMessages(updatedMessages);
     setInputValue("");
   };
-
+  
+  
 
 
   const handleInputChange = (e) => {
