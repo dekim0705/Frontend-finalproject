@@ -174,6 +174,7 @@ const WritePage = () => {
           onRegionChange={handleRegionChange}
           onScheduleChange={handleScheduleChange}
           onThemeChange={handleThemeChange}
+          post={post}
         />
         <RouteByKakao setPins={setPins} />
         <ContentField onContentChange={handleContentChange} />
