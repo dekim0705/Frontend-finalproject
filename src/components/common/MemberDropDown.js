@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -30,32 +30,29 @@ const MemberDropDown = () => {
     { path: "/mypage", text: "마이페이지" },
   ];
 
-  // 🍉 회원 프로필
-  const [profileImg, setProfileImg] = useState("");
   const token = Functions.getAccessToken();
 
-  // 🍉 멤버십 유무
-  const { setIsMembership } = useContext(UserContext);
+  const { setIsMembership, userPfImg, setUserPfImg } = useContext(UserContext);
 
   useEffect(() => {
     const getProfileImg = async () => {
       try {
         const response = await HomeAxiosApi.userInfo(token);
         console.log("🐓 : " + JSON.stringify(response.data, null, 2));
-        setProfileImg(response.data.pfImg);
+        setUserPfImg(response.data.pfImg);
         setIsMembership(response.data.isMembership);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await HomeAxiosApi.userInfo(newToken);
-          setProfileImg(response.data.pfImg);
+          setUserPfImg(response.data.pfImg);
           setIsMembership(response.data.isMembership);
         }
       }
     };
     getProfileImg();
-  }, [token, setIsMembership]);
+  }, [token, setIsMembership, setUserPfImg]);
 
   return (
     <div>
@@ -68,7 +65,7 @@ const MemberDropDown = () => {
         onClick={handleClick}
       >
         <img
-          src={profileImg}
+          src={userPfImg}
           alt="Profile"
           style={{ width: 40, height: 40, borderRadius: "50%" }}
         />

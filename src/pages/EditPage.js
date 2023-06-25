@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import WriteForm from "../components/Write/WriteForm";
@@ -6,9 +6,10 @@ import RouteByKakao from "../components/Write/RouteByKakao";
 import ContentField from "../components/Write/ContentField";
 import PlaceTag from "../components/Write/PlaceTag";
 import PostAxiosApi from "../api/PostAxiosApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ImageUpload from "../components/Write/ImageUpload";
 import Button from "@mui/material/Button";
+import Functions from "../util/Functions";
 
 const Container = styled.div`
   display: flex;
@@ -54,9 +55,28 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const WritePage = () => {
+const EditPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
+  const { postId } = useParams();
+
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const response = await PostAxiosApi.viewPost(postId, token);
+        setPost(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await PostAxiosApi.viewPost(postId, token);
+          setPost(response.data);
+        }
+      }
+    };
+    getPost();
+  }, [token, postId]);
+
   const [post, setPost] = useState({
     title: "",
     region: "",
@@ -152,10 +172,9 @@ const WritePage = () => {
         post,
         pins: uniquePins,
       };
-      const response = await PostAxiosApi.createPost(postPinDto, token);
-      console.log("🔴 제발 .. : " + response.data);
-      if (response.data === "글 작성 성공❤️") {
-        navigate("/home");
+      const response = await PostAxiosApi.updatePost(postId, postPinDto, token);
+      if (response.data === "게시글 수정 성공 ❤️") {
+        navigate(`/post/${postId}`);
       }
     } catch (error) {
       console.error("🔴 : " + JSON.stringify(error.response.data));
@@ -174,13 +193,21 @@ const WritePage = () => {
           onRegionChange={handleRegionChange}
           onScheduleChange={handleScheduleChange}
           onThemeChange={handleThemeChange}
+          titleValue={post.title}
+          districtValue={post.district}
+          comment1Value={post.comment[0]}
+          comment2Value={post.comment[1]}
+          comment3Value={post.comment[2]}
           post={post}
         />
         <RouteByKakao setPins={setPins} />
-        <ContentField onContentChange={handleContentChange} />
-        {previewImgUrl.length > 0 && (
+        <ContentField
+          onContentChange={handleContentChange}
+          contentValue={post.content}
+        />
+        {post.imgUrl && (
           <ImageWrapper>
-            {previewImgUrl.map((url, index) => (
+            {post.imgUrl.split(",").map((url, index) => (
               <div key={index}>
                 <img src={url} alt={`Uploaded ${index}`} />
                 <Button onClick={() => handleImageDelete(index)}>삭제</Button>
@@ -190,10 +217,10 @@ const WritePage = () => {
         )}
         <ImageUpload onImageUpload={handleImageUpload} />
         <PlaceTag onTagUpdate={handleTagUpdate} />
-        <StyledButton onClick={handleClick}>등록</StyledButton>
+        <StyledButton onClick={handleClick}>수정</StyledButton>
       </AppLayout>
     </Container>
   );
 };
 
-export default WritePage;
+export default EditPage;

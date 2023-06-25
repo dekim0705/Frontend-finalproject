@@ -15,7 +15,7 @@ const Container = styled.div`
   margin-top: 70px;
   border-radius: 30px;
   gap: 20px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   border: 1px solid #ddd;
   @media screen and (max-width:768px) {
     width: 100%;

@@ -24,21 +24,41 @@ const SelectWrapper = styled.div`
   width: 90%;
   display: flex;
   justify-content: space-between;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     gap: 20px;
   }
 `;
 
-const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onComment2Change, onComment3Change, onRegionChange, onScheduleChange, onThemeChange }) => {
+const WriteForm = ({
+  onTitleChange,
+  onDistrictChange,
+  onComment1Change,
+  onComment2Change,
+  onComment3Change,
+  onRegionChange,
+  onScheduleChange,
+  onThemeChange,
+  titleValue,
+  districtValue,
+  comment1Value,
+  comment2Value,
+  comment3Value,
+  post
+}) => {
   return (
     <Container>
-      <InputField 
+      <InputField
         onTitleChange={onTitleChange}
         onDistrictChange={onDistrictChange}
         onComment1Change={onComment1Change}
         onComment2Change={onComment2Change}
         onComment3Change={onComment3Change}
+        titleValue={post.title}
+        districtValue={post.district}
+        comment1Value={post.comment[0]}
+        comment2Value={post.comment[1]}
+        comment3Value={post.comment[2]}
       />
       <SelectWrapper>
         <Region onRegionChange={onRegionChange} />
@@ -47,6 +67,6 @@ const WriteForm = ({ onTitleChange, onDistrictChange, onComment1Change, onCommen
       </SelectWrapper>
     </Container>
   );
-}
+};
 
 export default WriteForm;

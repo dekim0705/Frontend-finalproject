@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
+import Functions from "../../util/Functions";
+import { useNavigate } from "react-router-dom";
 
 const StyledRank = styled.div`
   width: 16%;
@@ -63,30 +66,51 @@ const RankDetail = styled.div`
   }
 `;
 const Rank = () => {
-  const rankData = [
-    { title: "따뜻한 봄바람 맞으러 떠나는 드라이브 코스", pin: "1232 Pin" },
-    { title: "야경이 아름다운 낭만적인 산책로", pin: "1130 Pin" },
-    { title: "신비로운 자연 풍경을 즐길 수 있는 등산 코스", pin: "1023 Pin" },
-    { title: "역사와 문화가 살아있는 박물관 투어", pin: "965 Pin" },
-    { title: "평온한 분위기의 카페 투어", pin: "872 Pin" },
-  ];
+  const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken');
+  const [rankData, setRankData] = useState([]);
+
+  useEffect(() => {
+    const getTop5Bookmark = async () => {
+      try {
+        const response = await HomeAxiosApi.top5Bookmark(token);
+        setRankData(response.data.content);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await HomeAxiosApi.top5Bookmark(newToken);
+          setRankData(response.data.content);
+        }
+      }
+    };
+    getTop5Bookmark();
+  }, [token]);
+
+  const handleClickRank = (postId) => {
+    navigate(`/post/${postId}`);
+  }
 
   return (
     <StyledRank>
       <Container>
         <Title>인기 데이트 코스📍</Title>
-        {rankData.map((item, index) => (
-          <RankItem key={index}>
-            <h1>{index + 1}</h1>
-            <RankDetail>
-              <h2>{item.title}</h2>
-              <p>{item.pin}</p>
-            </RankDetail>
-          </RankItem>
-        ))}
+        {rankData.length === 0 ? (
+          <p>북마크가 없습니다.😓</p>
+        ) : (
+          rankData.map((item, index) => (
+            <RankItem key={index} onClick={() => handleClickRank(item.id)}>
+              <h1>{index + 1}</h1>
+              <RankDetail>
+                <h2>{item.title}</h2>
+                <p>{item.bookmarkCount} Likes</p>
+              </RankDetail>
+            </RankItem>
+          ))
+        )}
       </Container>
     </StyledRank>
   );
-};
+}
 
 export default Rank;

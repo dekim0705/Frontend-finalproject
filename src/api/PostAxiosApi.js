@@ -6,12 +6,16 @@ const PostAxiosApi = {
   // 🍉 게시글 작성
   createPost: async (postPinDto, token) => {
     try {
-      return await axios.post(KH_DOMAIN + "/posts", JSON.stringify(postPinDto), {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
+      return await axios.post(
+        KH_DOMAIN + "/posts",
+        JSON.stringify(postPinDto),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
     } catch (error) {
       throw error;
     }
@@ -23,12 +27,38 @@ const PostAxiosApi = {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
-        }
+        },
       });
     } catch (error) {
       throw error;
     }
-  }
+  },
+  // 🍉 게시글 수정
+  updatePost: async (postId, postPinDto, token) => {
+    try {
+      return await axios.put(`${KH_DOMAIN}/posts/${postId}`, postPinDto, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 게시글 삭제
+  deletePost: async (postId, token) => {
+    try {
+      return await axios.delete(`${KH_DOMAIN}/posts/${postId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default PostAxiosApi;

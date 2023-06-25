@@ -10,7 +10,7 @@ const ContentContainer = styled(Container)`
   }
 `;
 
-const ContentField = ({ onContentChange }) => {
+const ContentField = ({ onContentChange, contentValue }) => {
   return (
     <ContentContainer>
       <h1>📝 본문</h1>
@@ -19,6 +19,7 @@ const ContentField = ({ onContentChange }) => {
         cols="30" 
         rows="10"
         onChange={onContentChange}
+        value={contentValue}
       ></textarea>
     </ContentContainer>
   );
