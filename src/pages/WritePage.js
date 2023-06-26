@@ -8,7 +8,6 @@ import PlaceTag from "../components/Write/PlaceTag";
 import PostAxiosApi from "../api/PostAxiosApi";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../components/Write/ImageUpload";
-import Button from "@mui/material/Button";
 
 const Container = styled.div`
   display: flex;
@@ -129,16 +128,6 @@ const WritePage = () => {
     setPost((prevPost) => ({ ...prevPost, imgUrl }));
     setPreviewImgUrl(urls.split(","));
   };
-
-  // 👞 테스트용!!!
-  // useEffect(() => {
-  //   console.log("🍉 상세 지역 :");
-  //   pins.map((pin) => console.log(pin));
-  // }, [pins]);
-
-  // useEffect(() => {
-  //   console.log("🦜 : " + JSON.stringify(post.placeTag));
-  // }, [post.placeTag]);
 
   const handleClick = async () => {
     try {

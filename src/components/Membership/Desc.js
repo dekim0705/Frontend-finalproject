@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import kakaopayBtn from "../../resource/카카오페이_컬러.png";
+import KakaoAxiosApi from "../../api/KakaoAxiosApi";
+import Functions from "../../util/Functions";
 
 const Container = styled.div`
   display: flex;
@@ -81,6 +83,25 @@ const Version = styled.div`
 `;
 
 const Desc = () => {
+  const token = localStorage.getItem("accessToken");
+
+  const handlePaymentClick = async () => {
+    try {
+      const response = await KakaoAxiosApi.readyPay(token);
+      console.log("🦜 : " + JSON.stringify(response.data, null, 2));
+      if(response.data) {
+        window.location.href = response.data.next_redirect_pc_url;
+      }
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await KakaoAxiosApi.readyPay(token);
+        console.log("🦜 : " + response.data);
+      }
+    }
+  };
+
   return (
     <Container>
       <div className="title">멤버십</div>
@@ -96,7 +117,7 @@ const Desc = () => {
           <p>✅ 실제 결제는 이루어지지 않습니다.</p>
           <div className="wrapper">
             <h2>1,990원</h2>
-            <img src={kakaopayBtn} alt="" />
+            <img src={kakaopayBtn} alt="카카오페이" onClick={handlePaymentClick} />
           </div>
         </Version>
       </StyledMembership>

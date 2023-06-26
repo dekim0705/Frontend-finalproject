@@ -15,7 +15,7 @@ import ChatbotPage from "./pages/ChatbotPage";
 import AdiminPage from "./pages/AdminPage";
 import ResetPwdPage from "./pages/ResetPwdPage";
 import FestivalDetailPage from "./pages/FestivalDetailPage";
-import KakaoCallback from "./components/Login/KakaoCallback";
+import KakaoCallback from "./components/Membership/KakaoCallback";
 import UserPolicy from "./components/Join/UserPolicy";
 import UserAgreements from "./components/Join/UserAgreements";
 import SearchResultPage from "./pages/SearchResultPage";
@@ -46,7 +46,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+            <Route path="/kakao/auth/callback" element={<KakaoCallback />} />
             <Route path="/password" element={<ResetPwdPage />} />
             <Route path="/membership/*" element={<MembershipPage />}></Route>
             <Route path="/write" element={<WritePage />} />
