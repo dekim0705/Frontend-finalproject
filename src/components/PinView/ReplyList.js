@@ -8,6 +8,7 @@ import moment from "moment";
 import UpdateDeleteReply from "./UpdateDeleteReply";
 import { UserContext } from "../../context/UserContext";
 import Functions from "../../util/Functions";
+import UpdateReplyInput from "./UpdateReplyInput";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -45,7 +46,7 @@ const ContentStyled = styled.div`
   margin-top: 10px;
   line-height: 1.3em;
   border-radius: 6px;
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 75vw;
   }
 `;
@@ -54,19 +55,19 @@ const ReplyList = ({ postData }) => {
   const token = localStorage.getItem("accessToken");
   const [replies, setReplies] = useState([]);
   const { userPfImg } = useContext(UserContext);
+  const [showUpdateReplyInput, setShowUpdateReplyInput] = useState(false);
+  const [editingReplyId, setEditingReplyId] = useState(null);
 
   useEffect(() => {
     const getReplies = async () => {
       try {
         const response = await PostAxiosApi.viewReply(postData.postId, token);
-        console.log("🦊 : " + JSON.stringify(response.data, null, 2));
         setReplies(response.data);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await PostAxiosApi.viewReply(postData.postId, token);
-          console.log("🦊 : " + JSON.stringify(response.data, null, 2));
           setReplies(response.data);
         }
       }
@@ -78,17 +79,21 @@ const ReplyList = ({ postData }) => {
     <div>
       {replies.map((reply) => (
         <StyledContainer key={reply.id}>
-          <img 
-            src={reply.pfImg || profileImg} 
-            alt="프사" />
+          <img src={reply.pfImg || profileImg} alt="프사" />
           <StyledReplyForm>
             <div className="subContainer">
               <h1>{reply.nickname}</h1>
               <ReportBlockDropdown />
-              {userPfImg === reply.pfImg && <UpdateDeleteReply replyId={reply.id} />}
+              {userPfImg === reply.pfImg && (
+                <UpdateDeleteReply
+                  replyId={reply.id}
+                  onEdit={() => setEditingReplyId(reply.id)}
+                />
+              )}
             </div>
             <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
             <ContentStyled>{reply.content}</ContentStyled>
+            {editingReplyId === reply.id && <UpdateReplyInput content={reply.content} replyId={reply.id} />}
           </StyledReplyForm>
         </StyledContainer>
       ))}

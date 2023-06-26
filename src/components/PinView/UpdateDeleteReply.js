@@ -18,7 +18,7 @@ const Container = styled.div`
   }
 `;
 
-const UpdateDeleteReply = ({ replyId }) => {
+const UpdateDeleteReply = ({ replyId, onEdit }) => {
   const token = localStorage.getItem('accessToken');
   const handleDelete = () => {
     const delReply = async () => {
@@ -44,7 +44,7 @@ const UpdateDeleteReply = ({ replyId }) => {
 
   return (
     <Container>
-      <h2>수정</h2>
+      <h2 onClick={onEdit}>수정</h2>
       <h2 onClick={handleDelete}>삭제</h2>
     </Container>
   );
