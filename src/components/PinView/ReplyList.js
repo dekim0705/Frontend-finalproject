@@ -55,7 +55,6 @@ const ReplyList = ({ postData }) => {
   const token = localStorage.getItem("accessToken");
   const [replies, setReplies] = useState([]);
   const { userPfImg } = useContext(UserContext);
-  const [showUpdateReplyInput, setShowUpdateReplyInput] = useState(false);
   const [editingReplyId, setEditingReplyId] = useState(null);
 
   useEffect(() => {
@@ -93,7 +92,7 @@ const ReplyList = ({ postData }) => {
             </div>
             <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
             <ContentStyled>{reply.content}</ContentStyled>
-            {editingReplyId === reply.id && <UpdateReplyInput content={reply.content} replyId={reply.id} />}
+            {editingReplyId === reply.id && <UpdateReplyInput replyContent={reply.content} replyId={reply.id} />}
           </StyledReplyForm>
         </StyledContainer>
       ))}

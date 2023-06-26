@@ -41,9 +41,9 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const UpdateReplyInput = ({ content, replyId }) => {
+const UpdateReplyInput = ({ replyContent, replyId }) => {
   const token = localStorage.getItem('accessToken');
-  const [reply, setReply] = useState("");
+  const [reply, setReply] = useState(replyContent);
 
   const handleContentChange = (e) => {
     setReply(e.target.value);
@@ -92,7 +92,7 @@ const UpdateReplyInput = ({ content, replyId }) => {
         <h1>댓글 수정 💬</h1>
       </ReplyHeaderStyled>
       <StyledReplyForm>
-        <textarea type="text" onChange={handleContentChange} />
+        <textarea type="text" onChange={handleContentChange} value={reply} />
         <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
     </StyledContainer>
