@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Profile from "../../resource/chat_profile.jpeg";
 import SendIcon from "@mui/icons-material/Send";
 import ChatbotAxiosApi from "../../api/ChatbotAxiosApi";
-import Functions from "../../util/Functions";
 
 const ChatRoomContainer = styled.div`
   position: relative;

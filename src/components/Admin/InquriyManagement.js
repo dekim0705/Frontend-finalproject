@@ -146,16 +146,31 @@ const InquiryManagement = () => {
     getInquiries();
   }, [token]);
 
+  useEffect(() => {
+    setSelectAll(false);
+    setSelectedInquiry([]);
+  }, [currentPage]);
+  
+  useEffect(() => {
+    if (selectedInquiry.length === 0) {
+      setSelectAll(false);
+    } else {
+      setSelectAll(selectedInquiry.length === getPageInquriry().length);
+    }
+  }, [selectedInquiry]);
+  
+
+  // 그 페이지만 전체선택
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allinqiriesNum = inquiries.map((inquiry) => inquiry.inquiryNum);
-      setSelectedInquiry(allinqiriesNum);
+      const allInquiriesNumInCurrentPage = getPageInquriry().map((inquiry) => inquiry.inquiryNum);
+      setSelectedInquiry(allInquiriesNumInCurrentPage);
     } else {
       setSelectedInquiry([]);
     }
-  };
+  };  
 
   const isPostSelected = (inquiryNum) => {
     return selectedInquiry.includes(inquiryNum);
@@ -171,7 +186,8 @@ const InquiryManagement = () => {
     }
   };
   
-  const handleConfirm = () => {
+  // 문의 상태 확인으로 업데이트!
+  const handleConfirm = async () => {
     const updatedInquiries = inquiries.map((inquiry) => {
       if (selectedInquiry.includes(inquiry.inquiryNum)) {
         return { ...inquiry, inquiryStatus: '완료' };
@@ -179,10 +195,17 @@ const InquiryManagement = () => {
       return inquiry;
     });
   
-    setInquiries(updatedInquiries);
-    setSelectedInquiry([]);
+    try {
+      for (const inquiryNum of selectedInquiry) {
+        await AdminAxiosApi.updateStatus(inquiryNum, '완료', token);
+      }
+      setInquiries(updatedInquiries);
+      setSelectedInquiry([]);
+    } catch (error) {
+      console.error('상태 변경 실패', error);
+    }
   };
-
+  
   const handleInquiryContentClick = (inquiry) => {
     setDetails(inquiry);
     setPopupVisible(true);
