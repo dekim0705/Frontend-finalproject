@@ -61,6 +61,7 @@ const ReplyList = ({ postData }) => {
     const getReplies = async () => {
       try {
         const response = await PostAxiosApi.viewReply(postData.postId, token);
+        console.log("🦄 : " + JSON.stringify(response.data, null, 2));
         setReplies(response.data);
       } catch (error) {
         await Functions.handleApiError(error);
@@ -82,7 +83,7 @@ const ReplyList = ({ postData }) => {
           <StyledReplyForm>
             <div className="subContainer">
               <h1>{reply.nickname}</h1>
-              <ReportBlockDropdownReply />
+              <ReportBlockDropdownReply userNum={reply.userNum} />
               {userPfImg === reply.pfImg && (
                 <UpdateDeleteReply
                   replyId={reply.id}

@@ -22,6 +22,7 @@ const PinViewPage = () => {
     const getPostView = async () => {
       try {
         const response = await PostAxiosApi.viewPost(postId, token);
+        console.log("🦜 : " + JSON.stringify(response.data, null, 2));
         setPostData(response.data);
         SetShowUpdateDelete(response.data.pfImg === userPfImg);
       } catch (error) {
@@ -41,7 +42,7 @@ const PinViewPage = () => {
   return (
     <>
       <AppLayout>
-        <PostHeader postData={postData} />
+        <PostHeader postData={postData} userId={postData ? postData.userId : null} />
         {showUpdateDelete && <UpdateDelete postId={postId} />}
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />

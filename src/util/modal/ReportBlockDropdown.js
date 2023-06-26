@@ -7,7 +7,7 @@ import ReportAxiosApi from '../../api/ReportAxiosApi';
 import Functions from '../Functions';
 import { useNavigate } from 'react-router-dom';
 
-const ReportBlockDropdown = ({ postData }) => {
+const ReportBlockDropdown = ({ postData, userId }) => {
   const token = localStorage.getItem('accessToken');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -49,6 +49,26 @@ const ReportBlockDropdown = ({ postData }) => {
     setAnchorEl(null);
   };
 
+  const handleBlockUser = async () => {
+    try {
+      const response = await ReportAxiosApi.blockUser(userId, token);
+      if (response.data === "차단 완료 ❤️") {
+        alert("해당 사용자를 차단했습니다.");
+        navigate("/home");
+      }
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await ReportAxiosApi.blockUser(userId, newToken);
+        if (response.data === "차단 완료 ❤️") {
+          alert("해당 사용자를 차단했습니다.");
+          navigate("/home");
+        }
+      }
+    }
+  };
+
   return (
     <div>
       <MoreVertIcon
@@ -71,7 +91,7 @@ const ReportBlockDropdown = ({ postData }) => {
         }}
       >
         <MenuItem onClick={handleReportPost}>게시글 신고하기</MenuItem>
-        <MenuItem onClick={handleClose}>차단하기</MenuItem>
+        <MenuItem onClick={handleBlockUser}>차단하기</MenuItem>
         <MenuItem onClick={toggleModal}>작성자 신고하기</MenuItem>
         <ReportModal
         open={isModalOpen}

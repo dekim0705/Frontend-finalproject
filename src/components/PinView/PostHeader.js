@@ -70,7 +70,7 @@ const PostDetailInfo = styled(CommonStyle)`
 `;
 const PostConcept = styled(CommonStyle)``;
 
-const PostHeader = ({ postData }) => {
+const PostHeader = ({ postData, userId }) => {
   if (!postData) {
     return <p>데이터 가지고 오는 중 입니다!</p>;
   }
@@ -85,7 +85,7 @@ const PostHeader = ({ postData }) => {
           <h1>{postData.title}</h1>
           <div className="iconWrapper">
             <BookmarkBorderIcon />
-            <ReportBlockDropdown postData={postData} />
+            <ReportBlockDropdown postData={postData} userId={userId} />
           </div>
         </Wrapper>
         <p>{postData.district}</p>
