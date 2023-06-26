@@ -92,7 +92,13 @@ const ReplyList = ({ postData }) => {
             </div>
             <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
             <ContentStyled>{reply.content}</ContentStyled>
-            {editingReplyId === reply.id && <UpdateReplyInput replyContent={reply.content} replyId={reply.id} />}
+            {editingReplyId === reply.id && (
+              <UpdateReplyInput
+                replyContent={reply.content}
+                replyId={reply.id}
+                cancelEdit={() => setEditingReplyId(null)}
+              />
+            )}
           </StyledReplyForm>
         </StyledContainer>
       ))}

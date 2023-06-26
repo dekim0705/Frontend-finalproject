@@ -9,16 +9,26 @@ import PostAxiosApi from "../../api/PostAxiosApi";
 const StyledContainer = styled(Container)`
   color: var(--text-color);
   border-bottom: none;
-  h1 {
-    margin-top: 15px;
-    font-size: 1em;
-    font-weight: 700;
-  }
 `;
 
 const ReplyHeaderStyled = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
+  h1 {
+    margin-top: 15px;
+    font-size: 1em;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 0.8em;
+    margin-top: 15px;
+    color: var(--point-color);
+    cursor: pointer;
+    &:hover {
+      font-weight: bold;
+    }
+  }
 `;
 
 const StyledReplyForm = styled.div`
@@ -41,7 +51,7 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const UpdateReplyInput = ({ replyContent, replyId }) => {
+const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
   const token = localStorage.getItem('accessToken');
   const [reply, setReply] = useState(replyContent);
 
@@ -90,6 +100,7 @@ const UpdateReplyInput = ({ replyContent, replyId }) => {
       <ReplyHeaderStyled>
         <SubdirectoryArrowRightIcon />
         <h1>댓글 수정 💬</h1>
+        <h2 onClick={cancelEdit}>취소</h2>
       </ReplyHeaderStyled>
       <StyledReplyForm>
         <textarea type="text" onChange={handleContentChange} value={reply} />
