@@ -39,15 +39,19 @@ const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 30px;
-  padding-left: 260px;
+  margin-left: 52px;
+  width: fit-content;
+
+  h1 {
+    color: var(--point-color);
+  }
 
   img {
     max-width: 240px;
     border-radius: 10px;
   }
   @media (max-width: 768px) {
-    margin-left: 60px;
+    margin-left: 30px;
     img {
       max-width: 140px;
     }
@@ -183,7 +187,7 @@ const WritePage = () => {
             {previewImgUrl.map((url, index) => (
               <div key={index}>
                 <img src={url} alt={`Uploaded ${index}`} />
-                <Button onClick={() => handleImageDelete(index)}>삭제</Button>
+                <h1 onClick={() => handleImageDelete(index)}>삭제</h1>
               </div>
             ))}
           </ImageWrapper>

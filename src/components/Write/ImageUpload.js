@@ -10,7 +10,7 @@ const StyledFileInput = styled.div`
   width: 50%;
   position: relative;
   border-radius: 3px;
-  margin-left: 245px;
+  margin-left: 40px;
 
   > input[type='file'] {
     position: absolute;
@@ -47,9 +47,7 @@ const StyledFileInput = styled.div`
     opacity: 1;
   }
 
-  @media (max-width: 400px) {
-    align-items: center;
-    padding-left: 60px;
+  @media (max-width: 768px) {
     margin-left: 0;
   }
 `;
