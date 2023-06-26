@@ -172,7 +172,7 @@ const EditInfo = () => {
   };
 
   const onChangeComment = (e) => {
-    const commentRegex = /^.{0,20}$/;
+    const commentRegex = /^.{0,25}$/;
     const commentCurrent = e.target.value;
     setComment(commentCurrent);
     if (commentRegex.test(commentCurrent) || commentCurrent === currentInfo.userComment) {
@@ -180,7 +180,7 @@ const EditInfo = () => {
       setCommentHelperText('');
     } else {
       setIsComment(false);
-      setCommentHelperText('한 줄 소개는 20자 이내로 입력 가능합니다.');
+      setCommentHelperText('한 줄 소개는 25자 이내로 입력 가능합니다.');
     }
   };
 

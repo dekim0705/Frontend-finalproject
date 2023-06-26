@@ -75,7 +75,7 @@ const Membership = () => {
   }, [token]);
 
   const membershipText = profileData ? (
-    profileData.nickname && profileData.isMembership === 'IS_MEMBERSHIP' ? (
+    profileData.nickname && profileData.isMembership === 'MEMBERSHIP' ? (
       <>
         <div className='web'>
           <Text>
