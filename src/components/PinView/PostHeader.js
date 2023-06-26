@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../../util/ViewFormStyle";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
@@ -14,6 +14,8 @@ import {
 import FacebookIcon from "../../resource/facebook.png";
 import TwitterIcon from "../../resource/twitter.png";
 import LineIcon from "../../resource/line.png";
+import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -70,10 +72,28 @@ const PostDetailInfo = styled(CommonStyle)`
 `;
 const PostConcept = styled(CommonStyle)``;
 
-const PostHeader = ({ postData, userId }) => {
+const PostHeader = ({ postData, userId, postId }) => {
+  const token = localStorage.getItem("accessToken");
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    const getBookmarkedPost = async () => {
+      try {
+        const response = await BookmarkAxiosApi.isBookmarkAndFolderName(
+          postId,
+          token
+        );
+        console.log("👠 : " + JSON.stringify(response.data, null, 2));
+        setIsBookmarked(response.data.isBookmarked);
+      } catch (error) {}
+    };
+    getBookmarkedPost();
+  }, [token, postId]);
+
   if (!postData) {
     return <p>데이터 가지고 오는 중 입니다!</p>;
   }
+
   return (
     <Container>
       <AuthorHeader>
@@ -84,7 +104,11 @@ const PostHeader = ({ postData, userId }) => {
         <Wrapper>
           <h1>{postData.title}</h1>
           <div className="iconWrapper">
-            <BookmarkBorderIcon />
+            {isBookmarked ? (
+              <BookmarkIcon sx={{ cursor: "pointer", color: "#FF62AD" }} />
+            ) : (
+              <BookmarkBorderIcon />
+            )}
             <ReportBlockDropdown postData={postData} userId={userId} />
           </div>
         </Wrapper>
@@ -100,7 +124,10 @@ const PostHeader = ({ postData, userId }) => {
           <p>{postData.viewCount}</p>
         </div>
         <div className="forms">
-          <FacebookShareButton url={window.location.href} quote={postData.title}>
+          <FacebookShareButton
+            url={window.location.href}
+            quote={postData.title}
+          >
             <img
               src={FacebookIcon}
               alt="Facebook"

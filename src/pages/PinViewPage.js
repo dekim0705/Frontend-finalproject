@@ -42,7 +42,7 @@ const PinViewPage = () => {
   return (
     <>
       <AppLayout>
-        <PostHeader postData={postData} userId={postData ? postData.userId : null} />
+        <PostHeader postData={postData} postId={postId} userId={postData ? postData.userId : null} />
         {showUpdateDelete && <UpdateDelete postId={postId} />}
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />
