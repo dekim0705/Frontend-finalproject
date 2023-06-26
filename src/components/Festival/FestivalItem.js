@@ -64,6 +64,9 @@ const Thumbnail = styled.img`
   border-radius: 15px;
   margin-bottom: 10px;
   margin-right: 100px;
+  @media (max-width: 400px) {
+    margin-right: 0px;
+  }
 `;
 
 const Title = styled.p`

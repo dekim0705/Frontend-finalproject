@@ -30,6 +30,7 @@ const PopupContainer = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
+  
 `;
 
 const SearchContainer = styled.div`
@@ -38,6 +39,9 @@ const SearchContainer = styled.div`
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  @media (max-width: 400px) {
+    width: 90%;
+  }
 
   input {
     border: none;
