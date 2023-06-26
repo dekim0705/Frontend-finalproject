@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
 import ReportBlockDropdown from "../../util/modal/ReportBlockDropdown";
 import profileImg from "../../resource/profile.jpeg";
 import PostAxiosApi from "../../api/PostAxiosApi";
 import moment from "moment";
+import UpdateDeleteReply from "./UpdateDeleteReply";
+import { UserContext } from "../../context/UserContext";
+import Functions from "../../util/Functions";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -37,11 +40,11 @@ const StyledReplyForm = styled.div`
 
 const ContentStyled = styled.div`
   width: 47.5vw;
-  background-color: var(--hover-color);
+  background-color: var(--input-color);
   padding: 20px;
   margin-top: 10px;
   line-height: 1.3em;
-  border-radius: 4px;
+  border-radius: 6px;
   @media screen and (max-width:768px) {
     width: 75vw;
   }
@@ -50,6 +53,7 @@ const ContentStyled = styled.div`
 const ReplyList = ({ postData }) => {
   const token = localStorage.getItem("accessToken");
   const [replies, setReplies] = useState([]);
+  const { userPfImg } = useContext(UserContext);
 
   useEffect(() => {
     const getReplies = async () => {
@@ -58,11 +62,18 @@ const ReplyList = ({ postData }) => {
         console.log("🦊 : " + JSON.stringify(response.data, null, 2));
         setReplies(response.data);
       } catch (error) {
-        console.error(error);
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await PostAxiosApi.viewReply(postData.postId, token);
+          console.log("🦊 : " + JSON.stringify(response.data, null, 2));
+          setReplies(response.data);
+        }
       }
     };
     getReplies();
-  }, [postData, token]);
+  }, [postData, token, userPfImg]);
+
   return (
     <div>
       {replies.map((reply) => (
@@ -74,6 +85,7 @@ const ReplyList = ({ postData }) => {
             <div className="subContainer">
               <h1>{reply.nickname}</h1>
               <ReportBlockDropdown />
+              {userPfImg === reply.pfImg && <UpdateDeleteReply replyId={reply.id} />}
             </div>
             <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
             <ContentStyled>{reply.content}</ContentStyled>

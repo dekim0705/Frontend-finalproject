@@ -89,6 +89,31 @@ const PostAxiosApi = {
       throw error;
     }
   },
+  // 🍉 댓글 수정
+  updateReply: async (replyId, replyUserDto, token) => {
+    try {
+      return await axios.put(`${KH_DOMAIN}/posts/${replyId}/reply`, replyUserDto, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 댓글 삭제
+  deleteReply: async (replyId, token) => {
+    try {
+      return await axios.delete(`${KH_DOMAIN}/posts/${replyId}/reply`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 };
-
 export default PostAxiosApi;
