@@ -21,7 +21,7 @@ const CarouselContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 95%;
+  width: ${props => props.isSingle ? '70%' : '95%'};
   border-radius: 10px;
   margin: 0 auto;
   height: 150px;
@@ -71,7 +71,7 @@ const Carousel = ({ contentId }) => {
     if (images.length === 1) {
       return (
         <div>
-          <Image src={images[0].originimgurl} />
+          <Image src={images[0].originimgurl} isSingle />
         </div>
       );
     } else {
@@ -86,9 +86,9 @@ const Carousel = ({ contentId }) => {
   const settings = {
     dots: true,
     arrows: true,
-    slidesToShow: 3,
+    slidesToShow: images.length < 3 ? images.length : 3,
     slidesToScroll: 2,
-    infinite: true,
+    infinite: images.length >= 3,
     speed: 500,
     prevArrow: <button className="slick-prev" />,
     nextArrow: <button className="slick-next" />,
