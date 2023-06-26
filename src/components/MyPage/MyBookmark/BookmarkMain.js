@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BookmarkNav } from '../Navs';
 import BookmarkFolder, { AddFolderContainer } from './BookmarkFolder';
 import AddCircle from '../../../resource/mypage_icon/add-circle.svg'
 import { Button } from'../MyPinReply/PinListWeb';
 import { RowWrapper } from '../../Join/Wrappers';
+import Functions from '../../../util/Functions';
+import UserAxiosApi from '../../../api/UserAxiosApi';
 
 export const FolderContainer = styled.div`
   width: 90%;
@@ -72,6 +74,26 @@ const BookmarkPage = ( ) => {
   const [newFolderName, setNewFolderName] = useState('');
   const [folders, setFolders] = useState([]);
 
+  const token = Functions.getAccessToken();
+
+  useEffect(() => {
+    const getUserFolders = async () => {
+      try {
+        const response = await UserAxiosApi.userBookmarkFolders(token);
+        // console.log("🍒 폴더 : ", response.data)
+        setFolders(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await UserAxiosApi.userBookmarkFolders(newToken);
+          setFolders(response.data);
+        }
+      }
+    };
+    getUserFolders();
+  }, [token])
+
   const handleAddFolder = () => {
     setShowModal(true);
   };
@@ -99,13 +121,13 @@ const BookmarkPage = ( ) => {
     <>
       <BookmarkNav />
       <FolderContainer>
-      <BookmarkFolder folderName="북마크폴더1" />
-      <BookmarkFolder folderName="북마크폴더2" />
-      <BookmarkFolder folderName="북마크폴더3" />
-      <BookmarkFolder folderName="북마크폴더4" />
-      <BookmarkFolder folderName="북마크폴더5" />
         {folders.map((folder) => (
-          <BookmarkFolder key={folder.id} folderName={folder.name} />
+          <BookmarkFolder 
+            key={folder.id} 
+            folderName={folder.name} 
+            folderId={folder.id}
+            bookmarks={folder.bookmarks}
+          />
         ))}
         <AddFolderContainer>
           <AddIcon src={AddCircle} alt='폴더 추가' onClick={handleAddFolder} />
