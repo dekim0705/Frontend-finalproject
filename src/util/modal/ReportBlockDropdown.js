@@ -96,6 +96,7 @@ const ReportBlockDropdown = ({ postData, userId }) => {
         <ReportModal
         open={isModalOpen}
         handleClose={toggleModal}
+        userId={userId}
       />
       </Menu>
     </div>

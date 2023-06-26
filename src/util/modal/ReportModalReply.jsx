@@ -53,7 +53,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const ReportModal = ({ open, handleClose, userId }) => {
+const ReportModalReply = ({ open, handleClose, userNum }) => {
   const token = localStorage.getItem("accessToken");
   const [reportContent, setReportContent] = useState("");
 
@@ -63,7 +63,7 @@ const ReportModal = ({ open, handleClose, userId }) => {
 
   const handleReportSubmit = async () => {
     const reportRequestDto = {
-      reportedId: userId,
+      reportedId: userNum,
       content: reportContent,
       reportDate: new Date(),
     };
@@ -101,11 +101,18 @@ const ReportModal = ({ open, handleClose, userId }) => {
       <ModalContainer>
         <h2>사용자 신고하기 🚫</h2>
         <p>기타 문의사항은 메일로 보내주시기 바랍니다.</p>
-        <textarea name="reportContent" id="" cols="30" rows="10" value={reportContent} onChange={handleInputChange}></textarea>
+        <textarea
+          name="reportContent"
+          id=""
+          cols="30"
+          rows="10"
+          value={reportContent}
+          onChange={handleInputChange}
+        ></textarea>
         <button onClick={handleReportSubmit}>관리자에게 전송</button>
       </ModalContainer>
     </ModalBackground>
   );
 };
 
-export default ReportModal;
+export default ReportModalReply;

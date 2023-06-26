@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ReportModal from "./ReportModal";
 import ReportAxiosApi from "../../api/ReportAxiosApi";
 import Functions from "../Functions";
 import { useNavigate } from "react-router-dom";
+import ReportModalReply from "./ReportModalReply";
 
 const ReportBlockDropdownReply = ({ userNum }) => {
   const token = localStorage.getItem("accessToken");
@@ -68,7 +68,7 @@ const ReportBlockDropdownReply = ({ userNum }) => {
       >
         <MenuItem onClick={handleBlockUser}>차단하기</MenuItem>
         <MenuItem onClick={toggleModal}>작성자 신고하기</MenuItem>
-        <ReportModal open={isModalOpen} handleClose={toggleModal} />
+        <ReportModalReply open={isModalOpen} handleClose={toggleModal} userNum={userNum} />
       </Menu>
     </div>
   );
