@@ -48,7 +48,7 @@ const ShortcutBar = () => {
       <Icon src={Bookmark} alt='북마크 아이콘' />
       <Title>북마크</Title>
     </ShortcutLink>
-    <ShortcutLink to='/mypage/pin-list'>
+    <ShortcutLink to='/mypage/pin-list/1'>
       <Icon src={Pin} alt='핀목록 아이콘'/>
       <Title>핀목록</Title>
     </ShortcutLink>

@@ -80,7 +80,7 @@ const UserProfile = () => {
       {profileData && <PfImg src={profileData.pfImg} alt='프로필 이미지'/>}
       <div>
       {profileData && <Nickname>{profileData.nickname}          
-        {profileData && profileData.isMembership === 'FREE' && (
+        {profileData && profileData.isMembership === 'MEMBERSHIP' && (
         <Membership src={Star} alt='멤버쉽 이미지'/>
         )}
       </Nickname>}

@@ -74,7 +74,7 @@ const ProfileBar2= () => {
           {profileData && <PfImg2 src={profileData.pfImg} alt='프로필 이미지'/>}
             <ColumnWrapper gap='6px'>
               <div>
-                {profileData && <Nickname2>{profileData.nickname}  {profileData && profileData.isMembership === 'FREE' && (
+                {profileData && <Nickname2>{profileData.nickname}  {profileData && profileData.isMembership === 'MEMBERSHIP' && (
                   <Membership2 src={Star} alt='멤버쉽 이미지'/>
                 )}  </Nickname2>}
             
