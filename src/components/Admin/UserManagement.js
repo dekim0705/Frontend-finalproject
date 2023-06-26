@@ -105,6 +105,11 @@ const UserManagement = () => {
     getUsers();
   }, [token]);
 
+  useEffect(() => {
+    setSelectAll(false);
+    setSelectedUsers([]);
+  }, [currentPage]);
+
   // 회원 검색
   const handleSearch = async (event) => {
     if (event.key === 'Enter' || event.target.tagName.toLowerCase() === 'svg') {
@@ -118,17 +123,17 @@ const UserManagement = () => {
     }
   };
 
+  // 그 페이지만 전체선택
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = users.map((user) => user.id);
-      setSelectedUsers(allPostNums);
+      const allUserInCurrentPage = getPageUsers().map((user) => user.id);
+      setSelectedUsers(allUserInCurrentPage);
     } else {
       setSelectedUsers([]);
     }
-  };
-
+  };  
   const isUserSelected = (id) => {
     return selectedUsers.includes(id);
   };
@@ -142,6 +147,7 @@ const UserManagement = () => {
     }
   };
 
+  // 회원 삭제
   const handleDeleteUsers = async () => {
     try {
       if (selectedUsers.length === 0) {

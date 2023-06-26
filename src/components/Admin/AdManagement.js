@@ -88,11 +88,16 @@ const AdManagement = () => {
     getAds();
   }, [token]);
 
+  useEffect(() => {
+    setSelectAll(false);
+    setSelectedAds([]);
+  }, [currentPage]);
+
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allAdNums = ads.map((ad) => ad.adNum);
+      const allAdNums = getPageAd().map((ad) => ad.adNum);
       setSelectedAds(allAdNums);
     } else {
       setSelectedAds([]);
@@ -112,6 +117,7 @@ const AdManagement = () => {
     }
   };
   
+  // 광고 삭제
   const handleDeleteAd = async() => {
     try {
       if (selectedAds.length === 0) {
@@ -129,8 +135,8 @@ const AdManagement = () => {
     }
   };
   
+  // 광고 추가
   const handleAddAd = (name) => {
-    console.log('광고 추가:', name);
     setShowPopup(true);
   };
 

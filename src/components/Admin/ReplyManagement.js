@@ -109,6 +109,11 @@ const ReplyManagement = () => {
   getReplies();
 }, [token]);
 
+useEffect(() => {
+  setSelectAll(false);
+  setSelectedReplies([]);
+}, [currentPage]);
+
 
   // 댓글 검색
   const handleSearch = async (event) => {
@@ -126,8 +131,8 @@ const ReplyManagement = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allReply = replies.map((reply) => reply.id);
-      setSelectedReplies(allReply);
+      const allReplyCurrentPage = getPageReplies().map((reply) => reply.id);
+      setSelectedReplies(allReplyCurrentPage);
     } else {
       setSelectedReplies([]);
     }
