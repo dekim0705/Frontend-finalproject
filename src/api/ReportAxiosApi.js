@@ -9,9 +9,39 @@ const ReportAxiosApi = {
       return await axios.delete(`${KH_DOMAIN}/post/${postId}/report`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        }
+          Authorization: "Bearer " + token,
+        },
       });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 사용자 신고하기
+  reportUser: async (reportRequestDto, token) => {
+    try {
+      return await axios.post(`${KH_DOMAIN}/report`, reportRequestDto, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  // 🍉 사용자 차단하기
+  blockUser: async (blockUserId, token) => {
+    try {
+      return await axios.post(
+        `${KH_DOMAIN}/block/${blockUserId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
     } catch (error) {
       throw error;
     }

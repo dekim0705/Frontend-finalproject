@@ -7,7 +7,7 @@ import ReportAxiosApi from '../../api/ReportAxiosApi';
 import Functions from '../Functions';
 import { useNavigate } from 'react-router-dom';
 
-const ReportBlockDropdown = ({ postData }) => {
+const ReportBlockDropdownReply = ({ postData }) => {
   const token = localStorage.getItem('accessToken');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -20,29 +20,6 @@ const ReportBlockDropdown = ({ postData }) => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const handleReportPost = () => {
-    const reportPost = async () => {
-      try {
-        const response = await ReportAxiosApi.reportPost(postData.postId, token);
-        if(response.data === '게시글 신고 완료 ❤️') {
-          alert('해당 게시글이 신고되었습니다.');
-          navigate('/home');
-        }
-      } catch (error) {
-        await Functions.handleApiError(error);
-        const newToken = Functions.getAccessToken();
-        if (newToken !== token) {
-          const response = await ReportAxiosApi.reportPost(postData.postId, token);
-          if(response.data === '게시글 신고 완료 ❤️') {
-            alert('해당 게시글이 신고되었습니다.');
-            navigate('/home');
-          }
-        }
-      }
-    };
-    reportPost();
   };
 
   const handleClose = () => {
@@ -58,7 +35,7 @@ const ReportBlockDropdown = ({ postData }) => {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: 'pointer', fontSize: 17, marginTop: "2px" }}
       >
       </MoreVertIcon>
       <Menu
@@ -70,7 +47,6 @@ const ReportBlockDropdown = ({ postData }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleReportPost}>게시글 신고하기</MenuItem>
         <MenuItem onClick={handleClose}>차단하기</MenuItem>
         <MenuItem onClick={toggleModal}>작성자 신고하기</MenuItem>
         <ReportModal
@@ -82,4 +58,4 @@ const ReportBlockDropdown = ({ postData }) => {
   );
 }
 
-export default ReportBlockDropdown;
+export default ReportBlockDropdownReply;

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
-import ReportBlockDropdown from "../../util/modal/ReportBlockDropdown";
 import profileImg from "../../resource/profile.jpeg";
 import PostAxiosApi from "../../api/PostAxiosApi";
 import moment from "moment";
@@ -9,6 +8,7 @@ import UpdateDeleteReply from "./UpdateDeleteReply";
 import { UserContext } from "../../context/UserContext";
 import Functions from "../../util/Functions";
 import UpdateReplyInput from "./UpdateReplyInput";
+import ReportBlockDropdownReply from "../../util/modal/ReportBlockDropdownReply";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -82,7 +82,7 @@ const ReplyList = ({ postData }) => {
           <StyledReplyForm>
             <div className="subContainer">
               <h1>{reply.nickname}</h1>
-              <ReportBlockDropdown />
+              <ReportBlockDropdownReply />
               {userPfImg === reply.pfImg && (
                 <UpdateDeleteReply
                   replyId={reply.id}
