@@ -111,6 +111,13 @@ const PostManagement = () => {
     getPosts();
   }, [token]);
 
+
+useEffect(() => {
+  setSelectAll(false);
+  setSelectedPosts([]);
+}, [currentPage]);
+
+
   // 게시글 검색
   const handleSearch = async (event) => {
     if (event.key === 'Enter' || event.target.tagName.toLowerCase() === 'svg') {
@@ -123,16 +130,17 @@ const PostManagement = () => {
     }
   };
 
+  // 해당 페이지 전체 선택
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostNums = posts.map((post) => post.id);
-      setSelectedPosts(allPostNums);
+      const allPostCurrentPage = getPagePosts().map((post) => post.postNum);
+      setSelectedPosts(allPostCurrentPage);
     } else {
       setSelectedPosts([]);
     }
-  };
+  };  
 
   const isPostSelected = (id) => {
     return selectedPosts.includes(id);
