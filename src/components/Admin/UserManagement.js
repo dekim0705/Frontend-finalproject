@@ -244,7 +244,7 @@ const UserManagement = () => {
                 <td>{user.email}</td>
                 <td>{formatDate(user.regDate)}</td>
                 <td>{user.isMembership}</td>
-                <td>{user.blockedNickname}</td>
+                <td>{user.blockedNickname.join(", ")}</td>
               </tr>
             ))}
           </tbody>
