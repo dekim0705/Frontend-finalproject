@@ -27,7 +27,7 @@ const ModalContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   min-width: 250px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   border: 1px solid var(--line-color);
   p {
     margin-top: 5px;
