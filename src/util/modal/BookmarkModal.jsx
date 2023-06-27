@@ -71,7 +71,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const BookmarkModal = ({ open, handleClose, addFolder, postId, handleBookmark }) => {
+const BookmarkModal = ({ open, handleClose, addFolder, postId, handleBookmark = () => {} }) => {
   const token = localStorage.getItem('accessToken');
   const [folderName, setFolderName] = useState("");
 

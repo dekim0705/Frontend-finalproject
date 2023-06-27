@@ -79,6 +79,11 @@ const PostHeader = ({ postData, userId, postId }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [folderName, setFolderName] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [folders, setFolders] = useState([]);
+
+  const handleAddFolder = (folderName) => {
+    setFolders((prevFolders) => [...prevFolders, folderName]);
+  };
 
   const handleDeleteBookmark = async () => {
     try {
@@ -120,7 +125,7 @@ const PostHeader = ({ postData, userId, postId }) => {
 
   if (!postData) {
     return <p>데이터 가지고 오는 중 입니다!</p>;
-  }
+  };
 
   return (
     <Container>
@@ -143,7 +148,9 @@ const PostHeader = ({ postData, userId, postId }) => {
             <BookmarkModal 
               open={isModalOpen} 
               handleClose={toggleModal}
-              
+              folders={folders}
+              addFolder={handleAddFolder}
+              postId={postId}
             />
             <ReportBlockDropdown postData={postData} userId={userId} />
           </div>
