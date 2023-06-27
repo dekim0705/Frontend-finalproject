@@ -22,6 +22,7 @@ import SearchResultPage from "./pages/SearchResultPage";
 import SearchStore from "./context/PostContext";
 import EditPage from "./pages/EditPage";
 import PrivateRoute from "./util/PrivateRoute";
+import PrivateRouteAdmin from "./util/PrivateRouteAdmin";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -57,7 +58,7 @@ function App() {
             <Route path="/mypage/*" element={<PrivateRoute><MyPage /></PrivateRoute>} />
             <Route path="/contact" element={<PrivateRoute><ChatbotPage /></PrivateRoute>} />
             <Route path="/festival/:page" element={<PrivateRoute><FestivalPage /></PrivateRoute>} />
-            <Route path="/admin/*" element={<PrivateRoute><AdiminPage /></PrivateRoute>} />
+            <Route path="/admin/*" element={<PrivateRouteAdmin><AdiminPage /></PrivateRouteAdmin>} />
             <Route path="/festival/info" element={<PrivateRoute><FestivalDetailPage /></PrivateRoute>} />
             <Route
               path="/festival-info/:contentId"

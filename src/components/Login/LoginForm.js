@@ -63,6 +63,7 @@ const LoginForm = () => {
       } else if (userInfoResponse.status === 200 && userDataObject.data.authority === 'ROLE_ADMIN') {
         localStorage.setItem('accessToken', userDataObject.data.accessToken);
         localStorage.setItem('refreshToken', userDataObject.data.refreshToken);
+        localStorage.setItem('authority', userDataObject.data.authority);
 
         navigate("/admin");
       }
