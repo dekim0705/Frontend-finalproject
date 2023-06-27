@@ -25,10 +25,11 @@ const NoResultContainer = styled.div`
   }
 `;
 
-const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClicked, searchKeyword, page }) => {
+const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClicked, searchKeyword, sortBy, page }) => {
   const [currentPage, setCurrentPage] = useState(page);
-  const [filteredData, setFilteredData] = useState([]);
   const navigate = useNavigate();
+
+  const [filteredData, setFilteredData] = useState([]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -38,42 +39,53 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
   useEffect(() => {
     let filtered = apiData;
 
-    // 도시가 선택되었을 경우 도시별로 필터링!
+    // 도시가 선택되었을 경우 도시별로 필터링
     if (isButtonClicked && selectedCity && selectedCity !== 0) {
-      filtered = filtered.filter(festival => festival.areaCode === selectedCity.toString());
+      filtered = filtered.filter((festival) => festival.areaCode === selectedCity.toString());
     }
 
-    // 개최여부가 선택되었을 경우 개최여부 필터링!
+    // 개최여부가 선택되었을 경우 개최여부 필터링
     if (isButtonClicked && selectedStatus && selectedStatus !== 0) {
       const currentDate = new Date();
       const formattedDate = parseInt(
-        `${currentDate.getFullYear()}${String(currentDate.getMonth() + 1).padStart(2, "0")}${String(currentDate.getDate()).padStart(2, "0")}`
+        `${currentDate.getFullYear()}${String(currentDate.getMonth() + 1).padStart(2, "0")}${String(
+          currentDate.getDate()
+        ).padStart(2, "0")}`
       );
       if (selectedStatus === 1) {
         filtered = filtered.filter(
-          festival =>
+          (festival) =>
             parseInt(festival.eventStartDate) <= formattedDate &&
             parseInt(festival.eventEndDate) >= formattedDate
         );
       } else if (selectedStatus === 2) {
-        filtered = filtered.filter(
-          festival => parseInt(festival.eventStartDate) > formattedDate
-        );
+        filtered = filtered.filter((festival) => parseInt(festival.eventStartDate) > formattedDate);
       }
     }
 
-    // 검색어 필터링 로직 추가
+    // 검색어가 입력되었을 경우 검색어 필터링
     if (searchKeyword) {
       const keyword = searchKeyword.toLowerCase();
-      filtered = filtered.filter(item => item.title.toLowerCase().includes(keyword));
+      filtered = filtered.filter((festival) => festival.title.toLowerCase().includes(keyword));
     }
 
     setFilteredData(filtered);
   }, [apiData, selectedCity, selectedStatus, isButtonClicked, searchKeyword]);
 
+  useEffect(() => {
+    // 날짜순 정렬
+    let sortedData = [...filteredData];
+    if (sortBy === "name") {
+      sortedData.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "date") {
+      sortedData.sort((a, b) => parseInt(a.eventStartDate) - parseInt(b.eventStartDate));
+    }
+    setFilteredData(sortedData);
+  }, [sortBy]);
+
   // 한 페이지에 6개씩 아이템을 표시
   const startIndex = (currentPage - 1) * 6;
-  const endIndex = startIndex + 6;
+  const endIndex = currentPage * 6;  
   const itemsToShow = filteredData.slice(startIndex, endIndex);
 
   // 검색 결과가 6개 미만인 경우 페이지 처리를 적용하지 않음
