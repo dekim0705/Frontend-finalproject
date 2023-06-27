@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import Profile from "../../resource/chat_profile.jpeg";
-import SendIcon from "@mui/icons-material/Send";
 import ChatbotAxiosApi from "../../api/ChatbotAxiosApi";
+import UserPopUp from "../../util/modal/UserPopUp";
+import { useNavigate } from 'react-router-dom';
+import ChatMessageContainer from "./ChatMessageContainer";
+import MenuContainer from "./MenuContainer";
+import InputContainer from "./InputContainer";
 
-const ChatRoomContainer = styled.div`
+const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,7 +29,7 @@ const ChatRoomContainer = styled.div`
   }
 `;
 
-const ChatRoomHeader = styled.div`
+const Header = styled.div`
   position: absolute;
   top: 0px;
   left: 0;
@@ -59,125 +62,11 @@ const CloseButton = styled.button`
   }
 `;
 
-const ChatMessageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  max-height: calc(80vh - 250px);
-  margin-top: 80px;
-  margin-bottom: 150px;
-  @media screen and (max-width: 768px) {
-    margin-top: 50px;
-  }
-`;
-
-const MessageContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 20px;
+const PopUpMessage = styled.p`
   font-size: 1rem;
-  line-height: 1.3;
-  @media screen and (max-width: 768px) {
-    width: 95%;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-  }
+  text-align: center;
+  line-height: 3rem;
 `;
-
-const ProfileImage = styled.img`
-  width: 50px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 13px;
-  @media screen and (max-width: 768px) {
-    width: 40px;
-    height: 30px;
-    margin-right: 7px;
-  }
-`;
-
-const Message = styled.div`
-  margin-top: 10px;
-  padding: 20px;
-  background-color: ${({ isUser }) => (isUser ? "#FFA8D2" : "#ECECEC")};
-  color: #000;
-  border-radius: ${({ isUser }) => (isUser ? "25px 25px 0px 25px" : "0px 25px 25px 25px")};
-  max-width: 400px;
-  @media screen and (max-width: 768px) {
-    padding: 16px;
-  }
-`;
-
-const MenuContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  position: absolute;
-  bottom: 85px;
-  width: 100%;
-`;
-
-const MenuButton = styled.button`
-  padding: 13px 18px;
-  border-radius: 30px;
-  margin: 0px 3px 9px 3px;
-  border: 1px solid var(--point-color);
-  background-color: #fff;
-  font-size: 0.9rem;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    font-size: 0.8rem;
-    padding: 9px 14px;
-    margin-bottom: 5px;
-    border-radius: 25px;
-  }
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  position: absolute;
-  bottom: 5px;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-
-  input {
-    height: 50px;
-    border-radius: 25px;
-    padding: 20px;
-    border: none;
-    background-color: var(--input-color);
-    width: 93%;
-    font-size: 1.1rem;
-
-    @media (max-width: 768px) {
-      font-size: 0.9rem;
-      height: 50px;
-      padding: 20px;
-    }
-  }
-`;
-const SendButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--point-color);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  margin-left: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ffa8d2;
-  }
-`;
-
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -188,17 +77,24 @@ const ChatRoom = () => {
   const token = localStorage.getItem("accessToken");
   const [inquiryContent, setInquiryContent] = useState("");
   const [inquiryEmail, setInquiryEmail] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const startMessage = {
-      text:<>안녕하세요 !  저는 오늘의 데이트 고객센터 챗봇입니다  😊 <br/> 아래의 원하시는 메뉴를 선택해주세요.</>,
+      text: <>안녕하세요 !  저는 오늘의 데이트 고객센터 챗봇입니다  😊 <br/> 아래의 원하시는 메뉴를 선택해주세요.</>,
       isUserMessage: false,
     };
     setMessages([startMessage]);
   }, []);
 
   const handleCloseChat = () => {
-    console.log("챗봇 종료");
+    setShowPopup(true);
+  };
+
+  const handleModalConfirm = () => {
+    setShowPopup(false);
+    navigate('/home'); 
   };
 
   const handleMenuSelect = (menuName) => {
@@ -213,7 +109,6 @@ const ChatRoom = () => {
       setIsInputActive(menuNumber === 5);
       setIsEmail(false);
 
-
       const botMessage = {
         text: test(menuNumber),
         isUserMessage: false,
@@ -223,13 +118,11 @@ const ChatRoom = () => {
     }
   };
 
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !isEmail) {
       handleSendMessage();
     }
   };
-  
 
   const getMenuNumber = (menuName) => {
     switch (menuName) {
@@ -251,10 +144,10 @@ const ChatRoom = () => {
   const test = (menuNumber) => {
     switch (menuNumber) {
       case 1:
-        return  <>오늘의 데이트는 사용자가 데이트 직접 코스를 만들어 공유할 수 있는 곳입니다.<br />   1. 핀 만들기  : 직접 데이트 경로를 만들고 멋진 데이트 경험을 공유해보세요! <br /> 
+        return <>오늘의 데이트는 사용자가 데이트 직접 코스를 만들어 공유할 수 있는 곳입니다.<br />   1. 핀 만들기  : 직접 데이트 경로를 만들고 멋진 데이트 경험을 공유해보세요! <br /> 
         2. 다른 사용자가 작성한 글들은 북마크 기능을 통해 마이페이지에서 폴더별로 모아볼 수 있어요. <br />  
         3. 지역 행사: 전국의 다양한 행사 정보를 통해 자세한 일정과 정보를 확인하고, 원하는 행사에 참여할 수 있습니다.<br />  <br/>
-        오늘의 데이트로 데이트 코스를 제작하고 행사에 참여하여 즐거운 시간을 보내세요! 💗<br /> </>
+        오늘의 데이트로 데이트 코스를 제작하고 행사에 참여하여 즐거운 시간을 보내세요! 💗<br /> </>;
       case 2:
         return <>  멤버십 서비스는 광고 없이 오늘의 데이트를 즐길 수 있는 서비스입니다! <br /> ✅ 실제 결제는 이루어지지 않습니다. </>;
       case 3:
@@ -274,22 +167,15 @@ const ChatRoom = () => {
     }
   };
 
-  // 스크롤 유지
-  useEffect(() => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
-
   // 문의 작성
   const handleSendMessage = () => {
     const userMessage = {
       text: inputValue,
       isUserMessage: true,
     };
-  
+
     let updatedMessages = [...messages, userMessage];
-  
+
     if (!isEmail && !inquiryContent) {
       setInquiryContent(inputValue);
       setIsEmail(true);
@@ -304,12 +190,12 @@ const ChatRoom = () => {
         text: <>문의가 성공적으로 접수되었습니다!  <br /> 확인 후 빠른 시일 내에 답변드리겠습니다 💗</>,
         isUserMessage: false,
       };
-  
+
       const chatbotDto = {
         inquiryContent: inquiryContent,
         inquiryEmail: inputValue,
       };
-    
+
       ChatbotAxiosApi.createInquiry(chatbotDto, token)
         .then((response) => {
           console.log("문의 접수 성공");
@@ -321,46 +207,44 @@ const ChatRoom = () => {
           console.log("문의 접수 실패", error);
         });
     }
-    
+
     setMessages(updatedMessages);
     setInputValue("");
   };
-  
-  
-
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   return (
-    <ChatRoomContainer>
-      <ChatRoomHeader>
+    <Container>
+      <Header>
         고객센터 Chat
         <CloseButton onClick={handleCloseChat}>✕</CloseButton>
-      </ChatRoomHeader>
-      <ChatMessageContainer ref={messageContainerRef}>
-        {messages.map((message, index) => (
-          <MessageContainer key={index} isUser={message.isUserMessage}>
-            {!message.isUserMessage && <ProfileImage src={Profile} alt="Profile" />}
-            <Message isUser={message.isUserMessage}>{message.text}</Message>
-          </MessageContainer>
-        ))}
-      </ChatMessageContainer>
-      <MenuContainer>
-        <MenuButton onClick={() => handleMenuSelect("이용가이드")}>이용가이드</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("멤버십")}>멤버십</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("광고문의")}>광고문의</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("신고문의")}>신고문의</MenuButton>
-        <MenuButton onClick={() => handleMenuSelect("기타문의")}>기타문의</MenuButton>
-      </MenuContainer>
-      <InputContainer>
-        <input type="text" value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={!isInputActive} />
-        <SendButton onClick={handleSendMessage}>
-          <SendIcon />
-        </SendButton>
-      </InputContainer>
-    </ChatRoomContainer>
+      </Header>
+      <ChatMessageContainer messages={messages} messageContainerRef={messageContainerRef}/>
+      <MenuContainer handleMenuSelect={handleMenuSelect} />
+      <InputContainer
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleKeyDown={handleKeyDown}
+        isInputActive={isInputActive}
+        handleSendMessage={handleSendMessage}
+      />
+      <UserPopUp
+        open={showPopup}
+        confirm={handleModalConfirm}
+        close={() => setShowPopup(false)}
+        type="confirm"
+        header="❗️"
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>
+          고객센터 챗봇을 종료 합니다.
+        </PopUpMessage>
+      </UserPopUp>
+    </Container>
   );
 };
 
