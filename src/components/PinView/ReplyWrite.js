@@ -98,7 +98,7 @@ const ReplyWrite = ({ postData }) => {
         open={isOpen}
         close={handleClose}
         header={"❗️"}
-        closeText="돌아가기"
+        closeText="확인"
       >
         댓글이 작성되었습니다.
       </UserPopUp>

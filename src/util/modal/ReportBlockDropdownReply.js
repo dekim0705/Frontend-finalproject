@@ -77,7 +77,7 @@ const ReportBlockDropdownReply = ({ userNum }) => {
           open={isOpen}
           close={handleClosePopUp}
           header={"❗️"}
-          closeText="돌아가기"
+          closeText="확인"
         >
           사용자를 차단하였습니다.
         </UserPopUp>

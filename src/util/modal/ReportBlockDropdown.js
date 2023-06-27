@@ -110,7 +110,7 @@ const ReportBlockDropdown = ({ postData, userId }) => {
           open={isOpen}
           close={handleClosePopUp}
           header={"❗️"}
-          closeText="돌아가기"
+          closeText="확인"
         >
           해당 게시글/사용자를 신고/차단 하였습니다.
         </UserPopUp>

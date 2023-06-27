@@ -97,7 +97,7 @@ const EmailForm = () => {
           open={isOpen}
           close={handleClose}
           header={"⭕️"}
-          closeText="돌아가기"
+          closeText="확인"
         >
           존재하는 이메일 입니다. 임시 비밀번호 받기를 눌러주세요.
         </UserPopUp>

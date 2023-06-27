@@ -137,7 +137,7 @@ const Desc = () => {
               open={isOpen}
               close={handleClose}
               header={"❗️"}
-              closeText="돌아가기"
+              closeText="확인"
             >
               이미 멤버십 회원 입니다. 😄
             </UserPopUp>

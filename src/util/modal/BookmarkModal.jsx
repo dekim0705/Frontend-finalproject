@@ -89,6 +89,7 @@ const BookmarkModal = ({ open, handleClose, addFolder, postId, handleBookmark = 
         if (response.data === '북마크 추가 성공 ❤️') {
           handleClose(true);
           handleBookmark(postId);
+          window.location.reload();
         }
       } catch (error) {
         await Functions.handleApiError(error);
@@ -99,6 +100,7 @@ const BookmarkModal = ({ open, handleClose, addFolder, postId, handleBookmark = 
           if (response.data === '북마크 추가 성공 ❤️') {
             handleClose(true);
             handleBookmark(postId);
+            window.location.reload(); // 새로고침
           }
         }
       }
