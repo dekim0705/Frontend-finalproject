@@ -32,7 +32,7 @@ const MemberDropDown = () => {
 
   const token = Functions.getAccessToken();
 
-  const { setIsMembership, userPfImg, setUserPfImg } = useContext(UserContext);
+  const { setIsMembership, userPfImg, setUserPfImg, setUserId } = useContext(UserContext);
 
   useEffect(() => {
     const getProfileImg = async () => {
@@ -48,11 +48,12 @@ const MemberDropDown = () => {
           const response = await HomeAxiosApi.userInfo(newToken);
           setUserPfImg(response.data.pfImg);
           setIsMembership(response.data.isMembership);
+          setUserId(response.data.id);
         }
       }
     };
     getProfileImg();
-  }, [token, setIsMembership, setUserPfImg]);
+  }, [token, setIsMembership, setUserPfImg, setUserId]);
 
   return (
     <div>
