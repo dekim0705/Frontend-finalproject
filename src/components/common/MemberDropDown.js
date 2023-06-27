@@ -32,7 +32,16 @@ const MemberDropDown = () => {
 
   const token = Functions.getAccessToken();
 
-  const { setIsMembership, userPfImg, setUserPfImg, setUserId } = useContext(UserContext);
+  const {
+    setIsMembership,
+    userPfImg,
+    setUserPfImg,
+    setUserId,
+    setNickname,
+    setUserComment,
+    setPostCount,
+    setReplyCount,
+  } = useContext(UserContext);
 
   useEffect(() => {
     const getProfileImg = async () => {
@@ -42,6 +51,10 @@ const MemberDropDown = () => {
         setUserPfImg(response.data.pfImg);
         setIsMembership(response.data.isMembership);
         setUserId(response.data.id);
+        setNickname(response.data.nickname);
+        setUserComment(response.data.userComment);
+        setPostCount(response.data.postCount);
+        setReplyCount(response.data.replyCount);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
@@ -50,11 +63,24 @@ const MemberDropDown = () => {
           setUserPfImg(response.data.pfImg);
           setIsMembership(response.data.isMembership);
           setUserId(response.data.id);
+          setNickname(response.data.nickname);
+          setUserComment(response.data.userComment);
+          setPostCount(response.data.postCount);
+          setReplyCount(response.data.replyCount);
         }
       }
     };
     getProfileImg();
-  }, [token, setIsMembership, setUserPfImg, setUserId]);
+  }, [
+    token,
+    setIsMembership,
+    setUserPfImg,
+    setUserId,
+    setNickname,
+    setUserComment,
+    setPostCount,
+    setReplyCount,
+  ]);
 
   return (
     <div>
