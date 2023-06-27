@@ -48,9 +48,6 @@ const TitleLink = styled(Link)`
   text-decoration: none;
   color: var(--text-color);
   font-weight: normal;
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const Table = styled.table`
@@ -62,6 +59,7 @@ const Table = styled.table`
     padding: 1px;
     border-bottom: 1px solid var(--line-color);
     text-align: center;
+    line-height:1.3em;
   }
   th {
     font-weight: bold;
@@ -243,7 +241,7 @@ useEffect(() => {
                 <td>{reply.id}</td>
                 <td>
                 <TitleLink >
-                      {reply.content}
+              {reply.content.length > 15 ? `${reply.content.substring(0, 15)}···` : reply.content} 
                 </TitleLink>
                 </td>
                 <td>{reply.nickname}</td>
