@@ -248,7 +248,7 @@ useEffect(() => {
                 </td>
                 <td>{post.id}</td>
                 <td>
-                <TitleLink >
+                <TitleLink to={`/post/${post.id}`}>
                  {post.title.length > 15 ? `${post.title.substring(0, 15)}···` : post.title} 
                 </TitleLink>
                 </td>
