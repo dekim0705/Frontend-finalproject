@@ -5,7 +5,6 @@ import MuiCheckbox from '../../Join/Checkbox';
 const ParentContainer = styled.div`
   width: 80%;
   margin: 1rem auto;
-
 `;
 
 const Table = styled.table`
@@ -27,6 +26,9 @@ const Table = styled.table`
 `;
 
 export const TitleLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
   color: var(--text-color);
   &:hover {
@@ -86,7 +88,7 @@ const PinListWeb = ({ isPostSelected, posts, selectAll, handleSelectAllChange, h
               </td>
               <td>{post.postNum}</td>
               <td className="title_align">
-                <TitleLink to={`/mypage`}>
+                <TitleLink to={`/post/${post.postNum}`}>
                   {post.title}
                 </TitleLink>
               </td>

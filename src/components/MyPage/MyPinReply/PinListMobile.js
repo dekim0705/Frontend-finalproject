@@ -7,6 +7,10 @@ const ParentContainer = styled.div`
   @media screen and (max-width: 768px) {
     width: 80%;  
   }
+  .view_count {
+    font-size: small;
+    margin: 0;
+  }
 `;
 
 export const RowWrapper = styled.div`
@@ -60,14 +64,13 @@ const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange,
                   checked={isPostSelected(post.postNum)}
                   onChange={(event) => handleCheckboxChange(event, post.postNum)}
                 />
-                <TitleLink to={`/mypage`}>
-                  {post.title}
+                <TitleLink to={`/post/${post.postNum}`}>
+                  {post.title} <span className='view_count'>[{post.viewCount}]</span>
                 </TitleLink>
               </RowWrapper>
               <RowWrapper gap="1rem">
                 <p style={{marginLeft: '2rem'}}>{post.nickname}</p>
                 <p>{formatDate(post.writeDate)}</p>
-                <p>{post.viewCount}</p>
               </RowWrapper>
             </MapContainer>
           </div>

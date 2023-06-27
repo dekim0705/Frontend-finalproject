@@ -50,14 +50,20 @@ const PinList = () => {
     const getUserPosts = async () => {
       try {
         const response = await UserAxiosApi.userPosts(token);
-        setPosts(response.data);
+        const sortedPosts = response.data.sort((a, b) => 
+          new Date(b.writeDate) - new Date(a.writeDate)
+        );
+        setPosts(sortedPosts);
         console.log("🍒 UserPosts :", response);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await UserAxiosApi.userPosts(newToken);
-          setPosts(response.data);
+          const sortedPosts = response.data.sort((a, b) => 
+            new Date(b.writeDate) - new Date(a.writeDate)
+          );
+          setPosts(sortedPosts);        
         }
       }
     };
