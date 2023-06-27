@@ -52,14 +52,14 @@ const LogoImg = styled.img`
 `;
 
 const Membership = () => {
-  const { isMembership, nickname } = useContext(UserContext);
+  const { isMembership, userNickname } = useContext(UserContext);
 
   const membershipText =
     isMembership === "MEMBERSHIP" ? (
       <>
         <div className="web">
           <Text>
-            <BoldText>{nickname}</BoldText>님은&nbsp;
+            <BoldText>{userNickname}</BoldText>님은&nbsp;
             <LogoImg src={LogoText} alt="로고 문자" />
             &nbsp;
             <BoldText>멤버십 회원</BoldText>입니다 ❣️
@@ -67,7 +67,7 @@ const Membership = () => {
         </div>
         <div className="responsive">
           <Text>
-            <BoldText>{nickname}</BoldText>님은
+            <BoldText>{userNickname}</BoldText>님은
           </Text>
           <br />
           <Text>
@@ -87,7 +87,7 @@ const Membership = () => {
             style={{ textDecoration: "none", color: "var(--text-color)" }}
           >
             <Text>
-              <BoldText>{nickname}</BoldText>님,&nbsp;
+              <BoldText>{userNickname}</BoldText>님,&nbsp;
               <BoldText>광고없는</BoldText>&nbsp;
               <LogoImg src={LogoText} alt="로고 문자" />를 이용해 보세요 ❣️
             </Text>
@@ -99,7 +99,7 @@ const Membership = () => {
             style={{ textDecoration: "none", color: "var(--text-color)" }}
           >
             <Text>
-              <BoldText>{nickname}</BoldText>님,
+              <BoldText>{userNickname}</BoldText>님,
             </Text>
             <br />
             <Text>
