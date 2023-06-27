@@ -21,6 +21,7 @@ import UserAgreements from "./components/Join/UserAgreements";
 import SearchResultPage from "./pages/SearchResultPage";
 import SearchStore from "./context/PostContext";
 import EditPage from "./pages/EditPage";
+import PrivateRoute from "./util/PrivateRoute";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -45,26 +46,26 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/home" element={ <PrivateRoute> <HomePage /> </PrivateRoute> } />
             <Route path="/kakao/auth/callback" element={<KakaoCallback />} />
             <Route path="/password" element={<ResetPwdPage />} />
-            <Route path="/membership/*" element={<MembershipPage />}></Route>
-            <Route path="/write" element={<WritePage />} />
-            <Route path="/post/:postId" element={<PinViewPage />} />
-            <Route path="/edit/:postId" element={<EditPage />} />
+            <Route path="/membership/*" element={<PrivateRoute><MembershipPage /></PrivateRoute>}></Route>
+            <Route path="/write" element={<PrivateRoute><WritePage /></PrivateRoute>} />
+            <Route path="/post/:postId" element={<PrivateRoute><PinViewPage /></PrivateRoute>} />
+            <Route path="/edit/:postId" element={<PrivateRoute><EditPage /></PrivateRoute>} />
             <Route path="/join" element={<JoinPage />} />
-            <Route path="/mypage/*" element={<MyPage />} />
-            <Route path="/contact" element={<ChatbotPage />} />
-            <Route path="/festival/:page" element={<FestivalPage />} />
-            <Route path="/admin/*" element={<AdiminPage />} />
-            <Route path="/festival/info" element={<FestivalDetailPage />} />
+            <Route path="/mypage/*" element={<PrivateRoute><MyPage /></PrivateRoute>} />
+            <Route path="/contact" element={<PrivateRoute><ChatbotPage /></PrivateRoute>} />
+            <Route path="/festival/:page" element={<PrivateRoute><FestivalPage /></PrivateRoute>} />
+            <Route path="/admin/*" element={<PrivateRoute><AdiminPage /></PrivateRoute>} />
+            <Route path="/festival/info" element={<PrivateRoute><FestivalDetailPage /></PrivateRoute>} />
             <Route
               path="/festival-info/:contentId"
-              element={<FestivalDetailPage />}
+              element={<PrivateRoute><FestivalDetailPage /></PrivateRoute>}
             />
             <Route path="/user-policy" element={<UserPolicy />} />
             <Route path="/user-agreements" element={<UserAgreements />} />
-            <Route path="/search" element={<SearchResultPage />} />
+            <Route path="/search" element={<PrivateRoute><SearchResultPage /></PrivateRoute>} />
           </Routes>
         </Router>
       </SearchStore>
