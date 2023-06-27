@@ -37,26 +37,26 @@ const SortButtonsContainer = styled.div`
 const FestivalPage = () => {
   const [sortBy, setSortBy] = useState("name");
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태 추가
   const [savedCity, setSavedCity] = useState("");
-  const [savedMonth, setSavedMonth] = useState("");
+  const [saveStatus, setSaveStatus] = useState("");
   const { page } = useParams(); // 페이지 번호 가져오기
 
   const handleSort = (type) => {
     setSortBy(type);
   };
 
-  const handleFilter = (city, month) => {
+  const handleFilter = (city, status) => {
     setSelectedCity(city);
-    setSelectedMonth(month);
+    setSelectedStatus(status);
   };
 
   const handleButtonClick = () => {
     setIsButtonClicked(true);
     setSavedCity(selectedCity);
-    setSavedMonth(selectedMonth);
+    setSaveStatus(selectedStatus);
   };
 
   const handleSearch = (keyword) => {
@@ -73,7 +73,7 @@ const FestivalPage = () => {
           <SelectBox onFilter={handleFilter} />
           <ButtonWrapper>
             <Button onClick={handleButtonClick}>둘러보기</Button>
-            <DetailButton onSearch={handleSearch} /> {/* 검색어를 전달하는 prop 추가 */}
+            <DetailButton onSearch={handleSearch} /> 
           </ButtonWrapper>
         </Container>
         <SortButtonsContainer>
@@ -85,7 +85,7 @@ const FestivalPage = () => {
               apiData={apiData}
               sortBy={sortBy}
               selectedCity={isButtonClicked ? savedCity : ""}
-              selectedMonth={isButtonClicked ? savedMonth : ""}
+              selectedStatus={isButtonClicked ? saveStatus : ""}
               isButtonClicked={isButtonClicked}
               searchKeyword={searchKeyword} 
               page={currentPage}
