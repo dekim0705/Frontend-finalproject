@@ -61,14 +61,20 @@ const ReplyList = () => {
     const getUserReplies = async () => {
       try {
         const response = await UserAxiosApi.userReplies(token);
-        setReplies(response.data);
+        const sortedReplies = response.data.sort((a, b) => {
+          return new Date(b.writeDate) - new Date(a.writeDate);
+        });
+        setReplies(sortedReplies);
         console.log("🍒 UserReplies :", response);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await UserAxiosApi.userReplies(newToken);
-          setReplies(response.data);
+          const sortedReplies = response.data.sort((a, b) => {
+            return new Date(b.writeDate) - new Date(a.writeDate);
+          });
+          setReplies(sortedReplies);        
         }
       }
     };
@@ -131,7 +137,7 @@ const ReplyList = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    navigate(`/mypage/replies/${newPage}`);
+    navigate(`/post/replies/${newPage}`);
   };
 
   const formatDate = (dateString) => {
@@ -156,7 +162,7 @@ const ReplyList = () => {
             checked={isReplySelected(reply.replyNum)}
             onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
           />
-          <TitleLink to={`/mypage`}>{reply.content}</TitleLink>
+          <TitleLink to={`/post/${reply.postNum}`}>{reply.content}</TitleLink>
         </RowWrapper>
         <Content className='content_align'>원문제목: {reply.title}</Content>
         <RowWrapper className='author_date' gap='1rem'>
