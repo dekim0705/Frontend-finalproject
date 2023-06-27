@@ -50,6 +50,11 @@ const AlarmListContainer = styled.div`
   }
 `;
 
+const StyledRegion = styled.span`
+  font-size: 1.2em;
+  color: var(--hover-extra-color);
+`;
+
 const AlarmDropdown = () => {
   const token = localStorage.getItem("accessToken");
   const [pushes, setPushes] = useState([]);
@@ -75,16 +80,28 @@ const AlarmDropdown = () => {
     return `${year}.${month}.${day}`;
   };
 
+  const regionTranslation = {
+    "SEOUL": "서울",
+    "INCHEON": "인천",
+    "GYEONGGI": "경기",
+    "GANGWON": "강원",
+    "BUSAN" : "부산",
+    "CHUNGBUK": "충북",
+    "GYEONGBUK": "경북",
+    "JEOLLANAM": "전남",
+    "JEJU": "제주"
+  }
+
   return (
     <StyledWrapper>
       {pushes.map((push) => (
         <AlarmListContainer>
           <div className="subcontainer header">
             <div className="circle"></div>
-            <h1>회원님이 구독하신 {push.postId} 게시글이 올라왔습니다.</h1>
+            <h1>회원님이 구독하신 <StyledRegion>{regionTranslation[push.userRegion]}</StyledRegion> 게시글이 올라왔습니다.</h1>
           </div>
           <div className="subcontainer content">
-            <p>글 제목이 들어갑니다.</p>
+            <p>{push.title}</p>
             <p>{formatDate(push.sendDate)}</p>
           </div>
         </AlarmListContainer>
