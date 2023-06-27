@@ -16,6 +16,7 @@ import TwitterIcon from "../../resource/twitter.png";
 import LineIcon from "../../resource/line.png";
 import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import HomeAxiosApi from "../../api/HomeAxiosApi";
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -75,6 +76,18 @@ const PostConcept = styled(CommonStyle)``;
 const PostHeader = ({ postData, userId, postId }) => {
   const token = localStorage.getItem("accessToken");
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [folderName, setFolderName] = useState(null);
+
+  const handleDeleteBookmark = async () => {
+    try {
+      const response = await HomeAxiosApi.deleteBookmark(postId, folderName, token);
+      if (response.status === 200) {
+        setIsBookmarked(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     const getBookmarkedPost = async () => {
@@ -85,6 +98,7 @@ const PostHeader = ({ postData, userId, postId }) => {
         );
         console.log("👠 : " + JSON.stringify(response.data, null, 2));
         setIsBookmarked(response.data.isBookmarked);
+        setFolderName(response.data.folderName);
       } catch (error) {}
     };
     getBookmarkedPost();
@@ -105,7 +119,7 @@ const PostHeader = ({ postData, userId, postId }) => {
           <h1>{postData.title}</h1>
           <div className="iconWrapper">
             {isBookmarked ? (
-              <BookmarkIcon sx={{ cursor: "pointer", color: "#FF62AD" }} />
+              <BookmarkIcon sx={{ cursor: "pointer", color: "#FF62AD" }} onClick={handleDeleteBookmark} />
             ) : (
               <BookmarkBorderIcon />
             )}
