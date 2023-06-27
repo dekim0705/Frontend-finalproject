@@ -11,7 +11,7 @@ const Container = styled.div`
   margin: 0 auto;
   justify-content: center; 
 
-  @media (min-width: 768px) {
+  @media screen and (max-width: 400px) {
     flex-direction: column;
     width: 100%;
     margin: 0 auto;
@@ -23,7 +23,7 @@ const NoResultContainer = styled.div`
   text-align: center;
   font-size: 1.2rem;
   justify-content: center;
-  @media (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     margin-left: 20px;
   }
 `;
