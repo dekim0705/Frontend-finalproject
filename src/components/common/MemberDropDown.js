@@ -41,6 +41,7 @@ const MemberDropDown = () => {
         console.log("🐓 : " + JSON.stringify(response.data, null, 2));
         setUserPfImg(response.data.pfImg);
         setIsMembership(response.data.isMembership);
+        setUserId(response.data.id);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
