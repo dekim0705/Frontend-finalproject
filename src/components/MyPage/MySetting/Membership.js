@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import LogoText from '../../../resource/오늘의 데이트 로고 문자.svg';
-import { SettingsNav } from '../Navs';
-import UserAxiosApi from '../../../api/UserAxiosApi';
-import Functions from '../../../util/Functions';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import LogoText from "../../../resource/오늘의 데이트 로고 문자.svg";
+import { SettingsNav } from "../Navs";
+import { UserContext } from "../../../context/UserContext";
 
 export const Text = styled.p`
   font-size: 1.6rem;
@@ -25,7 +24,7 @@ const TextContainer = styled.div`
   justify-content: center;
   width: 90%;
   height: 200px;
-  border: 1px solid #FF62AD;
+  border: 1px solid #ff62ad;
   border-radius: 15px;
   box-shadow: 3px 3px 3px #999;
   .responsive {
@@ -40,8 +39,8 @@ const TextContainer = styled.div`
       display: none;
     }
     .responsive {
-    display: block;
-  }
+      display: block;
+    }
   }
 `;
 
@@ -53,73 +52,56 @@ const LogoImg = styled.img`
 `;
 
 const Membership = () => {
-  const [profileData, setProfileData] = useState(null);
-  const token = Functions.getAccessToken();
+  const { isMembership, nickname } = useContext(UserContext);
 
-  useEffect(() => {
-    const getUserProfile = async () => {
-      try {
-        const response = await UserAxiosApi.userProfile(token);
-        setProfileData(response.data);
-        console.log("🍒 UserProfile :", response)
-      } catch (error) {
-        await Functions.handleApiError(error); 
-        const newToken = Functions.getAccessToken();
-        if (newToken !== token) {
-          const response = await UserAxiosApi.userProfile(newToken);
-          setProfileData(response.data);
-        }
-      }
-    };
-    getUserProfile();
-  }, [token]);
-
-  const membershipText = profileData ? (
-    profileData.nickname && profileData.isMembership === 'MEMBERSHIP' ? (
+  const membershipText =
+    isMembership === "MEMBERSHIP" ? (
       <>
-        <div className='web'>
+        <div className="web">
           <Text>
-            <BoldText>{profileData.nickname}</BoldText>님은&nbsp;
-            {/* <BoldText>2023년 5월 30일</BoldText>부터&nbsp; */}
-            <LogoImg src={LogoText} alt="로고 문자" />&nbsp;
+            <BoldText>{nickname}</BoldText>님은&nbsp;
+            <LogoImg src={LogoText} alt="로고 문자" />
+            &nbsp;
             <BoldText>멤버십 회원</BoldText>입니다 ❣️
           </Text>
         </div>
-        <div className='responsive'>
+        <div className="responsive">
           <Text>
-            <BoldText>{profileData.nickname}</BoldText>님은
+            <BoldText>{nickname}</BoldText>님은
           </Text>
-          <br />      
-          {/* <Text>
-            <BoldText>2023년 5월 30일</BoldText>부터
-          </Text>
-          <br /> */}
+          <br />
           <Text>
             <LogoImg src={LogoText} alt="로고 문자" />
           </Text>
-          <br />      
+          <br />
           <Text>
             <BoldText>멤버십 회원</BoldText>입니다 ❣️
-          </Text>      
-          </div>
+          </Text>
+        </div>
       </>
     ) : (
       <>
-        <div className='web'>
-          <Link to='/membership' style={{textDecoration: 'none', color: 'var(--text-color)'}}>
+        <div className="web">
+          <Link
+            to="/membership"
+            style={{ textDecoration: "none", color: "var(--text-color)" }}
+          >
             <Text>
-              <BoldText>{profileData.nickname}</BoldText>님,&nbsp;
+              <BoldText>{nickname}</BoldText>님,&nbsp;
               <BoldText>광고없는</BoldText>&nbsp;
               <LogoImg src={LogoText} alt="로고 문자" />를 이용해 보세요 ❣️
             </Text>
           </Link>
         </div>
-        <div className='responsive'>
-          <Link to='/membership' style={{textDecoration: 'none', color: 'var(--text-color)'}}>
+        <div className="responsive">
+          <Link
+            to="/membership"
+            style={{ textDecoration: "none", color: "var(--text-color)" }}
+          >
             <Text>
-              <BoldText>{profileData.nickname}</BoldText>님,
+              <BoldText>{nickname}</BoldText>님,
             </Text>
-            <br />      
+            <br />
             <Text>
               <BoldText>광고없는</BoldText>
             </Text>
@@ -127,21 +109,18 @@ const Membership = () => {
             <Text>
               <LogoImg src={LogoText} alt="로고 문자" />를
             </Text>
-            <br />      
-            <Text>
-              이용해 보세요 ❣️
-            </Text>    
+            <br />
+            <Text>이용해 보세요 ❣️</Text>
           </Link>
         </div>
       </>
-    ) 
-  ) : null;
+    );
 
-  return(
+  return (
     <>
       <SettingsNav />
       <TextContainer>{membershipText}</TextContainer>
     </>
   );
-}
+};
 export default Membership;
