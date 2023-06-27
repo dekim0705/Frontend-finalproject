@@ -206,15 +206,21 @@ const EditInfo = () => {
   };
 
   const deleteProfileImage = (imageUrl) => {
+    if (imageUrl === 'https://firebasestorage.googleapis.com/v0/b/todaysdate-final-project.appspot.com/o/profile%2Fdefaultprofile.jpg?alt=media') {
+      console.log('기본 프로필사진, 삭제 ❌');
+      return;
+    }
+  
     const imageRef = ref(storage, imageUrl);
     deleteObject(imageRef)
       .then(() => {
-        console.log('기존 프사 삭제 성공');
+        console.log('프사 삭제 성공');
       })
       .catch((error) => {
-        console.log('기존 프사 삭제 실패', error);
+        console.log('프사 삭제 실패', error);
       });
   };
+  
 
   const handleRegionChange = (value) => {
     setRegion(value);
