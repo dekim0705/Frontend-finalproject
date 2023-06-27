@@ -13,7 +13,7 @@ const HeaderContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     padding: 0px 30px;
-    width: 90%;
+    width: 95%;
   }
 `;
 

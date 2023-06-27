@@ -36,7 +36,7 @@ const Carousel = ({ contentId }) => {
 
   const fetchImages = async () => {
     try {
-      const imageUrl = `/B551011/KorService1/detailImage1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${contentId}&imageYN=Y&subImageYN=Y&numOfRows=9&pageNo=1&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}`;
+      const imageUrl = `/B551011/KorService1/detailImage1?MobileOS=ETC&MobileApp=todaysDate&_type=json&contentId=${contentId}&imageYN=Y&subImageYN=Y&numOfRows=6&pageNo=1&serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}`;
       const response = await axios.get(imageUrl, {
         headers: {
           "x-requested-with": "xhr",
@@ -98,7 +98,8 @@ const Carousel = ({ contentId }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
+          arrows: true,
+          swipeToSlide: true,
         },
       },
     ],
