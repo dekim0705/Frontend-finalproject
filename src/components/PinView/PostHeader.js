@@ -17,6 +17,7 @@ import LineIcon from "../../resource/line.png";
 import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
+import BookmarkModal from "../../util/modal/BookmarkModal";
 
 const AuthorHeader = styled.div`
   display: flex;
@@ -77,17 +78,30 @@ const PostHeader = ({ postData, userId, postId }) => {
   const token = localStorage.getItem("accessToken");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [folderName, setFolderName] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDeleteBookmark = async () => {
     try {
-      const response = await HomeAxiosApi.deleteBookmark(postId, folderName, token);
+      const response = await HomeAxiosApi.deleteBookmark(
+        postId,
+        folderName,
+        token
+      );
       if (response.status === 200) {
         setIsBookmarked(false);
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handleopenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     const getBookmarkedPost = async () => {
@@ -119,10 +133,18 @@ const PostHeader = ({ postData, userId, postId }) => {
           <h1>{postData.title}</h1>
           <div className="iconWrapper">
             {isBookmarked ? (
-              <BookmarkIcon sx={{ cursor: "pointer", color: "#FF62AD" }} onClick={handleDeleteBookmark} />
+              <BookmarkIcon
+                sx={{ cursor: "pointer", color: "#FF62AD" }}
+                onClick={handleDeleteBookmark}
+              />
             ) : (
-              <BookmarkBorderIcon />
+              <BookmarkBorderIcon onClick={handleopenModal} />
             )}
+            <BookmarkModal 
+              open={isModalOpen} 
+              handleClose={toggleModal}
+              
+            />
             <ReportBlockDropdown postData={postData} userId={userId} />
           </div>
         </Wrapper>
