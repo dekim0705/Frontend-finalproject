@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PostAxiosApi from "../../api/PostAxiosApi";
 import Functions from "../../util/Functions";
+import UserPopUp from "../../util/modal/UserPopUp";
 
 const Container = styled.div`
   display: flex;
@@ -19,14 +20,15 @@ const Container = styled.div`
 `;
 
 const UpdateDeleteReply = ({ replyId, onEdit }) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleDelete = () => {
     const delReply = async () => {
       try {
         const response = await PostAxiosApi.deleteReply(replyId, token);
         if (response.data === "댓글 삭제 성공 ❤️") {
-          alert("댓글이 삭제되었습니다.");
-          window.location.reload();
+          setIsOpen(true);
         }
       } catch (error) {
         await Functions.handleApiError(error);
@@ -34,18 +36,31 @@ const UpdateDeleteReply = ({ replyId, onEdit }) => {
         if (newToken !== token) {
           const response = await PostAxiosApi.deleteReply(replyId, token);
           if (response.data === "댓글 삭제 성공 ❤️") {
-            window.location.reload();
+            setIsOpen(true);
           }
         }
       }
     };
     delReply();
-  }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    window.location.reload();
+  };
 
   return (
     <Container>
       <h2 onClick={onEdit}>수정</h2>
       <h2 onClick={handleDelete}>삭제</h2>
+      <UserPopUp
+        open={isOpen}
+        close={handleClose}
+        header={"❗️"}
+        closeText="돌아가기"
+      >
+        댓글이 삭제되었습니다.
+      </UserPopUp>
     </Container>
   );
 };

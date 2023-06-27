@@ -6,6 +6,7 @@ import ReportAxiosApi from "../../api/ReportAxiosApi";
 import Functions from "../Functions";
 import { useNavigate } from "react-router-dom";
 import ReportModalReply from "./ReportModalReply";
+import UserPopUp from "./UserPopUp";
 
 const ReportBlockDropdownReply = ({ userNum }) => {
   const token = localStorage.getItem("accessToken");
@@ -13,6 +14,7 @@ const ReportBlockDropdownReply = ({ userNum }) => {
   const open = Boolean(anchorEl);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -30,8 +32,7 @@ const ReportBlockDropdownReply = ({ userNum }) => {
     try {
       const response = await ReportAxiosApi.blockUser(userNum, token);
       if (response.data === "차단 완료 ❤️") {
-        alert("해당 사용자를 차단했습니다.");
-        navigate("/home");
+        setIsOpen(true);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -39,11 +40,15 @@ const ReportBlockDropdownReply = ({ userNum }) => {
       if (newToken !== token) {
         const response = await ReportAxiosApi.blockUser(userNum, newToken);
         if (response.data === "차단 완료 ❤️") {
-          alert("해당 사용자를 차단했습니다.");
-          navigate("/home");
+          setIsOpen(true);
         }
       }
     }
+  };
+
+  const handleClosePopUp = () => {
+    setIsOpen(false);
+    navigate("/home");
   };
 
   return (
@@ -68,7 +73,19 @@ const ReportBlockDropdownReply = ({ userNum }) => {
       >
         <MenuItem onClick={handleBlockUser}>차단하기</MenuItem>
         <MenuItem onClick={toggleModal}>작성자 신고하기</MenuItem>
-        <ReportModalReply open={isModalOpen} handleClose={toggleModal} userNum={userNum} />
+        <UserPopUp
+          open={isOpen}
+          close={handleClosePopUp}
+          header={"❗️"}
+          closeText="돌아가기"
+        >
+          사용자를 차단하였습니다.
+        </UserPopUp>
+        <ReportModalReply
+          open={isModalOpen}
+          handleClose={toggleModal}
+          userNum={userNum}
+        />
       </Menu>
     </div>
   );

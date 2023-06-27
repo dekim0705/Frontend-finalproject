@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-    
 const StyledPopUp = styled.div`
   .modal {
     display: none;
@@ -11,7 +10,7 @@ const StyledPopUp = styled.div`
     bottom: 0;
     left: 0;
     z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
   }
   .modal button {
     outline: none;
@@ -41,7 +40,9 @@ const StyledPopUp = styled.div`
     animation: modal-show 0.3s;
     overflow: hidden;
     border: 1px solid var(--point-color);
-
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0) 0px 30px 60px -30px,
+      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
   section > header {
     padding: 14px 64px 12px 12px;
@@ -110,7 +111,19 @@ export const PopUpMessage = styled.p`
 `;
 
 const UserPopUp = (props) => {
-  const { open, confirm, close, type, header, children, confirmText, closeText, showInputField, inputValue, handleInputChange } = props;
+  const {
+    open,
+    confirm,
+    close,
+    type,
+    header,
+    children,
+    confirmText,
+    closeText,
+    showInputField,
+    inputValue,
+    handleInputChange,
+  } = props;
 
   return (
     <StyledPopUp>
@@ -124,14 +137,20 @@ const UserPopUp = (props) => {
             <Divider />
             <main>
               {children}
-              {showInputField && ( 
-                <input type="text" value={inputValue} onChange={handleInputChange} />
+              {showInputField && (
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                />
               )}
             </main>
             <footer>
               {type === "confirm" && confirmText && closeText ? (
                 <>
-                  <button className="confirmBtn" onClick={confirm}>{confirmText}</button>
+                  <button className="confirmBtn" onClick={confirm}>
+                    {confirmText}
+                  </button>
                   <button className="cancelBtn" onClick={close}>
                     {closeText}
                   </button>

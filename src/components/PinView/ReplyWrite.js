@@ -5,6 +5,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import PostAxiosApi from "../../api/PostAxiosApi";
 import { UserContext } from "../../context/UserContext";
 import Functions from "../../util/Functions";
+import UserPopUp from "../../util/modal/UserPopUp";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -39,6 +40,7 @@ const ReplyWrite = ({ postData }) => {
   const token = localStorage.getItem("accessToken");
   const { userPfImg } = useContext(UserContext);
   const [reply, setReply] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleContentChange = (e) => {
     setReply(e.target.value);
@@ -56,8 +58,7 @@ const ReplyWrite = ({ postData }) => {
       );
       console.log("🍔 : " + response.data);
       if (response.data === true) {
-        alert("댓글이 작성되었습니다.");
-        window.location.reload();
+        setIsOpen(true);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -66,10 +67,19 @@ const ReplyWrite = ({ postData }) => {
         const replyUserDto = {
           content: reply,
         };
-        const response = await PostAxiosApi.createReply(postData.postId, replyUserDto, newToken);
+        const response = await PostAxiosApi.createReply(
+          postData.postId,
+          replyUserDto,
+          newToken
+        );
         console.log("🍔 : " + response.data);
       }
     }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -84,6 +94,14 @@ const ReplyWrite = ({ postData }) => {
         />
         <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
+      <UserPopUp
+        open={isOpen}
+        close={handleClose}
+        header={"❗️"}
+        closeText="돌아가기"
+      >
+        댓글이 작성되었습니다.
+      </UserPopUp>
     </StyledContainer>
   );
 };

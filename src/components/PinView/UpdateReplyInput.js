@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CreateIcon from "@mui/icons-material/Create";
 import { Container } from "../../util/ViewFormStyle";
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import Functions from "../../util/Functions";
 import PostAxiosApi from "../../api/PostAxiosApi";
+import UserPopUp from "../../util/modal/UserPopUp";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -52,8 +53,9 @@ const StyledReplyForm = styled.div`
 `;
 
 const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   const [reply, setReply] = useState(replyContent);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleContentChange = (e) => {
     setReply(e.target.value);
@@ -71,8 +73,7 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
       );
       console.log("🍔 : " + response.data);
       if (response.data === "댓글 수정 성공! ❤️") {
-        alert("댓글이 수정되었습니다.");
-        window.location.reload();
+        setIsOpen(true);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -88,11 +89,15 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
         );
         console.log("🍔 : " + response.data);
         if (response.data === "댓글 수정 성공! ❤️") {
-          alert("댓글이 수정되었습니다.");
-          window.location.reload();
+          setIsOpen(true);
         }
       }
     }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -106,8 +111,16 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
         <textarea type="text" onChange={handleContentChange} value={reply} />
         <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
+      <UserPopUp
+        open={isOpen}
+        close={handleClose}
+        header={"❗️"}
+        closeText="돌아가기"
+      >
+        댓글이 수정되었습니다.
+      </UserPopUp>
     </StyledContainer>
   );
-}
+};
 
 export default UpdateReplyInput;

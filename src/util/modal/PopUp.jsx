@@ -88,19 +88,16 @@ const StyledPopUp = styled.div`
 `;
 
 const PopUp = (props) => {
-
-  const {open, confirm, close, typeExit, header, children} = props;
+  const { open, confirm, close, typeExit, header, children } = props;
 
   return (
     <StyledPopUp>
       <div className={open ? "openModal modal" : "modal"}>
-        {open &&
+        {open && (
           <section>
             <header>
               {header}
-              <button onClick={close}>
-                &times;
-              </button>
+              <button onClick={close}>&times;</button>
             </header>
             <main>{children}</main>
             <footer>
@@ -108,10 +105,10 @@ const PopUp = (props) => {
               <button onClick={close}>돌아가기</button>
             </footer>
           </section>
-          }
+        )}
       </div>
     </StyledPopUp>
   );
-}
+};
 
 export default PopUp;
