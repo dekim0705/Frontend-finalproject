@@ -9,7 +9,6 @@ export const PfImg = styled.img`
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  /* text-align: center; */
   @media screen and (max-width:768px) {
     margin: 6px auto;
     width: 110px;
@@ -42,9 +41,7 @@ export const Membership = styled.img`
 const Comment = styled.p`
   color: var(--text-color);  
   font-size: 0.8rem;
-  margin-top: -16px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--line-color);
+  margin-top: -14px;
   @media screen and (max-width:768px) {
     padding-bottom: 4px;
     border: none;

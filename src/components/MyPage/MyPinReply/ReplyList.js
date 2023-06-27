@@ -16,10 +16,22 @@ const ParentContainer = styled.div`
   .content_align, .author_date {
     margin-left: 3rem;
   }
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 500px;
+  }
   @media screen and (max-width: 768px) {
     width: 80%;  
     .author_date {
       display: none;
+    }
+    .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 230px;
     }
   }
 `;
@@ -162,9 +174,9 @@ const ReplyList = () => {
             checked={isReplySelected(reply.replyNum)}
             onChange={(event) => handleCheckboxChange(event, reply.replyNum)}
           />
-          <TitleLink to={`/post/${reply.postNum}`}>{reply.content}</TitleLink>
+          <TitleLink to={`/post/${reply.postNum}`}><span className='title'>{reply.content}</span></TitleLink>
         </RowWrapper>
-        <Content className='content_align'>원문제목: {reply.title}</Content>
+        <Content className='content_align title'>원문제목: {reply.title}</Content>
         <RowWrapper className='author_date' gap='1rem'>
           <StyledP>{reply.nickname}</StyledP>
           <StyledP>{formatDate(reply.writeDate)}</StyledP>

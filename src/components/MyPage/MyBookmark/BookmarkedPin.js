@@ -22,8 +22,14 @@ const PostTitle = styled.div`
   h1 {
     font-size: 1em;
     font-weight: 800;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
     @media screen and (max-width: 768px) {
       font-size: 1.2em;
+      max-width: 230px;
+
     }
   }
   p {

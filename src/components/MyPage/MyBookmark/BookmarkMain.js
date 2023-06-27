@@ -13,7 +13,7 @@ export const FolderContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 4rem;
+  gap: 3rem;
   @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
