@@ -7,6 +7,7 @@ import { ColumnWrapper } from '../../Join/Wrappers';
 import { useNavigate } from 'react-router-dom';
 import UserAxiosApi from '../../../api/UserAxiosApi';
 import Functions from '../../../util/Functions';
+import UserPopUp, { PopUpMessage } from '../../../util/modal/UserPopUp';
 
 const EditPwd = () => {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ const EditPwd = () => {
   const [conPwd, setConPwd]  = useState('');  
   const [isPwd, setIsPwd] = useState(false);
   const [isConPwd, setIsConPwd] = useState(false);
+
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [popUpMessage, setPopUpMessage] = useState('');
 
     const onChangePwd = (e) => {
       const pwdRegex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
@@ -38,7 +42,8 @@ const EditPwd = () => {
 
     const handleBtnClick = async () => {
       if (!isPwd || !isConPwd) {
-        alert('새로운 비밀번호를 확인해주세요.');
+        setShowPopUp(true);
+        setPopUpMessage("새로운 비밀번호를 확인해 주세요.");
         return;
       }
       
@@ -46,8 +51,10 @@ const EditPwd = () => {
       
       try {
         await UserAxiosApi.updateUserPwd(token, newPwd);
-        alert('비밀번호가 변경되었습니다.');
-        navigate('/mypage');
+        setShowPopUp(true);
+        setPopUpMessage("비밀번호가 변경되었습니다.")
+        setPwd("");
+        setConPwd("");
       } catch (error) {
         console.error('비밀번호 변경 실패..');
       }
@@ -87,6 +94,16 @@ const EditPwd = () => {
           <Button onClick={handleBtnClick}>비밀번호 변경</Button>
         </ColumnWrapper>
       </Container>
+      <UserPopUp
+        open={showPopUp}
+        close={()=>{setShowPopUp(false)}}     
+        header="❗️"
+        closeText="확인"
+      >
+        <PopUpMessage>
+          {popUpMessage}
+        </PopUpMessage>
+      </UserPopUp>
     </>
   );
 }
