@@ -31,8 +31,9 @@ const StyledPopUp = styled.div`
   }
 
   .modal > section {
-    width: 90%;
+    /* width: 90%; */
     max-width: 400px;
+    min-width: 300px;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: #fff;
@@ -43,7 +44,7 @@ const StyledPopUp = styled.div`
 
   }
   section > header {
-    padding: 14px 64px 12px 20px;
+    padding: 14px 64px 12px 12px;
     font-weight: 700;
     font-size: 1.2rem;
   }
@@ -52,7 +53,7 @@ const StyledPopUp = styled.div`
     text-align: center;
   }
   .modal > section > footer {
-    padding: 0 20px 10px 0;
+    padding: 0 10px 10px 0;
     text-align: right;
   }
   .modal > section > footer button {
@@ -73,7 +74,7 @@ const StyledPopUp = styled.div`
     border: 0.5px solid var(--input-text-color);
     border-radius: 4px;
     height: 40px;
-    width: 80%
+    width: 250px;
   }
   @keyframes modal-show {
     from {
