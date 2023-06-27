@@ -48,7 +48,8 @@ export const Button = styled.button`
   border-radius: 6px;
   cursor: pointer;
   &:hover {
-    background-color: var(--hover-color);
+    background-color: var(--point-color);
+    color: #ffffff;
   }
 `;
 

@@ -177,6 +177,58 @@ const KH_DOMAIN = `${process.env.REACT_APP_API_DOMAIN}`;
         throw error;
       }
     },
+    // 🍒 북마크 폴더 제목 
+    userFolderName: async (token, folderId) => {
+      try {
+        return await axios.get(`${KH_DOMAIN}/mypage/bookmarks/${folderId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 🍒 북마크 폴더 삭제
+    deleteBookmarkFolder: async (token, folderId) => {
+      try {
+        return await axios.delete(`${KH_DOMAIN}/mypage/bookmark-folders/${folderId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 🍒 북마크 폴더 이름 수정
+    updateBookmarkFolderName: async (token, folderId, newFolderName) => {
+      try {
+        return await axios.put(`${KH_DOMAIN}/mypage/bookmark-folders/${folderId}`, newFolderName, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 🍒 북마크 폴더 생성
+    createBookmarkFolder: async (token, newFolder) => {
+      try {
+        return await axios.post(`${KH_DOMAIN}/mypage/bookmark-folders/`, newFolder, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
   };
 export default UserAxiosApi;
 
