@@ -42,8 +42,13 @@ const Divider = styled.span`
 `;
 
 const ProfileBar2 = () => {
-  const { isMembership, nickname, postCount, replyCount, userPfImg } =
-    useContext(UserContext);
+  const {
+    isMembership,
+    userNickname,
+    userPostCount,
+    userReplyCount,
+    userPfImg,
+  } = useContext(UserContext);
 
   return (
     <ColumnWrapper alignItems="center">
@@ -54,16 +59,16 @@ const ProfileBar2 = () => {
           <ColumnWrapper gap="6px">
             <div>
               <Nickname2>
-                {nickname}{" "}
+                {userNickname}{" "}
                 {isMembership === "MEMBERSHIP" && (
                   <Membership2 src={Star} alt="멤버쉽 이미지" />
                 )}{" "}
               </Nickname2>
             </div>
             <RowWrapper width="50vw">
-              <Counts count={postCount} label="총 게시물 " />
+              <Counts count={userPostCount} label="총 게시물 " />
               <Divider>|</Divider>
-              <Counts count={replyCount} label="총 댓글 " />
+              <Counts count={userReplyCount} label="총 댓글 " />
             </RowWrapper>
           </ColumnWrapper>
         </RowWrapper>

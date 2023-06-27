@@ -5,10 +5,10 @@ const UserStore = (props) => {
   const [userPfImg, setUserPfImg] = useState("");
   const [isMembership, setIsMembership] = useState("");
   const [userId, setUserId] = useState(0);
-  const [nickname, setNickname] = useState("");
-  const [userComment, setUserComment] = useState("");
-  const [postCount, setPostCount] = useState("");
-  const [replyCount, setReplyCount] = useState("");
+  const [userNickname, setUserNickname] = useState("");
+  const [comment, setComment] = useState("");
+  const [userPostCount, setUserPostCount] = useState("");
+  const [userReplyCount, setUserReplyCount] = useState("");
 
   return (
     <UserContext.Provider
@@ -19,14 +19,14 @@ const UserStore = (props) => {
         setIsMembership,
         userId,
         setUserId,
-        nickname,
-        setNickname,
-        userComment,
-        setUserComment,
-        postCount,
-        setPostCount,
-        replyCount,
-        setReplyCount,
+        userNickname,
+        setUserNickname,
+        comment,
+        setComment,
+        userPostCount,
+        setUserPostCount,
+        userReplyCount,
+        setUserReplyCount,
       }}
     >
       {props.children}

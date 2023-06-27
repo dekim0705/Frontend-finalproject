@@ -49,7 +49,7 @@ const Comment = styled.p`
 `;
 
 const UserProfile = () => {
-  const { userPfImg, isMembership, nickname, userComment } =
+  const { userPfImg, isMembership, userNickname, comment } =
     useContext(UserContext);
 
   return (
@@ -57,13 +57,13 @@ const UserProfile = () => {
       <PfImg src={userPfImg} alt="프로필 이미지" />
       <div>
         <Nickname>
-          {nickname}
+          {userNickname}
           {isMembership === "MEMBERSHIP" && (
             <Membership src={Star} alt="멤버쉽 이미지" />
           )}
         </Nickname>
       </div>
-      <Comment>{userComment}</Comment>
+      <Comment>{comment}</Comment>
     </>
   );
 };
