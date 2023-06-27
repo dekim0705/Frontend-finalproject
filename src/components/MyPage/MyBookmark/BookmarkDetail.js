@@ -12,7 +12,7 @@ import UserPopUp from '../../../util/modal/UserPopUp';
 const DetailPageContainer = styled.div`
   margin: 0 auto;
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   .btn_wrapper {
     padding: 20px;
     display: flex;

@@ -4,13 +4,23 @@ import { StyledCheckbox, Button, TitleLink } from './PinListWeb';
 const ParentContainer = styled.div`
   margin: 1rem auto;
   width: 90%;
-  @media screen and (max-width: 768px) {
-    width: 80%;  
-  }
   .view_count {
     font-size: small;
     margin: 0;
   }
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 280px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80%;
+    .title {
+      max-width: 230px;
+    }  
+  }
+
 `;
 
 export const RowWrapper = styled.div`
@@ -65,7 +75,7 @@ const PinListMobile = ({ isPostSelected, posts, selectAll, handleCheckboxChange,
                   onChange={(event) => handleCheckboxChange(event, post.postNum)}
                 />
                 <TitleLink to={`/post/${post.postNum}`}>
-                  {post.title} <span className='view_count'>[{post.viewCount}]</span>
+                  <span className='title'>{post.title}</span><span className='view_count'>[{post.viewCount}]</span>
                 </TitleLink>
               </RowWrapper>
               <RowWrapper gap="1rem">

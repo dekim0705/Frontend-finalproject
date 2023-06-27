@@ -25,10 +25,13 @@ const FolderContainer = styled.div`
     opacity: 0.8;
     font-size: 1.2rem;
     border-radius: 5px;
-  }
-  .count {
+    max-width: 140px;
+    line-height: 1.4rem;
+    .count {
     font-weight: 400;
+    }
   }
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s ease-in-out;
@@ -78,7 +81,7 @@ const BookmarkFolder = ({ folderId, folderName, bookmarks }) => {
       <FolderContainer onClick={handleClick}>
         {thumbnail && <ThumbnailImage src={thumbnail} alt="썸네일" />}
         <div className='folder'>
-          {folderName}
+          <span className='name'>{folderName}</span>
           <span className='count'> [{bookmarkCount}] </span>
         </div>
       </FolderContainer>
