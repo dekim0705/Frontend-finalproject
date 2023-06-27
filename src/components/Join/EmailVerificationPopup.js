@@ -8,16 +8,21 @@ const PopupContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30%;
+  width: 30%; // 20%
   background-color: #ffffff;
   padding: 15px;
-  border: 1px solid gray;
+  border: 1px solid var(--point-color);
   border-radius: 10px;
   z-index: 9999;
   display: flex;
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
   @media screen and (max-width: 768px) {
     width: 90%;
   }
+
 `;
 
 const PopupContent = styled.div`
@@ -36,12 +41,11 @@ const PopupTitle = styled.h2`
 `;
 
 const PopupInput = styled.input`
-  width: 80%;
-  align-self: center;
+  width: 70%;
   padding: 0.6rem;
   border: 1px solid var(--line-color);
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 70%;
   }
 `;
 
@@ -49,12 +53,6 @@ const Divider = styled.div`
   border-bottom: 1px solid #ccc;
   margin-bottom: 1rem;
   width: 100%;
-`;
-
-const PopupButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
 `;
 
 const PopupButton = styled.button`
@@ -68,6 +66,16 @@ const PopupButton = styled.button`
     background-color: var(--point-color);
     color: #fff;
   }
+`;
+
+const PopUpOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
 `;
 
 const EmailVerificationPopup = ({ email }) => {
@@ -118,21 +126,23 @@ const EmailVerificationPopup = ({ email }) => {
 
   return (
     <>
-      <PopupContainer>
-        <PopupContent>
-          <PopupTitle>이메일 인증</PopupTitle>
-          <Divider />
-          <PopupInput
-            type="text"
-            placeholder="인증 키를 입력하세요"
-            value={authKey}
-            onChange={handleVerificationKeyChange}
-          />
-          <PopupButtonContainer>
-            <PopupButton onClick={handleVerifyEmail}>인증하기</PopupButton>
-          </PopupButtonContainer>
-        </PopupContent>
-      </PopupContainer>
+      <PopUpOverlay>
+        <PopupContainer>
+          <PopupContent>
+            <PopupTitle>이메일 인증</PopupTitle>
+            <Divider />
+            <div className='wrapper'>
+              <PopupInput
+                type="text"
+                placeholder="인증 키를 입력하세요"
+                value={authKey}
+                onChange={handleVerificationKeyChange}
+              />
+              <PopupButton onClick={handleVerifyEmail}>인증하기</PopupButton>
+            </div>
+          </PopupContent>
+        </PopupContainer>
+      </PopUpOverlay>
     </>
   );
 };
