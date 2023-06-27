@@ -18,44 +18,41 @@ const StyledPopUp = styled.div`
     cursor: pointer;
     border: 0;
   }
-  .modal .cancelBtn {
-    background-color: var(--point-color);
+  .modal .cancelBtn,
+  .modal .confirmBtn {
+    background-color: var(--line-color);
+    color: var(--text-color);
   }
+
+  .modal .cancelBtn:hover,
+  .modal .confirmBtn:hover {
+    background-color: var(--point-color);
+    color: #ffffff;
+  }
+
   .modal > section {
     width: 90%;
-    max-width: 450px;
+    max-width: 400px;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: #fff;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-show 0.3s;
     overflow: hidden;
+    border: 1px solid var(--point-color);
+
   }
   section > header {
-    position: relative;
-    padding: 16px 64px 16px 16px;
-    background-color: #f1f1f1;
+    padding: 14px 64px 12px 20px;
     font-weight: 700;
-  }
-  .modal > section > header button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 30px;
-    font-size: 21px;
-    font-weight: 700;
-    text-align: center;
-    color: #999;
-    background-color: transparent;
+    font-size: 1.2rem;
   }
   .modal > section > main {
     padding: 16px;
-    border-bottom: 1px solid #dee2e6;
-    border-top: 1px solid #dee2e6;
     text-align: center;
   }
   .modal > section > footer {
-    padding: 12px 16px;
+    padding: 0 20px 10px 0;
     text-align: right;
   }
   .modal > section > footer button {
@@ -71,6 +68,12 @@ const StyledPopUp = styled.div`
     align-items: center;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-bg-show 0.3s;
+  }
+  input {
+    border: 0.5px solid var(--input-text-color);
+    border-radius: 4px;
+    height: 40px;
+    width: 80%
   }
   @keyframes modal-show {
     from {
@@ -92,38 +95,51 @@ const StyledPopUp = styled.div`
   }
 `;
 
-const UserPopUp = (props) => {
+const Divider = styled.div`
+  border-bottom: 1px solid var(--line-color);
+  margin-bottom: 1rem;
+  width: 90%;
+  margin: 0 auto;
+`;
 
-  const {open, confirm, close, type, header, children, confirmText, closeText} = props;
+const UserPopUp = (props) => {
+  const { open, confirm, close, type, header, children, confirmText, closeText, showInputField, inputValue, handleInputChange } = props;
 
   return (
     <StyledPopUp>
       <div className={open ? "openModal modal" : "modal"}>
-        {open &&
+        {open && (
           <section>
             <header>
               {header}
-              <button onClick={close}>
-                &times;
-              </button>
+              {/* <button onClick={close}>&times;</button> */}
             </header>
-            <main>{children}</main>
+            <Divider />
+            <main>
+              {children}
+              {showInputField && ( 
+                <input type="text" value={inputValue} onChange={handleInputChange} />
+              )}
+            </main>
             <footer>
-              {type === "confirm" && confirmText && closeText  ? ( 
-                // confirm타입 버튼이 없으면 close버튼만 표시
+              {type === "confirm" && confirmText && closeText ? (
                 <>
-                  <button onClick={confirm}>{confirmText}</button>
-                  <button className="cancelBtn" onClick={close}>{closeText}</button>
+                  <button className="confirmBtn" onClick={confirm}>{confirmText}</button>
+                  <button className="cancelBtn" onClick={close}>
+                    {closeText}
+                  </button>
                 </>
-              )  : (
-                <button className="cancelBtn" onClick={close}>{closeText}</button>
+              ) : (
+                <button className="cancelBtn" onClick={close}>
+                  {closeText}
+                </button>
               )}
             </footer>
           </section>
-          }
+        )}
       </div>
     </StyledPopUp>
   );
-}
+};
 
 export default UserPopUp;
