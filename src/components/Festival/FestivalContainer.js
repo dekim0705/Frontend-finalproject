@@ -9,10 +9,12 @@ const Container = styled.div`
   flex-wrap: wrap;
   padding: 10px 30px;
   margin: 0 auto;
+  justify-content: center; 
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
     flex-direction: column;
-    padding-left: 20px;
+    width: 100%;
+    margin: 0 auto;
   }
 `;
 
@@ -20,8 +22,9 @@ const NoResultContainer = styled.div`
   display: flex;
   text-align: center;
   font-size: 1.2rem;
+  justify-content: center;
   @media (max-width: 768px) {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 `;
 

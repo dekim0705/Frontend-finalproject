@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import DefaultImage from "../../resource/축제기본이미지.jpeg";
 
 const ItemContainer = styled.div`
-  width: calc(100% / 3 - 2%);
+  width: calc(100% / 3 - 2.5%);
   margin: 1%;
   position: relative;
   justify-content : center;
