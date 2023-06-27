@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import kakaopayBtn from "../../resource/카카오페이_컬러.png";
 import KakaoAxiosApi from "../../api/KakaoAxiosApi";
 import Functions from "../../util/Functions";
+import { UserContext } from "../../context/UserContext";
+import UserPopUp from "../../util/modal/UserPopUp";
 
 const Container = styled.div`
   display: flex;
@@ -84,12 +86,17 @@ const Version = styled.div`
 
 const Desc = () => {
   const token = localStorage.getItem("accessToken");
+  const { isMembership } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handlePaymentClick = async () => {
+    if (isMembership === "MEMBERSHIP") {
+      setIsOpen(true);
+    }
     try {
       const response = await KakaoAxiosApi.readyPay(token);
       console.log("🦜 : " + JSON.stringify(response.data, null, 2));
-      if(response.data) {
+      if (response.data) {
         window.location.href = response.data.next_redirect_pc_url;
       }
     } catch (error) {
@@ -100,6 +107,10 @@ const Desc = () => {
         console.log("🦜 : " + response.data);
       }
     }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -117,7 +128,19 @@ const Desc = () => {
           <p>✅ 실제 결제는 이루어지지 않습니다.</p>
           <div className="wrapper">
             <h2>1,990원</h2>
-            <img src={kakaopayBtn} alt="카카오페이" onClick={handlePaymentClick} />
+            <img
+              src={kakaopayBtn}
+              alt="카카오페이"
+              onClick={handlePaymentClick}
+            />
+            <UserPopUp
+              open={isOpen}
+              close={handleClose}
+              header={"❗️"}
+              closeText="돌아가기"
+            >
+              이미 멤버십 회원 입니다. 😄
+            </UserPopUp>
           </div>
         </Version>
       </StyledMembership>
