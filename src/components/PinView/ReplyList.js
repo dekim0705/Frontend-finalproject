@@ -9,6 +9,7 @@ import { UserContext } from "../../context/UserContext";
 import Functions from "../../util/Functions";
 import UpdateReplyInput from "./UpdateReplyInput";
 import ReportBlockDropdownReply from "../../util/modal/ReportBlockDropdownReply";
+import ProfileWithComment from "../../util/modal/ProfileWithComment";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -79,7 +80,12 @@ const ReplyList = ({ postData }) => {
     <div>
       {replies.map((reply) => (
         <StyledContainer key={reply.id}>
-          <img src={reply.pfImg || profileImg} alt="프사" />
+          <ProfileWithComment
+            pfImg={reply.pfImg || profileImg}
+            alt="프사"
+            comment={reply.userComment}
+          />
+          {/* <img src={reply.pfImg || profileImg} alt="프사" /> */}
           <StyledReplyForm>
             <div className="subContainer">
               <h1>{reply.nickname}</h1>
