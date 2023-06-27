@@ -103,6 +103,12 @@ const Divider = styled.div`
   margin: 0 auto;
 `;
 
+export const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1.5rem;
+`;
+
 const UserPopUp = (props) => {
   const { open, confirm, close, type, header, children, confirmText, closeText, showInputField, inputValue, handleInputChange } = props;
 

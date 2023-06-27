@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import MuiTextField from '../../Join/TextField';
 import Button from '../../Join/Button';
@@ -12,6 +12,9 @@ import JoinAxiosApi from '../../../api/JoinAxiosApi';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from "../../../firebase";
 import { useNavigate } from 'react-router-dom';
+import UserPopUp, { PopUpMessage } from '../../../util/modal/UserPopUp';
+import { UserContext } from "../../../context/UserContext";
+
 
 export const Container = styled.div`
   margin: 40px auto;
@@ -105,6 +108,12 @@ const EditInfo = () => {
 
   const [email, setEmail] = useState('');
   const [region, setRegion] = useState('');
+
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [popUpMessage, setPopUpMessage] = useState('');
+
+  const { userPfImg, setUserPfImg } = useContext(UserContext);
+
 
   const updateUserInfo = (response) => {
     if (response && response.data) {
@@ -242,8 +251,11 @@ const EditInfo = () => {
 
       try {
         await UserAxiosApi.updateUserInfo(token, updatedInfo);
-        alert("회원 정보가 수정되었습니다.");
-        navigate('/home');
+        setShowPopUp(true);
+        setPopUpMessage("회원 정보가 수정되었습니다")
+        setUserPfImg(pfImg);
+        setNicknameHelperText('');
+        setCommentHelperText('');
         console.log('회원정보 수정 성공!', updatedInfo);
       } catch (error) {
         console.log('회원정보 수정 실패:', error);
@@ -302,6 +314,16 @@ const EditInfo = () => {
         </ColumnWrapper>
       </Container>
       <Withdraw>회원 탈퇴</Withdraw>
+      <UserPopUp
+        open={showPopUp}
+        close={()=>{setShowPopUp(false)}}     
+        header="❗️"
+        closeText="확인"
+      >
+        <PopUpMessage>
+          {popUpMessage}
+        </PopUpMessage>
+      </UserPopUp>
     </>
   );
 }
