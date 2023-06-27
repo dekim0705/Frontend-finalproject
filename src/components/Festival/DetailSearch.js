@@ -104,7 +104,7 @@ const DetailButton = ({ onSearch }) => {
                 placeholder="축제 이름을 검색하세요!"
               />
               <Box sx={{ backgroundColor: '#FF62AD', borderRadius: '15%', padding: '3px' }}>
-                <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30 }} onClick={handleSearch} />
+                <SearchIcon sx={{ color: '#FFFFFF', fontSize: 30  , cursor: 'pointer'}} onClick={handleSearch} />
               </Box>
             </div>
           </SearchContainer>

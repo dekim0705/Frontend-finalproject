@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
@@ -16,8 +16,18 @@ const Container = styled.div`
   }
 `;
 
-const FestivalContainer = ({ apiData, page, searchKeyword }) => {
+const NoResultContainer = styled.div`
+  display: flex;
+  text-align: center;
+  font-size: 1.2rem;
+  @media (max-width: 768px) {
+    margin-left: 30px;
+  }
+`;
+
+const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClicked, searchKeyword, page }) => {
   const [currentPage, setCurrentPage] = useState(page);
+  const [filteredData, setFilteredData] = useState([]);
   const navigate = useNavigate();
 
   const handlePageChange = (newPage) => {
@@ -25,12 +35,41 @@ const FestivalContainer = ({ apiData, page, searchKeyword }) => {
     navigate(`/festival/${newPage}`); // 페이지 변경 시 URL 업데이트
   };
 
-  // 검색어 필터링 로직 추가
-  const filteredData = apiData.filter((item) => {
-    const title = item.title.toLowerCase();
-    const keyword = searchKeyword.toLowerCase();
-    return title.includes(keyword);
-  });
+  useEffect(() => {
+    let filtered = apiData;
+
+    // 도시가 선택되었을 경우 도시별로 필터링!
+    if (isButtonClicked && selectedCity && selectedCity !== 0) {
+      filtered = filtered.filter(festival => festival.areaCode === selectedCity.toString());
+    }
+
+    // 개최여부가 선택되었을 경우 개최여부 필터링!
+    if (isButtonClicked && selectedStatus && selectedStatus !== 0) {
+      const currentDate = new Date();
+      const formattedDate = parseInt(
+        `${currentDate.getFullYear()}${String(currentDate.getMonth() + 1).padStart(2, "0")}${String(currentDate.getDate()).padStart(2, "0")}`
+      );
+      if (selectedStatus === 1) {
+        filtered = filtered.filter(
+          festival =>
+            parseInt(festival.eventStartDate) <= formattedDate &&
+            parseInt(festival.eventEndDate) >= formattedDate
+        );
+      } else if (selectedStatus === 2) {
+        filtered = filtered.filter(
+          festival => parseInt(festival.eventStartDate) > formattedDate
+        );
+      }
+    }
+
+    // 검색어 필터링 로직 추가
+    if (searchKeyword) {
+      const keyword = searchKeyword.toLowerCase();
+      filtered = filtered.filter(item => item.title.toLowerCase().includes(keyword));
+    }
+
+    setFilteredData(filtered);
+  }, [apiData, selectedCity, selectedStatus, isButtonClicked, searchKeyword]);
 
   // 한 페이지에 6개씩 아이템을 표시
   const startIndex = (currentPage - 1) * 6;
@@ -58,7 +97,7 @@ const FestivalContainer = ({ apiData, page, searchKeyword }) => {
           )}
         </>
       ) : (
-        <div>검색 결과가 없습니다 🥲</div>
+        <NoResultContainer>데이터가 없습니다 🥲</NoResultContainer>
       )}
     </div>
   );

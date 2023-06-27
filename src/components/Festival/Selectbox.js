@@ -46,19 +46,19 @@ const theme = createTheme({
 
 const SelectBox = ({ onFilter })  => {
   const [city, setCity] = useState("");
-  const [month, setMonth] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleCityChange = (event) => {
     const selectedCity = event.target.value;
     setCity(selectedCity);
-    onFilter(selectedCity, month); 
+    onFilter(selectedCity, status); 
   };
 
 
-  const handleDateChange = (event) => {
-    const selectedDate = event.target.value;
-    setMonth(selectedDate);
-    onFilter(city, selectedDate); // 선택한 city와 date 값을 전달
+  const handleStautsChange = (event) => {
+    const selectedStatus = event.target.value;
+    setStatus(selectedStatus);
+    onFilter(city, selectedStatus); // 선택한 city와 status 값을 전달
   };
 
 
@@ -99,23 +99,14 @@ const SelectBox = ({ onFilter })  => {
           <Select
             labelId="date-label"
             id="date-select"
-            value={month}
+            value={status}
             label="시기"
-            onChange={handleDateChange}
+            onChange={handleStautsChange}
           >
             <MenuItem value={0}>전체</MenuItem>
-            <MenuItem value={1}>1월</MenuItem>
-            <MenuItem value={2}>2월</MenuItem>
-            <MenuItem value={3}>3월</MenuItem>
-            <MenuItem value={4}>4월</MenuItem>
-            <MenuItem value={5}>5월</MenuItem>
-            <MenuItem value={6}>6월</MenuItem>
-            <MenuItem value={7}>7월</MenuItem>
-            <MenuItem value={8}>8월</MenuItem>
-            <MenuItem value={9}>9월</MenuItem>
-            <MenuItem value={10}>10월</MenuItem>
-            <MenuItem value={11}>11월</MenuItem>
-            <MenuItem value={12}>12월</MenuItem>
+            <MenuItem value={1}>개최중</MenuItem>
+            <MenuItem value={2}>개최예정</MenuItem>
+
           </Select>
         </FormControl>
       </Box>
