@@ -45,8 +45,13 @@ const FestivalPage = () => {
   const { page } = useParams(); // 페이지 번호 가져오기
 
   const handleSort = (type) => {
-    setSortBy(type);
+    if (type === "date") {
+      setSortBy("date"); // sortBy 상태 업데이트
+    } else {
+      setSortBy("name"); // 이름순으로 정렬할 경우 sortBy 상태를 "name"으로 업데이트
+    }
   };
+  
 
   const handleFilter = (city, status) => {
     setSelectedCity(city);
