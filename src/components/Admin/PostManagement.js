@@ -249,7 +249,7 @@ useEffect(() => {
                 <td>{post.id}</td>
                 <td>
                 <TitleLink >
-                      {post.title}
+                 {post.title.length > 15 ? `${post.title.substring(0, 15)}···` : post.title} 
                 </TitleLink>
                 </td>
                 <td>{post.nickname}</td>
