@@ -36,7 +36,7 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const ReplyWrite = ({ postData, setReplies }) => {
+const ReplyWrite = ({ postData }) => {
   const token = localStorage.getItem("accessToken");
   const { userPfImg } = useContext(UserContext);
   const [reply, setReply] = useState("");
@@ -59,8 +59,6 @@ const ReplyWrite = ({ postData, setReplies }) => {
       console.log("🍔 : " + response.data);
       if (response.data === true) {
         setIsOpen(true);
-        setReply('');
-        setReplies(prevReplies => [...prevReplies, response.data]);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -77,8 +75,6 @@ const ReplyWrite = ({ postData, setReplies }) => {
         console.log("🍔 : " + response.data);
         if (response.data === true) {
           setIsOpen(true);
-          setReply('');
-          setReplies(prevReplies => [...prevReplies, response.data]);
         }
       }
     }
@@ -86,7 +82,7 @@ const ReplyWrite = ({ postData, setReplies }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
+    setReply('');
   };
 
   return (
@@ -98,6 +94,7 @@ const ReplyWrite = ({ postData, setReplies }) => {
           type="text"
           placeholder="감정을 존중하며 표현해주시길 바랍니다. 좋은 후기는 모두에게 도움이 됩니다."
           onChange={handleContentChange}
+          value={reply}
         />
         <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
