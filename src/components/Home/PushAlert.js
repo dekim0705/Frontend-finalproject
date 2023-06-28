@@ -34,20 +34,19 @@ const StyledToastContainer = styled(ToastContainer)`
   }
 `;
 
-const PushAlert = () => {
-  const notify = () => toast.info(
-    <StyledMsg>
-      <h1>회원님이 구독하신 <span>'서울'</span> 게시글이 올라왔습니다.</h1>
-      <StyledLink to="/view">바로가기</StyledLink>
-    </StyledMsg>, 
-    {
-      icon: "📨"
-    }
-  );
+export const notify = (message) => toast.info(
+  <StyledMsg>
+    <h1>{message}</h1>
+    <StyledLink to="/view">바로가기</StyledLink>
+  </StyledMsg>, 
+  {
+    icon: "📨"
+  }
+);
 
+const PushAlert = () => {
   return (
     <div>
-      <button onClick={notify}>테스트</button>
       <StyledToastContainer />
     </div>
   );

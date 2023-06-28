@@ -2,6 +2,7 @@ import { Client } from "@stomp/stompjs";
 import React, { useContext, useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import { UserContext } from "../../context/UserContext";
+import { notify } from "../Home/PushAlert";
 
 const WebSocketStomp = () => {
   const [client, setClient] = useState(null);
@@ -30,6 +31,7 @@ const WebSocketStomp = () => {
 
         client.subscribe(`/region/${userRegion}`, (message) => {
           console.log("👽 메세지 : " + message.body);
+          notify(message.body);
         });
       };
       const onError = (error) => {

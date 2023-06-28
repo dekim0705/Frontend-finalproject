@@ -23,6 +23,7 @@ import SearchStore from "./context/PostContext";
 import EditPage from "./pages/EditPage";
 import PrivateRoute from "./util/PrivateRoute";
 import PrivateRouteAdmin from "./util/PrivateRouteAdmin";
+import PushAlert from "./components/Home/PushAlert";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/user-agreements" element={<UserAgreements />} />
             <Route path="/search" element={<PrivateRoute><SearchResultPage /></PrivateRoute>} />
           </Routes>
+          <PushAlert />
         </Router>
       </SearchStore>
     </UserStore>
