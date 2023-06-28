@@ -7,6 +7,7 @@ import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
 import Pagination from '../Festival/Pagination';
+import UserPopUp from '../../util/modal/UserPopUp';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -78,6 +79,12 @@ const Button = styled.button`
   }
 `;
 
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
+
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -86,6 +93,7 @@ const UserManagement = () => {
   const token = localStorage.getItem("accessToken");
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 8;
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -148,12 +156,16 @@ const UserManagement = () => {
   };
 
   // 회원 삭제
-  const handleDeleteUsers = async () => {
+  const handleDeleteUsers = () => {
+    if (selectedUsers.length === 0) {
+      console.log('선택된 회원이 없습니다.');
+      return;
+    }
+    setShowPopup(true); // 팝업 표시
+  };
+
+  const handleModalConfirm = async () => {
     try {
-      if (selectedUsers.length === 0) {
-        console.log('선택된 회원이 없습니다.');
-        return;
-      }
       await AdminAxiosApi.deleteUsers(selectedUsers, token);
       setSelectedUsers([]);
 
@@ -165,6 +177,12 @@ const UserManagement = () => {
       await Functions.handleApiError(error);
       console.log('회원 삭제 실패:', error);
     }
+
+    setShowPopup(false); 
+  };
+
+  const handleModalClose = () => {
+    setShowPopup(false);
   };
 
   const getPageUsers = () => {
@@ -250,6 +268,19 @@ const UserManagement = () => {
           </tbody>
         </Table>
         <Button onClick={handleDeleteUsers}>삭제</Button>
+        <UserPopUp
+        open={showPopup}
+        confirm={handleModalConfirm}
+        close={handleModalClose}
+        type="confirm"
+        header="❗️"
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>
+          회원을 탈퇴 시키겠습니까?
+        </PopUpMessage>
+      </UserPopUp>
         {users.length > postsPerPage && (
           <Pagination
             currentPage={currentPage}
