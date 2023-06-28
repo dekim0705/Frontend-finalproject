@@ -95,14 +95,15 @@ const AlarmDropdown = () => {
     "JEJU": "제주"
   };
 
-  const handleClickPost = (postId) => {
+  const handleClickPost = async (postId, pushId) => {
+    await HomeAxiosApi.deletePush(pushId, token);
     navigate(`/post/${postId}`);
   };
 
   return (
     <StyledWrapper>
       {pushes.map((push) => (
-        <AlarmListContainer onClick={() => handleClickPost(push.postId)}>
+        <AlarmListContainer onClick={() => handleClickPost(push.postId, push.pushId)}>
           <div className="subcontainer header">
             <div className="circle"></div>
             <h1>회원님이 구독하신 <StyledRegion>{regionTranslation[push.userRegion]}</StyledRegion> 게시글이 올라왔습니다.</h1>

@@ -133,6 +133,19 @@ const HomeAxiosApi = {
       throw error;
     }
   },
+  // 🍉 알람 삭제하기
+  deletePush: async (pushId, token) => {
+    try {
+      return await axios.delete(`${KH_DOMAIN}/home/push/${pushId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default HomeAxiosApi;
