@@ -19,9 +19,24 @@ const Container = styled.div`
   }
 `;
 
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
+
 const UpdateDeleteReply = ({ replyId, onEdit, replies, setReplies }) => {
   const token = localStorage.getItem("accessToken");
-  const [isOpen, setIsOpen] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  const handleDeleteConfirm = () => {
+    setShowPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+  };
+
 
   const handleDelete = () => {
     const delReply = async () => {
@@ -32,7 +47,6 @@ const UpdateDeleteReply = ({ replyId, onEdit, replies, setReplies }) => {
             (reply) => reply.id !== replyId
           );
           setReplies(updatedReplies);
-          setIsOpen(true);
         }
       } catch (error) {
         await Functions.handleApiError(error);
@@ -44,7 +58,6 @@ const UpdateDeleteReply = ({ replyId, onEdit, replies, setReplies }) => {
               (reply) => reply.id !== replyId
             );
             setReplies(updatedReplies);
-            setIsOpen(true);
           }
         }
       }
@@ -52,21 +65,20 @@ const UpdateDeleteReply = ({ replyId, onEdit, replies, setReplies }) => {
     delReply();
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
   return (
     <Container>
       <h2 onClick={onEdit}>수정</h2>
-      <h2 onClick={handleDelete}>삭제</h2>
+      <h2 onClick={handleDeleteConfirm}>삭제</h2>
       <UserPopUp
-        open={isOpen}
-        close={handleClose}
+        open={showPopUp}
+        confirm={handleDelete}
+        close={handleClosePopUp}
+        type="confirm"
         header={"❗️"}
-        closeText="확인"
+        confirmText="확인"
+        closeText="취소"
       >
-        댓글이 삭제되었습니다.
+        <PopUpMessage>정말로 댓글을 삭제하시겠습니까?</PopUpMessage>
       </UserPopUp>
     </Container>
   );

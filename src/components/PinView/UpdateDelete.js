@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container as BaseContainer } from "../../util/ViewFormStyle";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PostAxiosApi from "../../api/PostAxiosApi";
 import Functions from "../../util/Functions";
+import UserPopUp from '../../util/modal/UserPopUp';
 
 const Container = styled(BaseContainer)`
   flex-direction: row;
@@ -24,13 +25,29 @@ const ButtonStyled = styled.div`
   }
 `;
 
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
+
 const UpdateDelete = ({ postId }) => {
   const token = localStorage.getItem('accessToken');
   const navigate = useNavigate();
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const handleUpdate = () => {
     navigate(`/edit/${postId}`);
   }
+
+  const handleDeleteConfirm = () => {
+    setShowPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+  };
+
   const handleDelete = () => {
     const getPost = async () => {
       try {
@@ -55,7 +72,18 @@ const UpdateDelete = ({ postId }) => {
   return (
     <Container>
       <ButtonStyled onClick={handleUpdate}>수정</ButtonStyled>
-      <ButtonStyled onClick={handleDelete}>삭제</ButtonStyled>
+      <ButtonStyled onClick={handleDeleteConfirm}>삭제</ButtonStyled>
+      <UserPopUp
+        open={showPopUp}
+        confirm={handleDelete}
+        close={handleClosePopUp}
+        type="confirm"
+        header={"❗️"}
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>정말로 게시글을 삭제하시겠습니까?</PopUpMessage>
+      </UserPopUp>
     </Container>
   );
 }
