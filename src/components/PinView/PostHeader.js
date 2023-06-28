@@ -101,10 +101,6 @@ const PostHeader = ({ postData, userId, postId }) => {
     }
   };
 
-  const handleopenModal = () => {
-    setIsModalOpen(true);
-  };
-
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -134,6 +130,10 @@ const PostHeader = ({ postData, userId, postId }) => {
     return <p>데이터 가지고 오는 중 입니다!</p>;
   }
 
+  const handleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+
   return (
     <Container>
       <AuthorHeader>
@@ -150,7 +150,12 @@ const PostHeader = ({ postData, userId, postId }) => {
                 onClick={handleDeleteBookmark}
               />
             ) : (
-              <BookmarkBorderIcon onClick={handleopenModal} />
+              <BookmarkBorderIcon
+                onClick={() => {
+                  handleBookmark(postId);
+                  toggleModal();
+                }}
+              />
             )}
             <BookmarkModal
               open={isModalOpen}

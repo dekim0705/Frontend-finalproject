@@ -80,7 +80,6 @@ const EmailForm = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
   };
 
   return (
