@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledFolder = styled(Link)`
   display: flex;
@@ -8,17 +8,17 @@ const StyledFolder = styled(Link)`
   align-items: flex-start;
   justify-content: end;
   padding: 14px;
-  border: 1px solid #FF62AD;
+  border: 1px solid #ff62ad;
   border-radius: 15px;
   text-decoration: none;
   background-color: var(--hover-color);
-  margin: 0;
   cursor: pointer;
   box-shadow: 3px 3px 3px #999;
-  width: ${({ width }) => width || '40%'};
-  height: ${({ height }) => height || '140px'};
+  width: ${({ width }) => width || "40%"};
+  min-width: 115px;
+  height: ${({ height }) => height || "140px"};
   &:hover {
-    border: 3px solid #FF62AD;
+    border: 3px solid #ff62ad;
   }
   @media screen and (max-width: 768px) {
     width: 130px;
@@ -60,14 +60,13 @@ const FolderDescription = styled.p`
   }
 `;
 
-const Folder = ({ icon, title, to, desc}) => {
-
-  return(
+const Folder = ({ icon, title, to, desc }) => {
+  return (
     <StyledFolder to={to}>
       <FolderIcon src={icon} alt={icon} />
-      <FolderTitle>{title}</FolderTitle>     
+      <FolderTitle>{title}</FolderTitle>
       <FolderDescription>{desc}</FolderDescription>
     </StyledFolder>
   );
-}
+};
 export default Folder;

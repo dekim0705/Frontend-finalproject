@@ -15,8 +15,8 @@ export const Divider = styled.div`
 `;
 const ProfileBar = () => {
   return (
-    <Container width="28%" height="400px">
-      <ColumnWrapper alignItems="center" gap="15px">
+    <Container width="30%" height="390px" minWidth="240px">
+      <ColumnWrapper alignItems="center" gap="20px">
         <UserProfile />
         <Divider />
         <ShortcutBar />
