@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
 import profileImg from "../../resource/profile.jpeg";
-import PostAxiosApi from "../../api/PostAxiosApi";
 import moment from "moment";
 import UpdateDeleteReply from "./UpdateDeleteReply";
 import { UserContext } from "../../context/UserContext";
 import Functions from "../../util/Functions";
 import UpdateReplyInput from "./UpdateReplyInput";
 import ReportBlockDropdownReply from "../../util/modal/ReportBlockDropdownReply";
+import ProfileWithComment from "../../util/modal/ProfileWithComment";
 
 const StyledContainer = styled(Container)`
   color: var(--text-color);
@@ -51,25 +51,16 @@ const ContentStyled = styled.div`
   }
 `;
 
-const ReplyList = ({ postData }) => {
+const ReplyList = ({ postData, replies, setReplies }) => {
   const token = localStorage.getItem("accessToken");
-  const [replies, setReplies] = useState([]);
   const { userPfImg } = useContext(UserContext);
   const [editingReplyId, setEditingReplyId] = useState(null);
 
   useEffect(() => {
     const getReplies = async () => {
       try {
-        const response = await PostAxiosApi.viewReply(postData.postId, token);
-        console.log("🦄 : " + JSON.stringify(response.data, null, 2));
-        setReplies(response.data);
       } catch (error) {
         await Functions.handleApiError(error);
-        const newToken = Functions.getAccessToken();
-        if (newToken !== token) {
-          const response = await PostAxiosApi.viewReply(postData.postId, token);
-          setReplies(response.data);
-        }
       }
     };
     getReplies();
@@ -79,7 +70,12 @@ const ReplyList = ({ postData }) => {
     <div>
       {replies.map((reply) => (
         <StyledContainer key={reply.id}>
-          <img src={reply.pfImg || profileImg} alt="프사" />
+          <ProfileWithComment
+            pfImg={reply.pfImg || profileImg}
+            alt="프사"
+            comment={reply.userComment}
+          />
+          {/* <img src={reply.pfImg || profileImg} alt="프사" /> */}
           <StyledReplyForm>
             <div className="subContainer">
               <h1>{reply.nickname}</h1>

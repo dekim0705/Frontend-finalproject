@@ -10,8 +10,8 @@ const Container = styled.div`
   margin: 80px auto;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 70%;
+  justify-content: space-evenly;
+  width: 80%;
   height: 140px;
   border: 1px solid #ff62ad;
   border-radius: 15px;

@@ -120,6 +120,19 @@ const HomeAxiosApi = {
       throw error;
     }
   },
+  // 🍉 알람 목록 가져오기
+  pushList: async (token) => {
+    try {
+      return await axios.get(KH_DOMAIN + "/home/pushes", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default HomeAxiosApi;

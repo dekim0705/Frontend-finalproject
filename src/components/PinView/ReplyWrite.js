@@ -36,7 +36,7 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const ReplyWrite = ({ postData }) => {
+const ReplyWrite = ({ postData, setReplies }) => {
   const token = localStorage.getItem("accessToken");
   const { userPfImg } = useContext(UserContext);
   const [reply, setReply] = useState("");
@@ -59,6 +59,8 @@ const ReplyWrite = ({ postData }) => {
       console.log("🍔 : " + response.data);
       if (response.data === true) {
         setIsOpen(true);
+        const newReply = await PostAxiosApi.viewReply(postData.postId, token);
+        setReplies(newReply.data);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -73,13 +75,18 @@ const ReplyWrite = ({ postData }) => {
           newToken
         );
         console.log("🍔 : " + response.data);
+        if (response.data === true) {
+          setIsOpen(true);
+          const newReply = await PostAxiosApi.viewReply(postData.postId, token);
+          setReplies(newReply.data);
+        }
       }
     }
   };
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
+    setReply("");
   };
 
   return (
@@ -91,6 +98,7 @@ const ReplyWrite = ({ postData }) => {
           type="text"
           placeholder="감정을 존중하며 표현해주시길 바랍니다. 좋은 후기는 모두에게 도움이 됩니다."
           onChange={handleContentChange}
+          value={reply}
         />
         <CreateIcon style={{ cursor: "pointer" }} onClick={handleClick} />
       </StyledReplyForm>
