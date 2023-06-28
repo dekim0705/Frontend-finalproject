@@ -97,7 +97,12 @@ const Desc = () => {
       const response = await KakaoAxiosApi.readyPay(token);
       console.log("🦜 : " + JSON.stringify(response.data, null, 2));
       if (response.data) {
-        window.location.href = response.data.next_redirect_pc_url;
+        let a = document.createElement("a");
+        a.href = response.data.next_redirect_pc_url;
+        a.target = "_blank";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       }
     } catch (error) {
       await Functions.handleApiError(error);

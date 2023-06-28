@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
-import profileImg from "../../resource/profile.jpeg";
+import profileImg from "../../resource/defaultprofile.jpg";
 import moment from "moment";
 import UpdateDeleteReply from "./UpdateDeleteReply";
 import { UserContext } from "../../context/UserContext";
