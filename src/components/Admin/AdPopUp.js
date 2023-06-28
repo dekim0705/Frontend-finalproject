@@ -102,12 +102,11 @@ const AdPopup = ({ onAddAd, onClosePopup }) => {
         await uploadBytes(storageRef, selectedImage);
         const imgUrl = await getDownloadURL(storageRef);
         const response = await AdminAxiosApi.createAd({ adName, imgUrl }, token);
-        onAddAd(response);
+        onAddAd(response.data); 
         setAdName('');
         setSelectedImage(null);
         alert('광고가 등록되었습니다.');
-        onClosePopup(); 
-        window.location.reload(); // 새로고침
+        onClosePopup();
       } catch (error) {
         console.log(error);
       }
@@ -129,7 +128,7 @@ const AdPopup = ({ onAddAd, onClosePopup }) => {
           value={adName}
           onChange={handleAdNameChange}
         />
-       <input type="file" accept="image/*" onChange={handleImageChange} />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <PopupButtonContainer>
           <PopupButton onClick={handleAddAd}>추가</PopupButton>
         </PopupButtonContainer>

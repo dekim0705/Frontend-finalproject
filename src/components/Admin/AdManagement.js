@@ -153,9 +153,21 @@ const AdManagement = () => {
   };
 
   // 광고 추가
-  const handleAddAd = (name) => {
+  const handleAddAd = async () => {
     setShowPopup(true);
+    try {
+      const response = await AdminAxiosApi.getAllAds(token);
+      setAds(response.data);
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        const response = await AdminAxiosApi.getAllAds(newToken);
+        setAds(response.data);
+      }
+    }
   };
+  
 
   const handleClosePopup = () => {
     setShowPopup(false);
