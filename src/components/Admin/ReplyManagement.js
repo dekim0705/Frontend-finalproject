@@ -8,6 +8,7 @@ import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
 import Pagination from '../Festival/Pagination';
+import UserPopUp from '../../util/modal/UserPopUp';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -79,7 +80,11 @@ const Button = styled.button`
     background-color: var(--hover-color);
   }
 `;
-
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
 
 const ReplyManagement = () => {
   const [replies, setReplies] = useState([]);
@@ -89,7 +94,8 @@ const ReplyManagement = () => {
   const token = localStorage.getItem("accessToken");
   const [currentPage, setCurrentPage] = useState(1); 
   const postsPerPage = 8; 
-
+  const [showPopup, setShowPopup] = useState(false);
+  
   useEffect(() => {
   const getReplies = async () => {
     try {
@@ -150,11 +156,15 @@ useEffect(() => {
     }
   };
   
-  const handleDeleteReplies = async() => {
-    try {
-      if (selectedreplies.length === 0) {
+  const handleDeleteReplies = () => {
+    if (selectedreplies.length === 0) {
         return;
       }
+      setShowPopup(true); // 팝업 표시
+     };
+    
+  const handleModalConfirm = async () => {
+    try {
       await AdminAxiosApi.deleteReplies(selectedreplies, token);
       setSelectedReplies([]);
 
@@ -166,8 +176,13 @@ useEffect(() => {
       await Functions.handleApiError(error);
       console.log('댓글 삭제 실패:', error);
     }
+    setShowPopup(false); 
   };
 
+  const handleModalClose = () => {
+    setShowPopup(false);
+  };
+  
   const getPageReplies = () => {
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
@@ -240,7 +255,7 @@ useEffect(() => {
                 </td>
                 <td>{reply.id}</td>
                 <td>
-                <TitleLink >
+                <TitleLink to={`/post/${reply.id}`}>
               {reply.content.length > 15 ? `${reply.content.substring(0, 15)}···` : reply.content} 
                 </TitleLink>
                 </td>
@@ -250,9 +265,20 @@ useEffect(() => {
             ))}
           </tbody>
         </Table>
-        <Button onClick={handleDeleteReplies}>
-          삭제
-        </Button>
+        <Button onClick={handleDeleteReplies}> 삭제 </Button>
+     <UserPopUp
+        open={showPopup}
+        confirm={handleModalConfirm}
+        close={handleModalClose}
+        type="confirm"
+        header="❗️"
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>
+          댓글을 삭제하겠습니까?
+        </PopUpMessage>
+      </UserPopUp>
         {replies.length > postsPerPage && (
         <Pagination
         currentPage={currentPage}
