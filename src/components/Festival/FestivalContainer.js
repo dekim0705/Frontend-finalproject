@@ -9,12 +9,12 @@ const Container = styled.div`
   flex-wrap: wrap;
   padding: 10px 30px;
   margin: 0 auto;
-  justify-content: center; 
+  justify-content: flex-start; 
 
-  @media screen and (max-width: 400px) {
-    flex-direction: column;
+  @media screen and (max-width: 600px) {
     width: 100%;
     margin: 0 auto;
+    justify-content: center;
   }
 `;
 
@@ -23,7 +23,7 @@ const NoResultContainer = styled.div`
   text-align: center;
   font-size: 1.2rem;
   justify-content: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 412px) {
     margin-left: 20px;
   }
 `;

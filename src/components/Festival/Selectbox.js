@@ -37,6 +37,7 @@ const theme = createTheme({
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "#FF62AD",
           },
+          overflow: "auto",
         },
       },
     },
@@ -76,6 +77,11 @@ const SelectBox = ({ onFilter })  => {
             value={city}
             label="지역"
             onChange={handleCityChange}
+            inputProps={{
+              MenuProps: {
+                disableScrollLock: true
+              }
+            }}
           >
             <MenuItem value={0}>전체</MenuItem>
             <MenuItem value={1}>서울</MenuItem>
@@ -102,6 +108,11 @@ const SelectBox = ({ onFilter })  => {
             value={status}
             label="시기"
             onChange={handleStautsChange}
+            inputProps={{
+              MenuProps: {
+                disableScrollLock: true
+              }
+            }}
           >
             <MenuItem value={0}>전체</MenuItem>
             <MenuItem value={1}>개최중</MenuItem>
