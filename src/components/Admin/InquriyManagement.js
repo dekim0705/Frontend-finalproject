@@ -202,6 +202,7 @@ const InquiryManagement = () => {
       setInquiries(updatedInquiries);
       setSelectedInquiry([]);
     } catch (error) {
+      await Functions.handleApiError(error);
       console.error('상태 변경 실패', error);
     }
   };
