@@ -80,6 +80,7 @@ const PostHeader = ({ postData, userId, postId }) => {
   const [folderName, setFolderName] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [folders, setFolders] = useState([]);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   const handleAddFolder = (folderName) => {
     setFolders((prevFolders) => [...prevFolders, folderName]);
@@ -123,9 +124,15 @@ const PostHeader = ({ postData, userId, postId }) => {
     getBookmarkedPost();
   }, [token, postId]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
+
   if (!postData) {
     return <p>데이터 가지고 오는 중 입니다!</p>;
-  };
+  }
 
   return (
     <Container>
@@ -145,8 +152,8 @@ const PostHeader = ({ postData, userId, postId }) => {
             ) : (
               <BookmarkBorderIcon onClick={handleopenModal} />
             )}
-            <BookmarkModal 
-              open={isModalOpen} 
+            <BookmarkModal
+              open={isModalOpen}
               handleClose={toggleModal}
               folders={folders}
               addFolder={handleAddFolder}
@@ -167,24 +174,21 @@ const PostHeader = ({ postData, userId, postId }) => {
           <p>{postData.viewCount}</p>
         </div>
         <div className="forms">
-          <FacebookShareButton
-            url={window.location.href}
-            quote={postData.title}
-          >
+          <FacebookShareButton url={currentUrl} quote={postData.title}>
             <img
               src={FacebookIcon}
               alt="Facebook"
               style={{ width: "22px", height: "22px" }}
             />
           </FacebookShareButton>
-          <TwitterShareButton url={window.location.href} title={postData.title}>
+          <TwitterShareButton url={currentUrl} title={postData.title}>
             <img
               src={TwitterIcon}
               alt="Twitter"
               style={{ width: "22px", height: "22px" }}
             />
           </TwitterShareButton>
-          <LineShareButton url={window.location.href} subject={postData.title}>
+          <LineShareButton url={currentUrl} subject={postData.title}>
             <img
               src={LineIcon}
               alt="Line"
