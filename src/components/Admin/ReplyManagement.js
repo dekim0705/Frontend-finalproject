@@ -255,7 +255,7 @@ useEffect(() => {
                 </td>
                 <td>{reply.id}</td>
                 <td>
-                <TitleLink to={`/post/${reply.id}`}>
+                <TitleLink to={`/post/${reply.postId}`}>
               {reply.content.length > 15 ? `${reply.content.substring(0, 15)}···` : reply.content} 
                 </TitleLink>
                 </td>
