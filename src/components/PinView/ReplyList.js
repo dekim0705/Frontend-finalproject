@@ -84,6 +84,8 @@ const ReplyList = ({ postData, replies, setReplies }) => {
                 <UpdateDeleteReply
                   replyId={reply.id}
                   onEdit={() => setEditingReplyId(reply.id)}
+                  replies={replies}
+                  setReplies={setReplies}
                 />
               )}
             </div>
@@ -94,6 +96,8 @@ const ReplyList = ({ postData, replies, setReplies }) => {
                 replyContent={reply.content}
                 replyId={reply.id}
                 cancelEdit={() => setEditingReplyId(null)}
+                replies={replies}
+                setReplies={setReplies}
               />
             )}
           </StyledReplyForm>

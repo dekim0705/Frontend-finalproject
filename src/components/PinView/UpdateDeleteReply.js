@@ -19,7 +19,7 @@ const Container = styled.div`
   }
 `;
 
-const UpdateDeleteReply = ({ replyId, onEdit }) => {
+const UpdateDeleteReply = ({ replyId, onEdit, replies, setReplies }) => {
   const token = localStorage.getItem("accessToken");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,6 +28,10 @@ const UpdateDeleteReply = ({ replyId, onEdit }) => {
       try {
         const response = await PostAxiosApi.deleteReply(replyId, token);
         if (response.data === "댓글 삭제 성공 ❤️") {
+          const updatedReplies = replies.filter(
+            (reply) => reply.id !== replyId
+          );
+          setReplies(updatedReplies);
           setIsOpen(true);
         }
       } catch (error) {
@@ -36,6 +40,10 @@ const UpdateDeleteReply = ({ replyId, onEdit }) => {
         if (newToken !== token) {
           const response = await PostAxiosApi.deleteReply(replyId, token);
           if (response.data === "댓글 삭제 성공 ❤️") {
+            const updatedReplies = replies.filter(
+              (reply) => reply.id !== replyId
+            );
+            setReplies(updatedReplies);
             setIsOpen(true);
           }
         }
@@ -46,7 +54,6 @@ const UpdateDeleteReply = ({ replyId, onEdit }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
   };
 
   return (

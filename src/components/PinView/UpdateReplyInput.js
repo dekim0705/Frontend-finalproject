@@ -52,7 +52,13 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
+const UpdateReplyInput = ({
+  replyContent,
+  replyId,
+  cancelEdit,
+  replies,
+  setReplies,
+}) => {
   const token = localStorage.getItem("accessToken");
   const [reply, setReply] = useState(replyContent);
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +80,10 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
       console.log("🍔 : " + response.data);
       if (response.data === "댓글 수정 성공! ❤️") {
         setIsOpen(true);
+        const updatedReplies = replies.map((r) =>
+          r.id === replyId ? { ...r, content: reply } : r
+        );
+        setReplies(updatedReplies);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -90,6 +100,10 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
         console.log("🍔 : " + response.data);
         if (response.data === "댓글 수정 성공! ❤️") {
           setIsOpen(true);
+          const updatedReplies = replies.map((r) =>
+            r.id === replyId ? { ...r, content: reply } : r
+          );
+          setReplies(updatedReplies);
         }
       }
     }
@@ -97,7 +111,6 @@ const UpdateReplyInput = ({ replyContent, replyId, cancelEdit }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
   };
 
   return (
