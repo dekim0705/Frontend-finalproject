@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import UserAxiosApi from '../../../api/UserAxiosApi';
-import { useNavigate } from 'react-router-dom';
-import Functions from '../../../util/Functions';
+import React, { useState } from "react";
+import styled from "styled-components";
+import UserAxiosApi from "../../../api/UserAxiosApi";
+import { useNavigate } from "react-router-dom";
+import Functions from "../../../util/Functions";
 
 const StyledWithdraw = styled.button`
   position: relative;
   align-self: flex-end;
-  margin-right: 4rem;
+  margin-right: 7rem;
   margin-top: -1.6rem;
   color: var(--input-text-color);
   background-color: var(--line-color);
@@ -17,6 +17,9 @@ const StyledWithdraw = styled.button`
   &:hover {
     background-color: var(--hover-color);
     font-weight: bold;
+  }
+  @media screen and (max-width: 768px) {
+    margin-right: 2rem;
   }
 `;
 
@@ -99,12 +102,11 @@ const Withdraw = ({ children }) => {
   const [showPopup, setShowPopup] = useState(false);
   const token = Functions.getAccessToken();
 
-
   const handleWithdrawClick = () => {
     setShowPopup(true);
   };
 
-  const handleWithdrawConfirm = async() => {
+  const handleWithdrawConfirm = async () => {
     try {
       await UserAxiosApi.deleteUser(token);
       alert("회원 탈퇴가 완료되었습니다.");
@@ -117,7 +119,7 @@ const Withdraw = ({ children }) => {
   };
 
   const handleWithdrawCancel = () => {
-    console.log('회원 탈퇴 취소');
+    console.log("회원 탈퇴 취소");
     setShowPopup(false);
   };
 
