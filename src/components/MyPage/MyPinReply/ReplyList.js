@@ -151,7 +151,7 @@ const ReplyList = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    navigate(`/post/replies/${newPage}`);
+    navigate(`/mypage/replies/${newPage}`);
   };
 
   const formatDate = (dateString) => {
