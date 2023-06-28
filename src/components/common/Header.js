@@ -16,6 +16,8 @@ import AlarmDropdown from "../Home/AlarmDropdown";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
 import Functions from "../../util/Functions";
 import { PostContext } from "../../context/PostContext";
+import { UserContext } from "../../context/UserContext";
+import WebSocketStomp from "./WebSocketStomp";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -71,6 +73,7 @@ const AlarmIcon = styled(NotificationsNoneIcon)`
 `;
 
 const Header = () => {
+  const { isLogin } = useContext(UserContext);
   // 알람 드롭다운 상태 관리
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -146,6 +149,7 @@ const Header = () => {
 
   return (
     <>
+      {isLogin && <WebSocketStomp />}
       <StyledHeader>
         <Container>
           <img

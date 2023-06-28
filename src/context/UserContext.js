@@ -10,6 +10,7 @@ const UserStore = (props) => {
   const [userPostCount, setUserPostCount] = useState("");
   const [userReplyCount, setUserReplyCount] = useState("");
   const [userRegion, setUserRegion] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <UserContext.Provider
@@ -29,7 +30,9 @@ const UserStore = (props) => {
         userReplyCount,
         setUserReplyCount,
         userRegion,
-        setUserRegion
+        setUserRegion,
+        isLogin,
+        setIsLogin
       }}
     >
       {props.children}

@@ -41,7 +41,8 @@ const MemberDropDown = () => {
     setComment,
     setUserPostCount,
     setUserReplyCount,
-    setUserRegion
+    setUserRegion,
+    setIsLogin
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const MemberDropDown = () => {
       try {
         const response = await HomeAxiosApi.userInfo(token);
         console.log("🐓 : " + JSON.stringify(response.data, null, 2));
+        setIsLogin(true);
         setUserPfImg(response.data.pfImg);
         setIsMembership(response.data.isMembership);
         setUserId(response.data.id);
@@ -62,6 +64,7 @@ const MemberDropDown = () => {
         const newToken = Functions.getAccessToken();
         if (newToken !== token) {
           const response = await HomeAxiosApi.userInfo(newToken);
+          setIsLogin(true);
           setUserPfImg(response.data.pfImg);
           setIsMembership(response.data.isMembership);
           setUserId(response.data.id);
@@ -82,7 +85,8 @@ const MemberDropDown = () => {
     setComment,
     setUserPostCount,
     setUserReplyCount,
-    setUserRegion
+    setUserRegion,
+    setIsLogin
   ]);
 
   return (
