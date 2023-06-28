@@ -18,6 +18,7 @@ const ItemContainer = styled.div`
   }
   @media (max-width: 400px) {
     width: 100%;
+    margin: 0 auto;
   }
 `;
 const Overlay = styled.div`
@@ -26,7 +27,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 210px;
-  min-width: 230px;
+  min-width: 240px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
@@ -34,6 +35,10 @@ const Overlay = styled.div`
 
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 400px) {
+    margin-right: 0px;
   }
 
 `;
@@ -60,7 +65,7 @@ const StyledLink = styled(Link)`
 const Thumbnail = styled.img`
   width: 100%;
   height: 210px;
-  min-width: 230px;
+  min-width: 240px;
   border-radius: 15px;
   margin-bottom: 10px;
   margin-right: 100px;
