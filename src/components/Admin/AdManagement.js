@@ -6,7 +6,7 @@ import AdPopup from './AdPopUp';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from "../../util/Functions";
 import Pagination from '../Festival/Pagination';
-
+import UserPopUp from '../../util/modal/UserPopUp';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -55,6 +55,13 @@ const ButtonContainer = styled.div`
     background-color: var(--hover-color);
   }
 `;
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
+
+
 const ImageThumbnail = styled.img`
   width: 50%; 
   height: 60px; 
@@ -69,8 +76,9 @@ const AdManagement = () => {
   const [showPopup, setShowPopup] = useState(false);
   const token = localStorage.getItem("accessToken");
   const [currentPage, setCurrentPage] = useState(1); 
-  const postsPerPage = 8; 
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
+  const postsPerPage = 8; 
   useEffect(() => {
     const getAds = async () => {
       try {
@@ -118,11 +126,16 @@ const AdManagement = () => {
   };
   
   // 광고 삭제
-  const handleDeleteAd = async() => {
-    try {
+  const handleDeleteAd = () => {
+
       if (selectedAds.length === 0) {
         return;
       }
+      setShowDeletePopup(true); // 팝업 표시
+    };
+
+  const handleModalConfirm = async () => {
+    try {
       await AdminAxiosApi.deleteAds(selectedAds, token);
       setSelectedAds([]);
 
@@ -133,8 +146,13 @@ const AdManagement = () => {
     } catch (error) {
       await Functions.handleApiError(error);
     }
+    setShowDeletePopup(false); 
   };
-  
+
+  const handleModalClose = () => {
+    setShowDeletePopup(false);
+  };
+
   // 광고 추가
   const handleAddAd = (name) => {
     setShowPopup(true);
@@ -201,6 +219,19 @@ const AdManagement = () => {
         <ButtonContainer>
         <Button onClick={handleAddAd}>추가</Button>
         <Button onClick={handleDeleteAd}>삭제</Button>
+        <UserPopUp
+        open={showDeletePopup}
+        confirm={handleModalConfirm}
+        close={handleModalClose}
+        type="confirm"
+        header="❗️"
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>
+          광고를 삭제하겠습니까?
+        </PopUpMessage>
+      </UserPopUp>
       </ButtonContainer>
       {ads.length > postsPerPage && (
         <Pagination
