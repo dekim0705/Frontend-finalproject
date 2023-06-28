@@ -31,12 +31,6 @@ const Membership2 = styled(Membership)`
   margin-top: -10px;
 `;
 
-// const MembershipDesc = styled.p`
-//   font-size: 0.8rem;
-//   position: relative;
-//   margin-top: -34px;
-// `;
-
 const Divider = styled.span`
   color: #eee;
 `;
@@ -56,7 +50,7 @@ const ProfileBar2 = () => {
         <RowWrapper gap="10px">
           <PfImg2 src={userPfImg} alt="프로필 이미지" />
 
-          <ColumnWrapper gap="6px">
+          <ColumnWrapper gap="6px" alignItems="flex-start">
             <div>
               <Nickname2>
                 {userNickname}{" "}

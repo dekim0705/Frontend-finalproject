@@ -3,8 +3,18 @@ import styled from "styled-components";
 import Star from "../../resource/membership_star.svg";
 import { UserContext } from "../../context/UserContext";
 
+const UserProfileContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  .nickname_membership {
+    width: 90%;
+  }
+`;
+
 export const PfImg = styled.img`
-  margin-top: 1rem;
   width: 180px;
   height: 180px;
   border-radius: 50%;
@@ -17,8 +27,9 @@ export const PfImg = styled.img`
 export const Nickname = styled.h1`
   position: relative;
   color: var(--text-color);
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 700;
+  text-align: center;
   @media screen and (max-width: 768px) {
     font-size: 1.4rem;
     margin-top: -12px;
@@ -53,9 +64,9 @@ const UserProfile = () => {
     useContext(UserContext);
 
   return (
-    <>
+    <UserProfileContainer>
       <PfImg src={userPfImg} alt="프로필 이미지" />
-      <div>
+      <div className="nickname_membership">
         <Nickname>
           {userNickname}
           {isMembership === "MEMBERSHIP" && (
@@ -64,7 +75,7 @@ const UserProfile = () => {
         </Nickname>
       </div>
       <Comment>{comment}</Comment>
-    </>
+    </UserProfileContainer>
   );
 };
 export default UserProfile;
