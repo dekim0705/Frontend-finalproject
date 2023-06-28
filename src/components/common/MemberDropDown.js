@@ -41,6 +41,7 @@ const MemberDropDown = () => {
     setComment,
     setUserPostCount,
     setUserReplyCount,
+    setUserRegion
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const MemberDropDown = () => {
         setComment(response.data.userComment);
         setUserPostCount(response.data.postCount);
         setUserReplyCount(response.data.replyCount);
+        setUserRegion(response.data.userRegion);
       } catch (error) {
         await Functions.handleApiError(error);
         const newToken = Functions.getAccessToken();
@@ -80,6 +82,7 @@ const MemberDropDown = () => {
     setComment,
     setUserPostCount,
     setUserReplyCount,
+    setUserRegion
   ]);
 
   return (
