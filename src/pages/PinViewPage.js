@@ -17,6 +17,7 @@ const PinViewPage = () => {
   const [postData, setPostData] = useState(null);
   const [showUpdateDelete, SetShowUpdateDelete] = useState(false);
   const { userPfImg } = useContext(UserContext);
+  const [replies, setReplies] = useState([]);
 
   useEffect(() => {
     const getPostView = async () => {
@@ -39,6 +40,25 @@ const PinViewPage = () => {
     getPostView();
   }, [postId, token, userPfImg, showUpdateDelete]);
 
+  useEffect(() => {
+    const getReplies = async () => {
+      if (!postData) return;
+      try {
+        const response = await PostAxiosApi.viewReply(postData.postId, token);
+        setReplies(response.data);
+      } catch (error) {
+        await Functions.handleApiError(error);
+        const newToken = Functions.getAccessToken();
+        if (newToken !== token) {
+          const response = await PostAxiosApi.viewReply(postData.postId, token);
+          setReplies(response.data);
+        }
+      }
+    };
+
+    getReplies();
+  }, [postData, token]); 
+
   return (
     <>
       <AppLayout>
@@ -46,8 +66,8 @@ const PinViewPage = () => {
         {showUpdateDelete && <UpdateDelete postId={postId} />}
         <PostContent1 postData={postData} />
         <PostContent2 postData={postData} />
-        <ReplyWrite postData={postData} />
-        <ReplyList postData={postData} />
+        <ReplyWrite postData={postData} setReplies={setReplies} />
+        <ReplyList postData={postData} replies={replies} setReplies={setReplies} />
       </AppLayout>
     </>
   );

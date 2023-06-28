@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../util/ViewFormStyle";
 import styled from "styled-components";
 import profileImg from "../../resource/profile.jpeg";
-import PostAxiosApi from "../../api/PostAxiosApi";
 import moment from "moment";
 import UpdateDeleteReply from "./UpdateDeleteReply";
 import { UserContext } from "../../context/UserContext";
@@ -52,25 +51,16 @@ const ContentStyled = styled.div`
   }
 `;
 
-const ReplyList = ({ postData }) => {
+const ReplyList = ({ postData, replies, setReplies }) => {
   const token = localStorage.getItem("accessToken");
-  const [replies, setReplies] = useState([]);
   const { userPfImg } = useContext(UserContext);
   const [editingReplyId, setEditingReplyId] = useState(null);
 
   useEffect(() => {
     const getReplies = async () => {
       try {
-        const response = await PostAxiosApi.viewReply(postData.postId, token);
-        console.log("🦄 : " + JSON.stringify(response.data, null, 2));
-        setReplies(response.data);
       } catch (error) {
         await Functions.handleApiError(error);
-        const newToken = Functions.getAccessToken();
-        if (newToken !== token) {
-          const response = await PostAxiosApi.viewReply(postData.postId, token);
-          setReplies(response.data);
-        }
       }
     };
     getReplies();

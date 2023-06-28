@@ -36,7 +36,7 @@ const StyledReplyForm = styled.div`
   }
 `;
 
-const ReplyWrite = ({ postData }) => {
+const ReplyWrite = ({ postData, setReplies }) => {
   const token = localStorage.getItem("accessToken");
   const { userPfImg } = useContext(UserContext);
   const [reply, setReply] = useState("");
@@ -59,6 +59,8 @@ const ReplyWrite = ({ postData }) => {
       console.log("🍔 : " + response.data);
       if (response.data === true) {
         setIsOpen(true);
+        const newReply = await PostAxiosApi.viewReply(postData.postId, token);
+        setReplies(newReply.data);
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -75,6 +77,8 @@ const ReplyWrite = ({ postData }) => {
         console.log("🍔 : " + response.data);
         if (response.data === true) {
           setIsOpen(true);
+          const newReply = await PostAxiosApi.viewReply(postData.postId, token);
+          setReplies(newReply.data);
         }
       }
     }
@@ -82,7 +86,7 @@ const ReplyWrite = ({ postData }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    setReply('');
+    setReply("");
   };
 
   return (
