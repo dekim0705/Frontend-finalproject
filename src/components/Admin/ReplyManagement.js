@@ -152,7 +152,7 @@ useEffect(() => {
       setSelectedReplies((prevSelected) => [...prevSelected, id]);
       console.log(selectedreplies);
     } else {
-      setSelectedReplies((prevSelected) => prevSelected.filter((id) => id !== id));
+      setSelectedReplies((prevSelected) => prevSelected.filter((replyId) => replyId !== id));
     }
   };
   

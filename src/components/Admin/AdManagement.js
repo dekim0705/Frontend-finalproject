@@ -121,13 +121,12 @@ const AdManagement = () => {
       setSelectedAds((prevSelected) => [...prevSelected, adNum]);
       console.log(selectedAds);
     } else {
-      setSelectedAds((prevSelected) => prevSelected.filter((id) => id !== adNum));
+      setSelectedAds((prevSelected) => prevSelected.filter((adId) => adId !== adNum));
     }
   };
   
   // 광고 삭제
   const handleDeleteAd = () => {
-
       if (selectedAds.length === 0) {
         return;
       }

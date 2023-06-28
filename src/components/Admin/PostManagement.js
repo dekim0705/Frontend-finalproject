@@ -145,7 +145,7 @@ useEffect(() => {
     const checked = event.target.checked;
     setSelectAll(checked);
     if (checked) {
-      const allPostCurrentPage = getPagePosts().map((post) => post.postNum);
+      const allPostCurrentPage = getPagePosts().map((post) => post.id);
       setSelectedPosts(allPostCurrentPage);
     } else {
       setSelectedPosts([]);
@@ -156,14 +156,14 @@ useEffect(() => {
     return selectedPosts.includes(id);
   };
 
-  const handleCheckboxChange = (event, id) => {
-    if (event.target.checked) {
-      setSelectedPosts((prevSelected) => [...prevSelected, id]);
-      console.log(selectedPosts);
-    } else {
-      setSelectedPosts((prevSelected) => prevSelected.filter((id) => id !== id));
-    }
-  };
+const handleCheckboxChange = (event, id) => {
+  if (event.target.checked) {
+    setSelectedPosts((prevSelected) => [...prevSelected, id]);
+    console.log(selectedPosts);
+  } else {
+    setSelectedPosts((prevSelected) => prevSelected.filter((postId) => postId !== id));
+  }
+};
 
   const handleDeletePosts = () => {
       if (selectedPosts.length === 0) {
