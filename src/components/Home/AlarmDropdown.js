@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HomeAxiosApi from "../../api/HomeAxiosApi";
+import { useNavigate } from "react-router-dom";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ const AlarmListContainer = styled.div`
   flex-direction: column;
   gap: 8px;
   padding: 10px;
+  cursor: pointer;
   &:hover {
     background-color: var(--hover-color);
     border-radius: 4px;
@@ -58,6 +60,7 @@ const StyledRegion = styled.span`
 const AlarmDropdown = () => {
   const token = localStorage.getItem("accessToken");
   const [pushes, setPushes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPushList = async () => {
@@ -90,12 +93,16 @@ const AlarmDropdown = () => {
     "GYEONGBUK": "경북",
     "JEOLLANAM": "전남",
     "JEJU": "제주"
-  }
+  };
+
+  const handleClickPost = (postId) => {
+    navigate(`/post/${postId}`);
+  };
 
   return (
     <StyledWrapper>
       {pushes.map((push) => (
-        <AlarmListContainer>
+        <AlarmListContainer onClick={() => handleClickPost(push.postId)}>
           <div className="subcontainer header">
             <div className="circle"></div>
             <h1>회원님이 구독하신 <StyledRegion>{regionTranslation[push.userRegion]}</StyledRegion> 게시글이 올라왔습니다.</h1>
