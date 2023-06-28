@@ -16,6 +16,7 @@ const StyledFolder = styled(Link)`
   box-shadow: 3px 3px 3px #999;
   width: ${({ width }) => width || "40%"};
   min-width: 115px;
+  max-width: 230px;
   height: ${({ height }) => height || "140px"};
   &:hover {
     border: 3px solid #ff62ad;
