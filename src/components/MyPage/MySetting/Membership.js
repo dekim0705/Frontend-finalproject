@@ -8,6 +8,8 @@ import { UserContext } from "../../../context/UserContext";
 export const Text = styled.p`
   font-size: 1.6rem;
   text-align: center;
+  display: flex;
+  align-items: center;
   @media screen and (max-width: 768px) {
     font-size: 1.4rem;
   }
@@ -22,7 +24,7 @@ const TextContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 90%;
+  width: 80%;
   height: 200px;
   border: 1px solid #ff62ad;
   border-radius: 15px;
