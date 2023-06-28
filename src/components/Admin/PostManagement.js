@@ -8,6 +8,7 @@ import { pink } from '@mui/material/colors';
 import AdminAxiosApi from '../../api/AdminAxiosApi';
 import Functions from '../../util/Functions';
 import Pagination from '../Festival/Pagination';
+import UserPopUp from '../../util/modal/UserPopUp';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -84,6 +85,14 @@ const Button = styled.button`
   }
 `;
 
+
+const PopUpMessage = styled.p`
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+`;
+
+
 const PostManagement = () => {
   const [posts, setPosts] = useState([]);
   const [selectedPosts, setSelectedPosts] = useState([]);
@@ -92,6 +101,7 @@ const PostManagement = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
   const postsPerPage = 8; // 페이지당 표시되는 게시물 수
+  const [showPopup, setShowPopup] = useState(false);
   
   
   useEffect(() => {
@@ -155,12 +165,16 @@ useEffect(() => {
     }
   };
 
-  const handleDeletePosts = async () => {
-    try {
+  const handleDeletePosts = () => {
       if (selectedPosts.length === 0) {
         console.log('선택된 게시글이 없습니다.');
         return;
       }
+      setShowPopup(true); // 팝업 표시
+    };
+
+  const handleModalConfirm = async () => {
+    try {
       await AdminAxiosApi.deletePosts(selectedPosts, token);
       // 게시글 삭제 후, 선택된 게시글 목록 초기화
       setSelectedPosts([]);
@@ -174,6 +188,11 @@ useEffect(() => {
       await Functions.handleApiError(error);
       console.log('게시글 삭제 실패:', error);
     }
+    setShowPopup(false); 
+  };
+
+  const handleModalClose = () => {
+    setShowPopup(false);
   };
   
   // 게시글 목록을 페이지별로 분할하는 함수
@@ -257,10 +276,21 @@ useEffect(() => {
               </tr>
             ))}
           </tbody>
-        </Table>
-        <Button onClick={handleDeletePosts}>
-          삭제
-        </Button>
+        </Table> 
+        <Button onClick={handleDeletePosts}> 삭제 </Button>
+        <UserPopUp
+        open={showPopup}
+        confirm={handleModalConfirm}
+        close={handleModalClose}
+        type="confirm"
+        header="❗️"
+        confirmText="확인"
+        closeText="취소"
+      >
+        <PopUpMessage>
+          게시물을 삭제하겠습니까?
+        </PopUpMessage>
+      </UserPopUp>
         {posts.length > postsPerPage && (
         <Pagination
           currentPage={currentPage}
