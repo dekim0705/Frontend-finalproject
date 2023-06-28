@@ -194,7 +194,6 @@ const InquiryManagement = () => {
       }
       return inquiry;
     });
-  
     try {
       for (const inquiryNum of selectedInquiry) {
         await AdminAxiosApi.updateStatus(inquiryNum, '완료', token);
@@ -203,6 +202,14 @@ const InquiryManagement = () => {
       setSelectedInquiry([]);
     } catch (error) {
       await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
+        for (const inquiryNum of selectedInquiry) {
+          await AdminAxiosApi.updateStatus(inquiryNum, '완료', newToken);
+        }
+        setInquiries(updatedInquiries);
+        setSelectedInquiry([]);
+      }
       console.error('상태 변경 실패', error);
     }
   };
