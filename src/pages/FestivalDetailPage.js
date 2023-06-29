@@ -28,9 +28,6 @@ const FestivalDetailPage = () => {
   return (
     <AppLayout>
       <Container>
-        {isLoading ? (
-          <div>Loading...</div> // 로딩 중일 때 표시할 내용
-        ) : (
           <FestivalAPI page={page} contentId={contentId}>
             {(apiData, totalPages) => (
               <>
@@ -42,7 +39,6 @@ const FestivalDetailPage = () => {
               </>
             )}
           </FestivalAPI>
-        )}
       </Container>
     </AppLayout>
   );

@@ -110,7 +110,7 @@ const ChatRoom = () => {
       setIsEmail(false);
 
       const botMessage = {
-        text: test(menuNumber),
+        text: intialMessage(menuNumber),
         isUserMessage: false,
       };
 
@@ -141,7 +141,7 @@ const ChatRoom = () => {
     }
   };
 
-  const test = (menuNumber) => {
+  const intialMessage = (menuNumber) => {
     switch (menuNumber) {
       case 1:
         return <>오늘의 데이트는 사용자가 데이트 직접 코스를 만들어 공유할 수 있는 곳입니다.<br />   1. 핀 만들기  : 직접 데이트 경로를 만들고 멋진 데이트 경험을 공유해보세요! <br /> 

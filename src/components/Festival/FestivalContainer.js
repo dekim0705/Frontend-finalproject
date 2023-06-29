@@ -44,10 +44,11 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
   useEffect(() => {
     let filtered = apiData;
 
+    // 도시가 선택되었을 경우 도시별로 필터링
     if (isButtonClicked && selectedCity && selectedCity !== 0) {
       filtered = filtered.filter((festival) => festival.areaCode === selectedCity.toString());
     }
-
+    // 개최여부가 선택되었을 경우 개최여부 필터링
     if (isButtonClicked && selectedStatus && selectedStatus !== 0) {
       const currentDate = new Date();
       const formattedDate = parseInt(
@@ -66,6 +67,7 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
       }
     }
 
+  // 검색어가 입력되었을 경우 검색어 필터링
     setFilteredData(filtered);
   }, [apiData, selectedCity, selectedStatus, isButtonClicked]);
 
@@ -82,6 +84,7 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
   }, [searchKeyword, filteredData]);
 
   useEffect(() => {
+        // 날짜순 정렬
     let sortedData = [...searchedData];
     if (sortBy === "name") {
       sortedData.sort((a, b) => a.title.localeCompare(b.title));
@@ -91,6 +94,7 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
     setSearchedData(sortedData);
   }, [sortBy]);
 
+  // 한 페이지에 6개씩 아이템을 표시
   const startIndex = (currentPage - 1) * 6;
   const endIndex = currentPage * 6;  
   const itemsToShow = searchedData.slice(startIndex, endIndex);
