@@ -78,21 +78,21 @@ const AlarmDropdown = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}.${month}.${day}`;
   };
 
   const regionTranslation = {
-    "SEOUL": "서울",
-    "INCHEON": "인천",
-    "GYEONGGI": "경기",
-    "GANGWON": "강원",
-    "BUSAN" : "부산",
-    "CHUNGBUK": "충북",
-    "GYEONGBUK": "경북",
-    "JEOLLANAM": "전남",
-    "JEJU": "제주"
+    SEOUL: "서울",
+    INCHEON: "인천",
+    GYEONGGI: "경기",
+    GANGWON: "강원",
+    BUSAN: "부산",
+    CHUNGBUK: "충북",
+    GYEONGBUK: "경북",
+    JEOLLANAM: "전남",
+    JEJU: "제주",
   };
 
   const handleClickPost = async (postId, pushId) => {
@@ -102,18 +102,30 @@ const AlarmDropdown = () => {
 
   return (
     <StyledWrapper>
-      {pushes.map((push) => (
-        <AlarmListContainer onClick={() => handleClickPost(push.postId, push.pushId)}>
-          <div className="subcontainer header">
-            <div className="circle"></div>
-            <h1>회원님이 구독하신 <StyledRegion>{regionTranslation[push.userRegion]}</StyledRegion> 게시글이 올라왔습니다.</h1>
-          </div>
-          <div className="subcontainer content">
-            <p>{push.title}</p>
-            <p>{formatDate(push.sendDate)}</p>
-          </div>
-        </AlarmListContainer>
-      ))}
+      {pushes.length === 0 ? (
+        <h1>새로운 알림이 없습니다.</h1>
+      ) : (
+        pushes.map((push) => (
+          <AlarmListContainer
+            onClick={() => handleClickPost(push.postId, push.pushId)}
+          >
+            <div className="subcontainer header">
+              <div className="circle"></div>
+              <h1>
+                회원님이 구독하신{" "}
+                <StyledRegion>
+                  {regionTranslation[push.userRegion]}
+                </StyledRegion>{" "}
+                게시글이 올라왔습니다.
+              </h1>
+            </div>
+            <div className="subcontainer content">
+              <p>{push.title}</p>
+              <p>{formatDate(push.sendDate)}</p>
+            </div>
+          </AlarmListContainer>
+        ))
+      )}
     </StyledWrapper>
   );
 };
