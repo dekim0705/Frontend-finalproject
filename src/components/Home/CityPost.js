@@ -8,6 +8,7 @@ import Functions from "../../util/Functions";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
+import noImage from "../../resource/no_image.jpeg";
 
 const Container = styled.div`
   display: flex;
@@ -222,7 +223,7 @@ const CityPost = ({ selectedCity }) => {
               <p>{postInfo.district}</p>
             </PostTitle>
             <StyledThumbnail>
-              <img src={postInfo.thumbnail} alt="" />
+              {postInfo.thumbnail ? (<img src={postInfo.thumbnail} alt="" />) : <img src={noImage} alt="" />}
             </StyledThumbnail>
           </Container>
         ))
