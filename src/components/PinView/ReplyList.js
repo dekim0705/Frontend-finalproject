@@ -68,41 +68,49 @@ const ReplyList = ({ postData, replies, setReplies }) => {
 
   return (
     <div>
-      {replies.map((reply) => (
-        <StyledContainer key={reply.id}>
-          <ProfileWithComment
-            pfImg={reply.pfImg || profileImg}
-            alt="프사"
-            comment={reply.userComment}
-          />
-          {/* <img src={reply.pfImg || profileImg} alt="프사" /> */}
-          <StyledReplyForm>
-            <div className="subContainer">
-              <h1>{reply.nickname}</h1>
-              <ReportBlockDropdownReply userNum={reply.userNum} />
-              {userPfImg === reply.pfImg && (
-                <UpdateDeleteReply
+      {replies.map((reply) =>
+        reply.blocked ? (
+          <StyledContainer key={reply.id}>
+            <StyledReplyForm>
+              <ContentStyled>차단한 사용자의 댓글입니다.</ContentStyled>
+            </StyledReplyForm>
+          </StyledContainer>
+        ) : (
+          <StyledContainer key={reply.id}>
+            <ProfileWithComment
+              pfImg={reply.pfImg || profileImg}
+              alt="프사"
+              comment={reply.userComment}
+            />
+            {/* <img src={reply.pfImg || profileImg} alt="프사" /> */}
+            <StyledReplyForm>
+              <div className="subContainer">
+                <h1>{reply.nickname}</h1>
+                <ReportBlockDropdownReply userNum={reply.userNum} />
+                {userPfImg === reply.pfImg && (
+                  <UpdateDeleteReply
+                    replyId={reply.id}
+                    onEdit={() => setEditingReplyId(reply.id)}
+                    replies={replies}
+                    setReplies={setReplies}
+                  />
+                )}
+              </div>
+              <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
+              <ContentStyled>{reply.content}</ContentStyled>
+              {editingReplyId === reply.id && (
+                <UpdateReplyInput
+                  replyContent={reply.content}
                   replyId={reply.id}
-                  onEdit={() => setEditingReplyId(reply.id)}
+                  cancelEdit={() => setEditingReplyId(null)}
                   replies={replies}
                   setReplies={setReplies}
                 />
               )}
-            </div>
-            <p className="writeDate">{moment(reply.writeDate).fromNow()}</p>
-            <ContentStyled>{reply.content}</ContentStyled>
-            {editingReplyId === reply.id && (
-              <UpdateReplyInput
-                replyContent={reply.content}
-                replyId={reply.id}
-                cancelEdit={() => setEditingReplyId(null)}
-                replies={replies}
-                setReplies={setReplies}
-              />
-            )}
-          </StyledReplyForm>
-        </StyledContainer>
-      ))}
+            </StyledReplyForm>
+          </StyledContainer>
+        )
+      )}
     </div>
   );
 };

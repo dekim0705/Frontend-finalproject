@@ -128,7 +128,6 @@ const Header = () => {
   const handleSearchIconClick = async () => {
     try {
       const response = await HomeAxiosApi.searchPosts(searchInput, token);
-      console.log("🌴 : " + JSON.stringify(response.data, null, 2));
       setResultData(response.data);
       navigate(`/search?q=${searchInput}`);
     } catch (error) {
