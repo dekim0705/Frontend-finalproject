@@ -28,11 +28,11 @@ const ReportBlockDropdownReply = ({ userNum }) => {
     setAnchorEl(null);
   };
 
-  const handleBlockUser = async () => {
+  const blockUser = async () => {
     try {
       const response = await ReportAxiosApi.blockUser(userNum, token);
       if (response.data === "차단 완료 ❤️") {
-        setIsOpen(true);
+        navigate('/home');
       }
     } catch (error) {
       await Functions.handleApiError(error);
@@ -40,15 +40,20 @@ const ReportBlockDropdownReply = ({ userNum }) => {
       if (newToken !== token) {
         const response = await ReportAxiosApi.blockUser(userNum, newToken);
         if (response.data === "차단 완료 ❤️") {
-          setIsOpen(true);
+          navigate('/home');
         }
       }
     }
   };
 
+  const handleBlockUser = () => {
+    blockUser();
+  };
+  const confirmBlockUser = () => {
+    setIsOpen(true);
+  };
   const handleClosePopUp = () => {
     setIsOpen(false);
-    navigate("/home");
   };
 
   return (
@@ -71,15 +76,18 @@ const ReportBlockDropdownReply = ({ userNum }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleBlockUser}>차단하기</MenuItem>
+        <MenuItem onClick={confirmBlockUser}>작성자 차단하기</MenuItem>
         <MenuItem onClick={toggleModal}>작성자 신고하기</MenuItem>
         <UserPopUp
           open={isOpen}
+          confirm={handleBlockUser}
           close={handleClosePopUp}
+          type="confirm"
           header={"❗️"}
-          closeText="확인"
+          confirmText="확인"
+          closeText="취소"
         >
-          사용자를 차단하였습니다.
+          해당 사용자를 차단 하시겠습니까?
         </UserPopUp>
         <ReportModalReply
           open={isModalOpen}
