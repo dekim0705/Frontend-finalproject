@@ -46,6 +46,19 @@ const ReportAxiosApi = {
       throw error;
     }
   },
+  // 🍉 사용자 차단 해제하기
+  deleteBlockUser: async (blockedId, token) => {
+    try {
+      return await axios.delete(`${KH_DOMAIN}/block/${blockedId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default ReportAxiosApi;

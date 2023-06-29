@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
 import noImage from "../../resource/no_image.jpeg";
 import blockImage from "../../resource/차단 썸네일.png";
+import UserPopUp from "../../util/modal/UserPopUp";
+import ReportAxiosApi from "../../api/ReportAxiosApi";
 
 const Container = styled.div`
   display: flex;
@@ -71,9 +73,28 @@ const StyledThumbnail = styled.div`
 
 const StyledBlockedPost = styled.div`
   h1 {
-    padding: 34px 0;
     font-weight: bold;
     font-size: 1.3em;
+  }
+`;
+
+const BlockedContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0;
+  button {
+    background-color: var(--hover-color);
+    color: var(--input-text-color);
+    border: 0.8px solid #eee;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--point-color);
+      color: #fff;
+      font-weight: bold;
+    }
   }
 `;
 
@@ -87,6 +108,8 @@ const CityPost = ({ selectedCity }) => {
   const [postInfos, setPostInfos] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(0);
   const [bookmarkInfo, setBookmarkInfo] = useState({});
+
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const handleBookmark = async (postId) => {
     setSelectedPostId(postId);
@@ -114,10 +137,25 @@ const CityPost = ({ selectedCity }) => {
     setIsModalOpen(!isModalOpen);
   };
 
-  useEffect(() => {
-    setPostInfos([]);
-    const getPosts = async () => {
-      try {
+  const getPosts = async () => {
+    try {
+      let response;
+      if (!selectedCity) {
+        response = await HomeAxiosApi.allPosts(token);
+        console.log("🐸 : " + JSON.stringify(response.data, null, 2));
+      } else {
+        response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
+      }
+      setPostInfos(
+        response.data.map((post) => ({
+          ...post,
+          writeDate: moment(post.writeDate).fromNow(),
+        }))
+      );
+    } catch (error) {
+      await Functions.handleApiError(error);
+      const newToken = Functions.getAccessToken();
+      if (newToken !== token) {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
@@ -130,25 +168,12 @@ const CityPost = ({ selectedCity }) => {
             writeDate: moment(post.writeDate).fromNow(),
           }))
         );
-      } catch (error) {
-        await Functions.handleApiError(error);
-        const newToken = Functions.getAccessToken();
-        if (newToken !== token) {
-          let response;
-          if (!selectedCity) {
-            response = await HomeAxiosApi.allPosts(token);
-          } else {
-            response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
-          }
-          setPostInfos(
-            response.data.map((post) => ({
-              ...post,
-              writeDate: moment(post.writeDate).fromNow(),
-            }))
-          );
-        }
       }
-    };
+    }
+  };
+  
+  useEffect(() => {
+    setPostInfos([]);
     getPosts();
   }, [selectedCity, token]);
 
@@ -191,14 +216,54 @@ const CityPost = ({ selectedCity }) => {
     navigate(`/post/${postId}`);
   };
 
+  // 차단 해제 관련 로직
+  const deleteBlock = async (id, token) => {
+    try {
+      const response = await ReportAxiosApi.deleteBlockUser(id, token);
+      console.log("🧢🧢 : " + response.data);
+      if (response.data === true) {
+        getPosts();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const handleDeleteBlock = (id) => {
+    deleteBlock(id, token);
+  };
+  const confirmDeleteBlock = () => {
+    setShowPopUp(true);
+  };
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+  };
+
   return (
     <>
       {postInfos.length > 0 ? (
         postInfos.map((postInfo) =>
           postInfo.blocked ? (
             <Container key={postInfo.postId}>
-              <StyledBlockedPost><h1>✖︎ 차단한 사용자의 게시글입니다.</h1></StyledBlockedPost>
-              <StyledThumbnail><img src={blockImage} alt="차단 게시글 썸네일" /></StyledThumbnail>
+              <BlockedContainer>
+                <StyledBlockedPost>
+                  <h1>✖︎ 차단한 사용자의 게시글입니다.</h1>
+                </StyledBlockedPost>
+                <button onClick={confirmDeleteBlock}>차단 해제</button>
+                <UserPopUp
+                  open={showPopUp}
+                  confirm={() => handleDeleteBlock(postInfo.id)}
+                  close={handleClosePopUp}
+                  type="confirm"
+                  header={"❗️"}
+                  confirmText="확인"
+                  closeText="취소"
+                >
+                  해당 사용자를 차단 해제 하시겠습니까?
+                </UserPopUp>
+              </BlockedContainer>
+              <StyledThumbnail>
+                <img src={blockImage} alt="차단 게시글 썸네일" />
+              </StyledThumbnail>
             </Container>
           ) : (
             <Container key={postInfo.postId}>
