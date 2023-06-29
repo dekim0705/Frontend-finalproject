@@ -3,7 +3,8 @@ import styled, { createGlobalStyle } from "styled-components";
 import AppLayout from "../components/common/AppLayout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
-import moment from 'moment';
+import moment from "moment";
+import noImage from "../resource/no_image.jpeg";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -49,7 +50,6 @@ const Container = styled.div`
     margin: 0 auto;
   }
 `;
-
 
 const PostHeader = styled.div`
   display: flex;
@@ -114,34 +114,47 @@ const SearchResultPage = () => {
       </KeywordContainer>
       <ContainerWrapper>
         {resultData.length > 0 ? (
-          resultData.map((result) => (
-            <Container key={result.id} onClick={() => handleClickPost(result.postId)}>
-              <PostHeader>
-                <AuthorHeader>
-                  <img
-                    src={result.pfImg}
-                    alt="작성자 프로필"
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <AuthorInfo>
-                    <h1>{result.nickname}</h1>
-                    <p>{moment(result.writeDate).fromNow()}</p>
-                  </AuthorInfo>
-                </AuthorHeader>
-              </PostHeader>
-              <PostTitle>
-                <h1>{result.title}</h1>
-                <p>{result.district}</p>
-              </PostTitle>
-              <StyledThumbnail>
-                <img src={result.thumbnail} alt="" />
-              </StyledThumbnail>
-            </Container>
-          ))
+          resultData.map((result) =>
+            result.blocked ? (
+              <Container key={result.id}>
+                <p>차단된 사용자의 게시글</p>
+              </Container>
+            ) : (
+              <Container
+                key={result.id}
+                onClick={() => handleClickPost(result.postId)}
+              >
+                <PostHeader>
+                  <AuthorHeader>
+                    <img
+                      src={result.pfImg}
+                      alt="작성자 프로필"
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <AuthorInfo>
+                      <h1>{result.nickname}</h1>
+                      <p>{moment(result.writeDate).fromNow()}</p>
+                    </AuthorInfo>
+                  </AuthorHeader>
+                </PostHeader>
+                <PostTitle>
+                  <h1>{result.title}</h1>
+                  <p>{result.district}</p>
+                </PostTitle>
+                <StyledThumbnail>
+                  {result.thumbnail ? (
+                    <img src={result.thumbnail} alt="" />
+                  ) : (
+                    <img src={noImage} alt="" />
+                  )}
+                </StyledThumbnail>
+              </Container>
+            )
+          )
         ) : (
           <p>게시글이 없습니다 ㅜㅜ </p>
         )}

@@ -86,7 +86,9 @@ const CityPost = ({ selectedCity }) => {
       try {
         const folderName = bookmarkInfo[postId];
         await HomeAxiosApi.deleteBookmark(postId, folderName, token);
-        setBookmarked((prevBookmarked) => prevBookmarked.filter((id) => id !== postId));
+        setBookmarked((prevBookmarked) =>
+          prevBookmarked.filter((id) => id !== postId)
+        );
       } catch (error) {
         console.error(error);
       }
@@ -110,6 +112,7 @@ const CityPost = ({ selectedCity }) => {
         let response;
         if (!selectedCity) {
           response = await HomeAxiosApi.allPosts(token);
+          console.log("🌴 : " + JSON.stringify(response.data, null, 2));
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }
@@ -150,14 +153,20 @@ const CityPost = ({ selectedCity }) => {
           )
         );
 
-        const bookmarkedPosts = bookmarkedPostsInfo.map((info, index) => info.data.isBookmarked ? postInfos[index].postId : null).filter(Boolean);
+        const bookmarkedPosts = bookmarkedPostsInfo
+          .map((info, index) =>
+            info.data.isBookmarked ? postInfos[index].postId : null
+          )
+          .filter(Boolean);
 
-        setBookmarkInfo(bookmarkedPostsInfo.reduce((acc, info, index) => {
-          if (info.data.isBookmarked) {
-            acc[postInfos[index].postId] = info.data.folderName;
-          }
-          return acc;
-        }, {}));
+        setBookmarkInfo(
+          bookmarkedPostsInfo.reduce((acc, info, index) => {
+            if (info.data.isBookmarked) {
+              acc[postInfos[index].postId] = info.data.folderName;
+            }
+            return acc;
+          }, {})
+        );
 
         setBookmarked(bookmarkedPosts);
       } catch (error) {
@@ -177,56 +186,66 @@ const CityPost = ({ selectedCity }) => {
   return (
     <>
       {postInfos.length > 0 ? (
-        postInfos.map((postInfo) => (
-          <Container key={postInfo.postId}>
-            <PostHeader>
-              <AuthorHeader>
-                <img
-                  src={postInfo.pfImg}
-                  alt="작성자 프로필"
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                  }}
-                />
-                <AuthorInfo>
-                  <h1>{postInfo.nickname}</h1>
-                  <p>{postInfo.writeDate}</p>
-                </AuthorInfo>
-              </AuthorHeader>
-              {bookmarked.includes(postInfo.postId) ? (
-                <BookmarkIcon
-                  sx={{ cursor: "pointer", color: "#FF62AD" }}
-                  onClick={() => handleBookmark(postInfo.postId)}
-                />
-              ) : (
-                <BookmarkBorderIcon
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => {
-                    handleBookmark(postInfo.postId);
-                    toggleModal();
-                  }}
-                />
-              )}
-            </PostHeader>
-            <BookmarkModal
-              open={isModalOpen}
-              handleClose={toggleModal}
-              folders={folders}
-              addFolder={handleAddFolder}
-              postId={selectedPostId}
-              handleBookmark={() => handleBookmark(postInfo.postId)}
-            />
-            <PostTitle onClick={() => handleClickPost(postInfo.postId)}>
-              <h1>{postInfo.title}</h1>
-              <p>{postInfo.district}</p>
-            </PostTitle>
-            <StyledThumbnail>
-              {postInfo.thumbnail ? (<img src={postInfo.thumbnail} alt="" />) : <img src={noImage} alt="" />}
-            </StyledThumbnail>
-          </Container>
-        ))
+        postInfos.map((postInfo) =>
+          postInfo.blocked ? (
+            <Container key={postInfo.postId}>
+              <PostHeader>차단한 사용자의 게시글입니다.</PostHeader>
+            </Container>
+          ) : (
+            <Container key={postInfo.postId}>
+              <PostHeader>
+                <AuthorHeader>
+                  <img
+                    src={postInfo.pfImg}
+                    alt="작성자 프로필"
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <AuthorInfo>
+                    <h1>{postInfo.nickname}</h1>
+                    <p>{postInfo.writeDate}</p>
+                  </AuthorInfo>
+                </AuthorHeader>
+                {bookmarked.includes(postInfo.postId) ? (
+                  <BookmarkIcon
+                    sx={{ cursor: "pointer", color: "#FF62AD" }}
+                    onClick={() => handleBookmark(postInfo.postId)}
+                  />
+                ) : (
+                  <BookmarkBorderIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                      handleBookmark(postInfo.postId);
+                      toggleModal();
+                    }}
+                  />
+                )}
+              </PostHeader>
+              <BookmarkModal
+                open={isModalOpen}
+                handleClose={toggleModal}
+                folders={folders}
+                addFolder={handleAddFolder}
+                postId={selectedPostId}
+                handleBookmark={() => handleBookmark(postInfo.postId)}
+              />
+              <PostTitle onClick={() => handleClickPost(postInfo.postId)}>
+                <h1>{postInfo.title}</h1>
+                <p>{postInfo.district}</p>
+              </PostTitle>
+              <StyledThumbnail>
+                {postInfo.thumbnail ? (
+                  <img src={postInfo.thumbnail} alt="" />
+                ) : (
+                  <img src={noImage} alt="" />
+                )}
+              </StyledThumbnail>
+            </Container>
+          )
+        )
       ) : (
         <p>게시글이 없습니다 ㅜㅜ </p>
       )}
