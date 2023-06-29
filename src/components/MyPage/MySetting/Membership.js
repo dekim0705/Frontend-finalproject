@@ -10,6 +10,7 @@ export const Text = styled.p`
   text-align: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   @media screen and (max-width: 768px) {
     font-size: 1.4rem;
   }
