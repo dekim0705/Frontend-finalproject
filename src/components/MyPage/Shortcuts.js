@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 import { RowWrapper } from "../Join/Wrappers";
 
 const ShortcutLink = styled(Link)`
-  margin-top: -10px;
   text-decoration: none;
   width: 50px;
   text-align: center;
+  padding: 5px;
+  margin-bottom: -10px;
   &:hover {
     background-color: var(--hover-color);
     border-radius: 8px;

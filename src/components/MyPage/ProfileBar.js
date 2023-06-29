@@ -5,10 +5,10 @@ import { ColumnWrapper } from "../Join/Wrappers";
 import Container from "./Container";
 import styled from "styled-components";
 
-export const Divider = styled.div`
+const Divider = styled.div`
   border-bottom: 2px solid var(--line-color);
   width: 90%;
-  margin: 0 auto;
+  margin: -5px auto;
   @media screen and (max-width: 768px) {
     display: none;
   }
