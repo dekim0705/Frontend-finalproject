@@ -19,7 +19,7 @@ const Summary = styled.div`
   align-items: center;
   padding: 15px;
   margin: 0 auto;
-  width: 80%;
+  width: 85%;
   @media (max-width: 768px) {
     flex-direction: column;
     padding: 20px;
@@ -30,6 +30,7 @@ const PosterImage = styled.img`
   height: 250px;
   margin-right: 50px;
   border-radius: 10px;
+  max-width: 350px;
   @media (max-width: 768px) {
     margin-right: 0px;
     max-width: 97%;
@@ -39,9 +40,10 @@ const PosterImage = styled.img`
 const InfoItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin-bottom: 10px;
   padding: 9px;
+  
   @media (max-width: 768px) {
     padding-top: 20px;
     margin-bottom: 0px;
@@ -82,11 +84,11 @@ const FestivalSummary = ({ page, contentId, apiData }) => {
         <div>
           <InfoItem>
             <CalendarMonthIcon />
-            <span>   {festivalData && `${festivalData.eventStartDate.slice(0, 4)}년 ${festivalData.eventStartDate.slice(4, 6)}월 ${festivalData.eventStartDate.slice(6)}일`}  </span>
+            <span> 시작일 :  {festivalData && `${festivalData.eventStartDate.slice(0, 4)}년 ${festivalData.eventStartDate.slice(4, 6)}월 ${festivalData.eventStartDate.slice(6)}일`}  </span>
           </InfoItem>
           <InfoItem>
             <CalendarMonthIcon />
-            <span> ~ {festivalData && `${festivalData.eventEndDate.slice(0, 4)}년 ${festivalData.eventEndDate.slice(4, 6)}월 ${festivalData.eventEndDate.slice(6)}일`}</span>
+            <span> 종료일 : {festivalData && `${festivalData.eventEndDate.slice(0, 4)}년 ${festivalData.eventEndDate.slice(4, 6)}월 ${festivalData.eventEndDate.slice(6)}일`}</span>
           </InfoItem>
           <InfoItem>
             <LocationOnIcon />
