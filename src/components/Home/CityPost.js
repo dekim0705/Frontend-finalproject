@@ -9,6 +9,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import BookmarkAxiosApi from "../../api/BookmarkAxiosApi";
 import noImage from "../../resource/no_image.jpeg";
+import blockImage from "../../resource/차단 썸네일.png";
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +66,14 @@ const StyledThumbnail = styled.div`
     width: 100%;
     height: 350px;
     border-radius: 15px;
+  }
+`;
+
+const StyledBlockedPost = styled.div`
+  h1 {
+    padding: 34px 0;
+    font-weight: bold;
+    font-size: 1.3em;
   }
 `;
 
@@ -188,7 +197,8 @@ const CityPost = ({ selectedCity }) => {
         postInfos.map((postInfo) =>
           postInfo.blocked ? (
             <Container key={postInfo.postId}>
-              <PostHeader>차단한 사용자의 게시글입니다.</PostHeader>
+              <StyledBlockedPost><h1>✖︎ 차단한 사용자의 게시글입니다.</h1></StyledBlockedPost>
+              <StyledThumbnail><img src={blockImage} alt="차단 게시글 썸네일" /></StyledThumbnail>
             </Container>
           ) : (
             <Container key={postInfo.postId}>
