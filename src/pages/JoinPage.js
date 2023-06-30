@@ -7,7 +7,7 @@ import Button from '../components/Join/Button';
 import Agreement from '../components/Join/Agreement';
 import EmailVerificationPopup from '../components/Join/EmailVerificationPopup';
 import JoinAxiosApi from '../api/JoinAxiosApi';
-import UserPopUp from '../util/modal/UserPopUp.jsx';
+import UserPopUp, {PopUpMessage} from '../util/modal/UserPopUp.jsx';
 
 const StyledContainer = styled.div`
   margin: 20px auto;
@@ -26,12 +26,6 @@ const StyledH1 = styled.h1`
   color: var(--hover-extra-color);
   font-weight: 800;
   font-size: 2.4rem;
-`;
-
-const PopUpMessage = styled.p`
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1.5rem;
 `;
 
 const JoinPage = () => {

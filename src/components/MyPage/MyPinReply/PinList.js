@@ -7,14 +7,7 @@ import Pagination from './Pagination';
 import { useNavigate } from 'react-router-dom';
 import UserAxiosApi from '../../../api/UserAxiosApi';
 import Functions from '../../../util/Functions';
-import UserPopUp from '../../../util/modal/UserPopUp';
-import styled from 'styled-components';
-
-const PopUpMessage = styled.p`
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1.5rem;
-`;
+import UserPopUp, { PopUpMessage } from '../../../util/modal/UserPopUp';
 
 const PinList = () => {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import Functions from "../../../util/Functions";
 import UserAxiosApi from "../../../api/UserAxiosApi";
 import { Button } from "../MyPinReply/PinListWeb";
 import styled from "styled-components";
-import UserPopUp from "../../../util/modal/UserPopUp";
+import UserPopUp, { PopUpMessage } from "../../../util/modal/UserPopUp";
 
 const DetailPageContainer = styled.div`
   margin: 0 auto;
@@ -30,12 +30,6 @@ const DetailPageContainer = styled.div`
   @media screen and (max-width: 768px) {
     margin: 0 auto;
   }
-`;
-
-const PopUpMessage = styled.p`
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1.5rem;
 `;
 
 const BookmarkDetailPage = () => {
