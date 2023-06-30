@@ -22,7 +22,8 @@ const Container = styled.div`
   flex-wrap: wrap;
   color: var(--text-color);
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 100%;
+    padding: 0 10px;
   }
 `;
 const PostHeader = styled.div`
@@ -101,7 +102,11 @@ const BlockedContainer = styled.div`
 
 const PlaceholderPost = styled.div`
   height: 450px;
-  width: 350px;
+  width: 370px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0 10px;
+  }
 `;
 
 const PaginationWrapper = styled.div`
