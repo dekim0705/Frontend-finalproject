@@ -124,8 +124,8 @@ const EditPage = () => {
   const handleThemeChange = (e) => {
     setPost({ ...post, theme: e.target.value });
   };
-  const handleContentChange = (e) => {
-    setPost({ ...post, content: e.target.value });
+  const handleContentChange = (contentValue) => {
+    setPost({ ...post, content: contentValue });
   };
   const handleTagUpdate = (newTags) => {
     setPost({ ...post, placeTag: newTags });

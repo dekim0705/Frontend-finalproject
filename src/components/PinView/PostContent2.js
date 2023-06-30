@@ -9,7 +9,6 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-
 const PostContent2 = ({ postData }) => {
   if (!postData) {
     return <p>데이터가 없습니다!</p>
@@ -17,7 +16,7 @@ const PostContent2 = ({ postData }) => {
 
   return (
     <StyledContainer>
-      <p>{postData.content}</p>
+      <div dangerouslySetInnerHTML={{ __html: postData.content }} />
       <img src={postData.imgUrl} alt="" />
     </StyledContainer>
   );
