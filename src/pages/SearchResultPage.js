@@ -19,7 +19,7 @@ const KeywordContainer = styled.div`
   gap: 10px;
   margin: 20px 0;
   @media screen and (max-width: 768px) {
-    margin-left: 2px;
+    margin-left: 20px;
   }
   h1 {
     color: var(--point-color);
@@ -34,6 +34,9 @@ const ContainerWrapper = styled.div`
   justify-content: space-between;
   gap: 20px;
   margin: 0 auto;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Container = styled.div`
