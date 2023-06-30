@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import UserAxiosApi from "../../../api/UserAxiosApi";
 import Functions from "../../../util/Functions";
-import UserPopUp from "../../../util/modal/UserPopUp";
+import UserPopUp, {PopUpMessage} from "../../../util/modal/UserPopUp";
 
 const ParentContainer = styled.div`
   width: 70%;
@@ -45,12 +45,6 @@ const Content = styled.span`
 const StyledP = styled.span`
   font-size: 0.8rem;
   color: var(--text-color);
-`;
-
-const PopUpMessage = styled.p`
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1.5rem;
 `;
 
 const ReplyList = () => {
