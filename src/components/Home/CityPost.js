@@ -349,7 +349,6 @@ const CityPost = ({ selectedCity }) => {
           )
         : Array.from({ length: POSTS_PER_PAGE }).map((_, index) => (
             <PlaceholderPost key={index}>
-              <p>데이터가 없습니다.</p>
             </PlaceholderPost>
           ))}
       {
