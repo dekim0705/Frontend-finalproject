@@ -12,6 +12,7 @@ import noImage from "../../resource/no_image.jpeg";
 import blockImage from "../../resource/차단 썸네일.png";
 import UserPopUp from "../../util/modal/UserPopUp";
 import ReportAxiosApi from "../../api/ReportAxiosApi";
+import Pagination from "../Festival/Pagination";
 
 const Container = styled.div`
   display: flex;
@@ -98,6 +99,17 @@ const BlockedContainer = styled.div`
   }
 `;
 
+const PlaceholderPost = styled.div`
+  height: 450px;
+  width: 350px;
+`;
+
+const PaginationWrapper = styled.div`
+  margin: 0 auto;
+`;
+
+const POSTS_PER_PAGE = 6;
+
 const CityPost = ({ selectedCity }) => {
   const navigate = useNavigate();
   const [bookmarked, setBookmarked] = useState([]);
@@ -105,11 +117,16 @@ const CityPost = ({ selectedCity }) => {
   const [folders, setFolders] = useState([]);
   const token = localStorage.getItem("accessToken");
   // 게시글 정보 🌸
-  const [postInfos, setPostInfos] = useState([]);
+  const [allPostInfos, setAllPostInfos] = useState([]); // 모든 게시글
+  const [displayedPostInfos, setDisplayedPostInfos] = useState([]); // 현재 페이지 게시글
   const [selectedPostId, setSelectedPostId] = useState(0);
   const [bookmarkInfo, setBookmarkInfo] = useState({});
 
   const [showPopUp, setShowPopUp] = useState(false);
+
+  // 페이지네이션 관련 상태
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleBookmark = async (postId) => {
     setSelectedPostId(postId);
@@ -146,12 +163,13 @@ const CityPost = ({ selectedCity }) => {
       } else {
         response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
       }
-      setPostInfos(
-        response.data.map((post) => ({
-          ...post,
-          writeDate: moment(post.writeDate).fromNow(),
-        }))
-      );
+      const allPosts = response.data.map((post) => ({
+        ...post,
+        writeDate: moment(post.writeDate).fromNow(),
+      }));
+      setAllPostInfos(allPosts);
+      setTotalPages(Math.ceil(allPosts.length / POSTS_PER_PAGE));
+      setDisplayedPostInfos(allPosts.slice(0, POSTS_PER_PAGE));
     } catch (error) {
       await Functions.handleApiError(error);
       const newToken = Functions.getAccessToken();
@@ -162,40 +180,49 @@ const CityPost = ({ selectedCity }) => {
         } else {
           response = await HomeAxiosApi.regionAllPosts(selectedCity, token);
         }
-        setPostInfos(
-          response.data.map((post) => ({
-            ...post,
-            writeDate: moment(post.writeDate).fromNow(),
-          }))
-        );
+        const allPosts = response.data.map((post) => ({
+          ...post,
+          writeDate: moment(post.writeDate).fromNow(),
+        }));
+        setAllPostInfos(allPosts);
+        setTotalPages(Math.ceil(allPosts.length / POSTS_PER_PAGE));
+        setDisplayedPostInfos(allPosts.slice(0, POSTS_PER_PAGE));
       }
     }
   };
-  
+
   useEffect(() => {
-    setPostInfos([]);
+    setCurrentPage(1);
     getPosts();
   }, [selectedCity, token]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    const start = (page - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+    setDisplayedPostInfos(allPostInfos.slice(start, end));
+    window.scrollTo(0,0);
+  };
 
   useEffect(() => {
     const getBookmarkedPosts = async () => {
       try {
         const bookmarkedPostsInfo = await Promise.all(
-          postInfos.map((post) =>
+          allPostInfos.map((post) =>
             BookmarkAxiosApi.isBookmarkAndFolderName(post.postId, token)
           )
         );
 
         const bookmarkedPosts = bookmarkedPostsInfo
           .map((info, index) =>
-            info.data.isBookmarked ? postInfos[index].postId : null
+            info.data.isBookmarked ? allPostInfos[index].postId : null
           )
           .filter(Boolean);
 
         setBookmarkInfo(
           bookmarkedPostsInfo.reduce((acc, info, index) => {
             if (info.data.isBookmarked) {
-              acc[postInfos[index].postId] = info.data.folderName;
+              acc[allPostInfos[index].postId] = info.data.folderName;
             }
             return acc;
           }, {})
@@ -207,10 +234,10 @@ const CityPost = ({ selectedCity }) => {
       }
     };
 
-    if (postInfos.length > 0) {
+    if (allPostInfos.length > 0) {
       getBookmarkedPosts();
     }
-  }, [postInfos, token]);
+  }, [allPostInfos, token]);
 
   const handleClickPost = (postId) => {
     navigate(`/post/${postId}`);
@@ -227,7 +254,7 @@ const CityPost = ({ selectedCity }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   const handleDeleteBlock = (id) => {
     deleteBlock(id, token);
   };
@@ -240,89 +267,108 @@ const CityPost = ({ selectedCity }) => {
 
   return (
     <>
-      {postInfos.length > 0 ? (
-        postInfos.map((postInfo) =>
-          postInfo.blocked ? (
-            <Container key={postInfo.postId}>
-              <BlockedContainer>
-                <StyledBlockedPost>
-                  <h1>✖︎ 차단한 사용자의 게시글입니다.</h1>
-                </StyledBlockedPost>
-                <button onClick={confirmDeleteBlock}>차단 해제</button>
-                <UserPopUp
-                  open={showPopUp}
-                  confirm={() => handleDeleteBlock(postInfo.id)}
-                  close={handleClosePopUp}
-                  type="confirm"
-                  header={"❗️"}
-                  confirmText="확인"
-                  closeText="취소"
-                >
-                  해당 사용자를 차단 해제 하시겠습니까?
-                </UserPopUp>
-              </BlockedContainer>
-              <StyledThumbnail>
-                <img src={blockImage} alt="차단 게시글 썸네일" />
-              </StyledThumbnail>
-            </Container>
-          ) : (
-            <Container key={postInfo.postId}>
-              <PostHeader>
-                <AuthorHeader>
-                  <img
-                    src={postInfo.pfImg}
-                    alt="작성자 프로필"
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <AuthorInfo>
-                    <h1>{postInfo.nickname}</h1>
-                    <p>{postInfo.writeDate}</p>
-                  </AuthorInfo>
-                </AuthorHeader>
-                {bookmarked.includes(postInfo.postId) ? (
-                  <BookmarkIcon
-                    sx={{ cursor: "pointer", color: "#FF62AD" }}
-                    onClick={() => handleBookmark(postInfo.postId)}
-                  />
-                ) : (
-                  <BookmarkBorderIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleBookmark(postInfo.postId);
-                      toggleModal();
-                    }}
-                  />
-                )}
-              </PostHeader>
-              <BookmarkModal
-                open={isModalOpen}
-                handleClose={toggleModal}
-                folders={folders}
-                addFolder={handleAddFolder}
-                postId={selectedPostId}
-                handleBookmark={() => handleBookmark(postInfo.postId)}
-              />
-              <PostTitle onClick={() => handleClickPost(postInfo.postId)}>
-                <h1>{postInfo.title}</h1>
-                <p>{postInfo.district}</p>
-              </PostTitle>
-              <StyledThumbnail>
-                {postInfo.thumbnail ? (
-                  <img src={postInfo.thumbnail} alt="" />
-                ) : (
-                  <img src={noImage} alt="" />
-                )}
-              </StyledThumbnail>
-            </Container>
+      {displayedPostInfos.length > 0
+        ? displayedPostInfos.map((postInfo) =>
+            postInfo.blocked ? (
+              <Container key={postInfo.postId}>
+                <BlockedContainer>
+                  <StyledBlockedPost>
+                    <h1>✖︎ 차단한 사용자의 게시글입니다.</h1>
+                  </StyledBlockedPost>
+                  <button onClick={confirmDeleteBlock}>차단 해제</button>
+                  <UserPopUp
+                    open={showPopUp}
+                    confirm={() => handleDeleteBlock(postInfo.id)}
+                    close={handleClosePopUp}
+                    type="confirm"
+                    header={"❗️"}
+                    confirmText="확인"
+                    closeText="취소"
+                  >
+                    해당 사용자를 차단 해제 하시겠습니까?
+                  </UserPopUp>
+                </BlockedContainer>
+                <StyledThumbnail>
+                  <img src={blockImage} alt="차단 게시글 썸네일" />
+                </StyledThumbnail>
+              </Container>
+            ) : (
+              <Container key={postInfo.postId}>
+                <PostHeader>
+                  <AuthorHeader>
+                    <img
+                      src={postInfo.pfImg}
+                      alt="작성자 프로필"
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <AuthorInfo>
+                      <h1>{postInfo.nickname}</h1>
+                      <p>{postInfo.writeDate}</p>
+                    </AuthorInfo>
+                  </AuthorHeader>
+                  {bookmarked.includes(postInfo.postId) ? (
+                    <BookmarkIcon
+                      sx={{ cursor: "pointer", color: "#FF62AD" }}
+                      onClick={() => handleBookmark(postInfo.postId)}
+                    />
+                  ) : (
+                    <BookmarkBorderIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleBookmark(postInfo.postId);
+                        toggleModal();
+                      }}
+                    />
+                  )}
+                </PostHeader>
+                <BookmarkModal
+                  open={isModalOpen}
+                  handleClose={toggleModal}
+                  folders={folders}
+                  addFolder={handleAddFolder}
+                  postId={selectedPostId}
+                  handleBookmark={() => handleBookmark(postInfo.postId)}
+                />
+                <PostTitle onClick={() => handleClickPost(postInfo.postId)}>
+                  <h1>{postInfo.title}</h1>
+                  <p>{postInfo.district}</p>
+                </PostTitle>
+                <StyledThumbnail>
+                  {postInfo.thumbnail ? (
+                    <img src={postInfo.thumbnail} alt="" />
+                  ) : (
+                    <img src={noImage} alt="" />
+                  )}
+                </StyledThumbnail>
+              </Container>
+            )
           )
-        )
-      ) : (
-        <p>게시글이 없습니다 ㅜㅜ </p>
-      )}
+        : Array.from({ length: POSTS_PER_PAGE }).map((_, index) => (
+            <PlaceholderPost key={index}>
+              <p>데이터가 없습니다.</p>
+            </PlaceholderPost>
+          ))}
+      {
+        // 부족한 게시글 수 만큼 Placeholder 추가
+        displayedPostInfos.length < POSTS_PER_PAGE
+          ? Array.from({
+              length: POSTS_PER_PAGE - displayedPostInfos.length,
+            }).map((_, index) => (
+              <PlaceholderPost key={`placeholder-${index}`}></PlaceholderPost>
+            ))
+          : null
+      }
+      <PaginationWrapper>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </PaginationWrapper>
     </>
   );
 };
