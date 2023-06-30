@@ -11,7 +11,21 @@ const FestivalAPI = ({ children, page, contentId }) => {
 
   const fetchData = async () => {
     try {
-      const url = `/B551011/KorService1/searchFestival1?serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&numOfRows=99&&MobileOS=ETC&MobileApp=%08todaysDate&_type=json&listYN=Y&arrange=A&eventStartDate=20230601&eventEndDate=20231201`;
+      const now = new Date();
+      const sixMonthsFromNow = new Date(now.setMonth(now.getMonth() + 6)); // 오늘 날짜 기준으로 6개월 후 
+  
+      const format = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); 
+        const day = String(date.getDate()).padStart(2, "0");
+  
+        return `${year}${month}${day}`;
+      };
+  
+      const startDate = format(new Date());
+      const endDate = format(sixMonthsFromNow);
+  
+      const url = `/B551011/KorService1/searchFestival1?serviceKey=${process.env.REACT_APP_FESTIVAL_API_KEY}&numOfRows=99&&MobileOS=ETC&MobileApp=%08todaysDate&_type=json&listYN=Y&arrange=A&eventStartDate=${startDate}&eventEndDate=${endDate}`;
 
       const response = await axios.get(url, {
         headers: {
