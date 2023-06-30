@@ -6,7 +6,7 @@ import { notify } from "../Home/PushAlert";
 
 const WebSocketStomp = () => {
   const [client, setClient] = useState(null);
-  const { userRegion } = useContext(UserContext);
+  const { userRegion, userId } = useContext(UserContext);
   
   useEffect(() => {
     const sock = new SockJS("http://localhost:8111/ws", null, {
@@ -29,7 +29,7 @@ const WebSocketStomp = () => {
       const onConnect = () => {
         console.log("웹소켓 연결!!!");
 
-        client.subscribe(`/region/${userRegion}`, (message) => {
+        client.subscribe(`/region/${userRegion}/${userId}`, (message) => {
           console.log("👽 메세지 : " + message.body);
           notify(message.body);
         });
@@ -48,7 +48,7 @@ const WebSocketStomp = () => {
         client.deactivate();
       }
     };
-  }, [userRegion, client]);
+  }, [userRegion, client, userId]);
 
   return (
     <>
