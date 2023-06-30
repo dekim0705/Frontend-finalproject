@@ -13,6 +13,11 @@ const ParentContainer = styled.div`
     max-width: 280px;
     margin-left: 1rem;
   }
+  @media screen and (max-width: 1200px) {
+    .author {
+      display: none;
+    }  
+  }
 `;
 const Table = styled.table`
   width: 100%;
@@ -86,7 +91,7 @@ const PinListWeb = ({
             </th>
             {/* <th>글번호</th> */}
             <th>제목</th>
-            <th>작성자</th>
+            <th className="author">작성자</th>
             <th>작성일</th>
             <th>조회수</th>
           </tr>
