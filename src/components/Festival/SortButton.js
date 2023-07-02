@@ -29,7 +29,6 @@ const SortButtonsContainer = styled.div`
 `;
 
 const SortButtons = ({ handleSort, sortBy }) => {
-  // const [sortBy, setSortBy] = useState('name');
 
   return (
     <SortButtonsContainer>

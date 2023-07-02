@@ -12,6 +12,9 @@ const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   padding-top: 20px;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const Summary = styled.div`
@@ -57,6 +60,10 @@ const InfoItem = styled.div`
 const Line = styled.hr`
   width: 85%;
   margin: 40px 0;
+  @media (max-width: 768px) {
+    margin: 10px 0px;
+    width: 85%;
+  }
 `;
 
 const Title = styled.h1`
@@ -66,6 +73,9 @@ const Title = styled.h1`
   padding-left: 25px;
   padding-bottom: 30px;
   font-weight: bold;
+  @media (max-width: 768px) {
+    padding: 20px 10px;
+  }
 `;
 
 const FestivalSummary = ({ page, contentId, apiData }) => {

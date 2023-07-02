@@ -66,7 +66,7 @@ const FestivalAPI = ({ children, page, contentId }) => {
         
       }
     } catch (error) {
-      console.error('API 호출 에러!!', error);
+      console.error('API 호출 에러!!', error.message);
     }
   };
 
