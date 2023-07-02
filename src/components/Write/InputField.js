@@ -70,7 +70,7 @@ const InputField = ({
           />
         </div>
         <div className="form">
-          <label htmlFor="comment1">한 줄 평 - 1</label>
+          <label htmlFor="comment1">해시태그 - 1</label>
           <input
             type="text"
             id="comment1"
@@ -80,7 +80,7 @@ const InputField = ({
           />
         </div>
         <div className="form">
-          <label htmlFor="comment2">한 줄 평 - 2</label>
+          <label htmlFor="comment2">해시태그 - 2</label>
           <input
             type="text"
             id="comment2"
@@ -90,7 +90,7 @@ const InputField = ({
           />
         </div>
         <div className="form">
-          <label htmlFor="comment3">한 줄 평 - 3</label>
+          <label htmlFor="comment3">해시태그 - 3</label>
           <input
             type="text"
             id="comment3"

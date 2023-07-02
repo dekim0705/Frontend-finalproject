@@ -206,7 +206,7 @@ const CityPost = ({ selectedCity }) => {
     const start = (page - 1) * POSTS_PER_PAGE;
     const end = start + POSTS_PER_PAGE;
     setDisplayedPostInfos(allPostInfos.slice(start, end));
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -344,7 +344,11 @@ const CityPost = ({ selectedCity }) => {
                 </PostTitle>
                 <StyledThumbnail>
                   {postInfo.thumbnail ? (
-                    <img src={postInfo.thumbnail} alt="" />
+                    <img
+                      src={postInfo.thumbnail}
+                      alt=""
+                      onClick={() => handleClickPost(postInfo.postId)}
+                    />
                   ) : (
                     <img src={noImage} alt="" />
                   )}
@@ -353,8 +357,7 @@ const CityPost = ({ selectedCity }) => {
             )
           )
         : Array.from({ length: POSTS_PER_PAGE }).map((_, index) => (
-            <PlaceholderPost key={index}>
-            </PlaceholderPost>
+            <PlaceholderPost key={index}></PlaceholderPost>
           ))}
       {
         // 부족한 게시글 수 만큼 Placeholder 추가

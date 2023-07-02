@@ -101,7 +101,7 @@ const Header = () => {
         </ListItem>
         <Divider />
         <ListItem key={"write"} component={Link} to="/write">
-          <ListItemText primary={"📌 핀 만들기"} sx={{ color: "#2e2e2e" }} />
+          <ListItemText primary={"📌 경로 만들기"} sx={{ color: "#2e2e2e" }} />
         </ListItem>
         <Divider />
         <ListItem key={"membership"} component={Link} to="/membership">
