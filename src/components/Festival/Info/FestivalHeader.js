@@ -11,8 +11,6 @@ const HeaderContainer = styled.div`
   padding: 15px 40px;
   /* padding-bottom: 0px; */
   @media (max-width: 768px) {
-    flex-direcion: column;
-    align-items: flex-start;
     padding: 0px 30px;
     width: 95%;
   }
