@@ -7,9 +7,9 @@ import FestivalItem from "./FestivalItem";
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   padding: 10px 30px;
   margin: 0 auto;
-  justify-content: flex-start; 
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -35,10 +35,16 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
   const [filteredData, setFilteredData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false); 
+  const [filterApplied, setFilterApplied] = useState(false);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+    setFilterApplied(false);
     navigate(`/festival/${newPage}`);
+  };
+
+  const handleSearchOrFilter = () => {
+    setFilterApplied(true);
   };
 
   useEffect(() => {
@@ -47,6 +53,7 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
     // 도시가 선택되었을 경우 도시별로 필터링
     if (isButtonClicked && selectedCity && selectedCity !== 0) {
       filtered = filtered.filter((festival) => festival.areaCode === selectedCity.toString());
+      handleSearchOrFilter();
     }
     // 개최여부가 선택되었을 경우 개최여부 필터링
     if (isButtonClicked && selectedStatus && selectedStatus !== 0) {
@@ -65,11 +72,15 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
       } else if (selectedStatus === 2) {
         filtered = filtered.filter((festival) => parseInt(festival.eventStartDate) > formattedDate);
       }
+      handleSearchOrFilter();
     }
-
-  // 검색어가 입력되었을 경우 검색어 필터링
+    // 필터링 후 페이지를 1로 설정
+    if(filterApplied) {
+    setCurrentPage(1);
+    }
+   // 검색어가 입력되었을 경우 검색어 필터링
     setFilteredData(filtered);
-  }, [apiData, selectedCity, selectedStatus, isButtonClicked]);
+  }, [apiData, selectedCity, selectedStatus, isButtonClicked, filterApplied]);
 
   useEffect(() => {
     let dataToSearch = searchKeyword ? apiData : filteredData;
@@ -77,14 +88,19 @@ const FestivalContainer = ({ apiData, selectedCity, selectedStatus, isButtonClic
     if (searchKeyword) {
       const keyword = searchKeyword.toLowerCase();
       dataToSearch = dataToSearch.filter((festival) => festival.title.toLowerCase().includes(keyword));
+      handleSearchOrFilter();
     }
-
+    
+    // 검색 후 페이지를 1로 설정
+    if(filterApplied) {
+    setCurrentPage(1);
+    }
     setSearchedData(dataToSearch);
     setDataLoaded(true)
-  }, [searchKeyword, filteredData]);
+  }, [apiData, searchKeyword, filteredData, filterApplied]);
 
   useEffect(() => {
-        // 날짜순 정렬
+
     let sortedData = [...searchedData];
     if (sortBy === "name") {
       sortedData.sort((a, b) => a.title.localeCompare(b.title));

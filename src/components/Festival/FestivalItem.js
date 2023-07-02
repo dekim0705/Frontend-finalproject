@@ -4,30 +4,30 @@ import { Link, useLocation } from 'react-router-dom';
 import DefaultImage from "../../resource/축제기본이미지.jpeg";
 
 const ItemContainer = styled.div`
-  width: calc(100% / 3 - 2.5%);
+  width: calc(33.33% - 2%);
   margin: 1%;
   position: relative;
-  justify-content : center;
+  justify-content: center;
   border-radius: 15px;
   height: 320px;
-  padding-bottom: 40px; 
- 
+  padding-bottom: 40px;
+  
   @media (max-width: 768px) {
-    width: 80%;
-    margin: 2.5%;
+    width: calc(50% - 2%);
   }
-  @media (max-width: 400px) {
-    width: 100%;
-    margin: 0 auto;
+  
+  @media (max-width: 600px) {
+    width: calc(100% - 2%);
   }
 `;
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 210px;
-  min-width: 230px;
+  min-width: 240px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
@@ -37,9 +37,6 @@ const Overlay = styled.div`
     opacity: 1;
   }
 
-  @media (max-width: 400px) {
-    margin-right: 0px;
-  }
 
 `;
 const StyledLink = styled(Link)`
@@ -64,15 +61,11 @@ const StyledLink = styled(Link)`
 `;
 const Thumbnail = styled.img`
   width: 100%;
+  min-width: 240px;
   height: 210px;
-  min-width: 230px;
   border-radius: 15px;
   margin-bottom: 10px;
   margin-right: 100px;
-  @media (max-width: 400px) {
-    margin-right: 0px;
-
-  }
 `;
 
 const Title = styled.p`
@@ -86,10 +79,12 @@ const Duration = styled.p`
   font-size: 1rem;
   color: #777;
   margin-bottom: 5px;
+  min-width: 240px;
 `;
 
 const Location = styled.p`
   font-size: 0.9rem;
+  min-width: 240px;
 `;
 
 
