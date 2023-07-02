@@ -5,7 +5,11 @@ import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 
 const Line = styled.hr`
   width: 100%;
-  margin: 50px 0;
+  margin: 40px 0;
+  @media (max-width: 768px) {
+    margin: 30px 0px;
+    width: 90%;
+  }
 `;
 
 const Container = styled.div`
@@ -15,11 +19,11 @@ const Container = styled.div`
   width: 85%;
   margin: 0 auto; 
   align-items: center;
-  padding : 10px;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    padding-left: 20px;
+    justify-content:center;
+    width: 95%;
   }
 `;
 
@@ -29,6 +33,10 @@ const Desc = styled.h1`
   width: 100%;
   margin-bottom: 20px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const ItemContainer = styled.div`
@@ -44,9 +52,10 @@ const ItemContainer = styled.div`
     margin: 2.5%;
   }
   @media (max-width: 400px) {
-    width: 100%;
+    width: 90%;
+
   }
-`;
+`
 
 const Overlay = styled.div`
   position: absolute;

@@ -6,11 +6,12 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
-  width: 100%;
+  width: 90%;
   justify-content: space-between;
   padding: 15px 40px;
+  /* padding-bottom: 0px; */
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direcion: column;
     align-items: flex-start;
     padding: 0px 30px;
     width: 95%;
@@ -39,17 +40,13 @@ const FestivalSubtitle = styled.p`
 const FestivalDate = styled.span`
   font-size: 1rem;
   padding: 12px;
-  margin-bottom: 10px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
-  width: 100%;
-  padding-top: 50px;
-  @media (max-width: 768px) {
-    padding-top: 15px;
-  }
+  justify-content: flex-end;
+  width: 90%;
+
 `;
 
 const ShareButton = styled.button`
@@ -71,6 +68,7 @@ const FestivalHeader = ({ contentId, apiData }) => {
   const duration = formattedStartDate && formattedEndDate && `${formattedStartDate} ~ ${formattedEndDate}`;
 
   return (
+    <>
     <HeaderContainer>
       <FestivalTitleWrapper>
         <FestivalSubtitle>축제 소개</FestivalSubtitle>
@@ -80,13 +78,12 @@ const FestivalHeader = ({ contentId, apiData }) => {
             <FestivalDate>{duration}</FestivalDate>
           </>
         )}
+         </FestivalTitleWrapper>
+        </HeaderContainer>
         {/* <ButtonWrapper>
-          <ShareButton>
-            <ShareIcon /> 공유하기
-          </ShareButton>
-        </ButtonWrapper> */}
-      </FestivalTitleWrapper>
-    </HeaderContainer>
+        <ShareButton> <ShareIcon /> 공유하기</ShareButton>
+      </ButtonWrapper> */}
+    </>
   );
 };
 

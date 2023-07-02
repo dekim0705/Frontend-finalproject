@@ -71,6 +71,7 @@ const Thumbnail = styled.img`
   margin-right: 100px;
   @media (max-width: 400px) {
     margin-right: 0px;
+
   }
 `;
 
