@@ -47,6 +47,10 @@ const ReplyWrite = ({ postData, setReplies }) => {
   };
 
   const handleClick = async () => {
+    if (!reply) {
+      alert("댓글 내용을 입력해주세요!");
+      return;
+    }
     try {
       const replyUserDto = {
         content: reply,
