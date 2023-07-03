@@ -114,6 +114,7 @@ const ReportModalReply = ({ open, handleClose, userNum }) => {
           onChange={handleInputChange}
         ></textarea>
         <button onClick={handleReportSubmit}>관리자에게 전송</button>
+        <button onClick={handleClose}>취소</button>
       </ModalContainer>
     </ModalBackground>
   );

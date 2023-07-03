@@ -107,6 +107,7 @@ const ReportModal = ({ open, handleClose, userId }) => {
         <p>기타 문의사항은 메일로 보내주시기 바랍니다.</p>
         <textarea name="reportContent" id="" cols="30" rows="10" value={reportContent} onChange={handleInputChange}></textarea>
         <button onClick={handleReportSubmit}>관리자에게 전송</button>
+        <button onClick={handleClose}>취소</button>
       </ModalContainer>
     </ModalBackground>
   );
