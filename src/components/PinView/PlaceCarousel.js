@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Carousel } from "antd";
 import styled from "styled-components";
+import BlogResult from "./BlogResult";
 
 const StyledContent = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ const StyledContent = styled.div`
   align-items: center;
   height: 180px;
   color: #2e2e2e;
-  h3 a {
+  h3 {
     cursor: pointer;
     padding: 40px 70px;
     font-size: 1.5em;
@@ -31,27 +32,28 @@ const StyledContent = styled.div`
 `;
 
 const PlaceCarousel = ({ postData }) => {
+  const [selectedTag, setSelectedTag] = useState(null);
+
+  const handleTagClick = (tag) => {
+    setSelectedTag(tag);
+  };
+
   if (!postData) {
     return <p>데이터가 없습니다!</p>;
   }
   return (
-    <Carousel autoplay>
-      {postData.placeTag.map((place, index) => (
-        <div key={index}>
-          <StyledContent>
-            <h3>
-              <a
-                href={`https://map.naver.com/v5/search/${place}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {place} 📎
-              </a>
-            </h3>
-          </StyledContent>
-        </div>
-      ))}
-    </Carousel>
+    <>
+      <Carousel autoplay>
+        {postData.placeTag.map((place, index) => (
+          <div key={index} onClick={() => handleTagClick(place)}>
+            <StyledContent>
+              <h3>{place}</h3>
+            </StyledContent>
+          </div>
+        ))}
+      </Carousel>
+      <BlogResult selectedTag={selectedTag} />
+    </>
   );
 };
 

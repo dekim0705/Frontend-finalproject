@@ -69,7 +69,12 @@ const StyledThumbnail = styled.div`
   img {
     width: 100%;
     height: 350px;
-    border-radius: 15px;
+    border-radius: 8px;
+  }
+  @media screen and (max-width: 768px) {
+    img {
+      border-radius: 0;
+    }
   }
 `;
 
