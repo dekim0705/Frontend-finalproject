@@ -130,7 +130,7 @@ const WritePage = () => {
   };
 
   const handleClick = async () => {
-    if (!post.title || !post.district || !post.region || !post.course || !post.theme || !post.content || post.comment.includes("") || post.placeTag.length === 0) {
+    if (!post.title || !post.district || !post.region || !post.course || !post.theme || !post.content || post.placeTag.length === 0) {
       alert("필수 필드가 입력되지 않았습니다.");
       return;
     }
