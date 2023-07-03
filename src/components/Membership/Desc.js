@@ -55,10 +55,6 @@ const Version = styled.div`
     text-align: center;
     border-radius: 10px;
   }
-  .free {
-    background-color: var(--hover-color);
-    color: #818087;
-  }
   .premium {
     background-color: var(--point-color);
     color: #fff;
@@ -82,6 +78,16 @@ const Version = styled.div`
     width: 40%;
     cursor: pointer;
   }
+`;
+
+const FreeBox = styled.div`
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: var(--hover-color);
+  color: ${({ isMembership }) => isMembership === "MEMBERSHIP" ? "#818087" : "inherit"};
+  text-decoration: ${({ isMembership }) => isMembership === "MEMBERSHIP" ? "line-through" : "none"};
 `;
 
 const Desc = () => {
@@ -124,7 +130,7 @@ const Desc = () => {
       <StyledMembership>
         <Version>
           <h1>Free</h1>
-          <div className="box free">Your current version</div>
+          <FreeBox isMembership={isMembership}>Your current version</FreeBox>
         </Version>
         <Version>
           <h1>Premium</h1>
