@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import ShareIcon from '@mui/icons-material/Share';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -9,7 +8,7 @@ const HeaderContainer = styled.div`
   width: 90%;
   justify-content: space-between;
   padding: 15px 40px;
-  /* padding-bottom: 0px; */
+  padding-bottom: 0px;
   @media (max-width: 768px) {
     padding: 0px 30px;
     width: 95%;
@@ -40,22 +39,6 @@ const FestivalDate = styled.span`
   padding: 12px;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 90%;
-
-`;
-
-const ShareButton = styled.button`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-`;
-
 const FestivalHeader = ({ contentId, apiData }) => {
   const festivalData = apiData && apiData.find((item) => item.contentid.toString() === contentId);
 
@@ -65,8 +48,8 @@ const FestivalHeader = ({ contentId, apiData }) => {
   const formattedEndDate = endDate && `${endDate.slice(0, 4)}.${endDate.slice(4, 6)}.${endDate.slice(6)}`;
   const duration = formattedStartDate && formattedEndDate && `${formattedStartDate} ~ ${formattedEndDate}`;
 
+
   return (
-    <>
     <HeaderContainer>
       <FestivalTitleWrapper>
         <FestivalSubtitle>축제 소개</FestivalSubtitle>
@@ -78,10 +61,6 @@ const FestivalHeader = ({ contentId, apiData }) => {
         )}
          </FestivalTitleWrapper>
         </HeaderContainer>
-        {/* <ButtonWrapper>
-        <ShareButton> <ShareIcon /> 공유하기</ShareButton>
-      </ButtonWrapper> */}
-    </>
   );
 };
 
