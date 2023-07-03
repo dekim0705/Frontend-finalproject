@@ -1,9 +1,18 @@
-import React from 'react';
+import React ,{  useEffect, useState }  from 'react';
 import styled from 'styled-components';
+import ShareIcon from '@mui/icons-material/Share';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DefaultImage from "../../../resource/축제기본이미지.jpeg";
 import CallIcon from '@mui/icons-material/Call';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LineShareButton,
+} from "react-share";
+import FacebookIcon from "../../../resource/facebook.png";
+import TwitterIcon from "../../../resource/twitter.png";
+import LineIcon from "../../../resource/line.png";
 
 const Container = styled.div`
   display: flex;
@@ -78,8 +87,23 @@ const Title = styled.h1`
   }
 `;
 
+const ShareButton = styled.button`
+  display: flex;
+  align-items: center;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+`;
+
 const FestivalSummary = ({ page, contentId, apiData }) => {
   const festivalData = apiData.find(item => item.contentid.toString() === contentId);
+
+  const [currentUrl, setCurrentUrl] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   return (
     <Container>
@@ -108,7 +132,32 @@ const FestivalSummary = ({ page, contentId, apiData }) => {
             <CallIcon />
             <span>{festivalData && festivalData.tel}</span>
           </InfoItem>
+          <InfoItem>
+          <ShareIcon/>
+          <FacebookShareButton url={currentUrl} quote={festivalData?.title}>
+            <img
+              src={FacebookIcon}
+              alt="Facebook"
+              style={{ width: "30px", height: "30px" }}
+            />
+          </FacebookShareButton>
+          <TwitterShareButton url={currentUrl} title={festivalData?.title}>
+            <img
+              src={TwitterIcon}
+              alt="Twitter"
+              style={{ width: "30px", height: "30px" }}
+            />
+          </TwitterShareButton>
+          <LineShareButton url={currentUrl} subject={festivalData?.title}>
+            <img
+              src={LineIcon}
+              alt="Line"
+              style={{ width: "30px", height: "30px" }}
+            />
+          </LineShareButton>
+          </InfoItem>
         </div>
+        
       </Summary>
       <Line />
       <Title>행사 위치</Title>
