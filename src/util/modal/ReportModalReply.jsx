@@ -62,6 +62,10 @@ const ReportModalReply = ({ open, handleClose, userNum }) => {
   };
 
   const handleReportSubmit = async () => {
+    if (!reportContent) {
+      alert("신고 내용을 입력해주시기 바랍니다.");
+      return;
+    }
     const reportRequestDto = {
       reportedId: userNum,
       content: reportContent,
