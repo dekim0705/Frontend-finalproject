@@ -103,6 +103,7 @@ const Thumbnail = styled.img`
 
 const Title = styled.p`
   font-size: 1.1rem;
+  height: 50px;
   padding: 5px;
   text-align: center;
 `;
