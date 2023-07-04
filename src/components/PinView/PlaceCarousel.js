@@ -52,7 +52,7 @@ const PlaceCarousel = ({ postData }) => {
           </div>
         ))}
       </Carousel>
-      <BlogResult selectedTag={selectedTag} />
+      <BlogResult selectedTag={selectedTag} firstPlaceTag={postData.placeTag[0]} />
     </>
   );
 };

@@ -53,7 +53,7 @@ const StyledButton = styled.button`
   border-radius: 4px;
 `;
 
-const BlogResult = ({ selectedTag }) => {
+const BlogResult = ({ selectedTag, firstPlaceTag }) => {
   const [blogResults, setBlogResults] = useState(null);
   const KAKAO_REST_API_KEY = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
 
@@ -75,6 +75,32 @@ const BlogResult = ({ selectedTag }) => {
           const response = await fetch(
             `https://dapi.kakao.com/v2/search/blog?query=${encodeURIComponent(
               selectedTag
+            )}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("💩 : " + JSON.stringify(data.documents, null, 2));
+            setBlogResults(data.documents);
+          } else {
+            console.error("실패 : ", response.status, response.statusText);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    } else {
+      (async () => {
+        try {
+          const response = await fetch(
+            `https://dapi.kakao.com/v2/search/blog?query=${encodeURIComponent(
+              firstPlaceTag
             )}`,
             {
               method: "GET",
