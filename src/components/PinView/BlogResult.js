@@ -122,7 +122,7 @@ const BlogResult = ({ selectedTag, firstPlaceTag }) => {
         }
       })();
     }
-  }, [selectedTag]);
+  }, [selectedTag, firstPlaceTag]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
