@@ -71,11 +71,6 @@ const StyledThumbnail = styled.div`
     height: 350px;
     border-radius: 8px;
   }
-  @media screen and (max-width: 768px) {
-    img {
-      border-radius: 0;
-    }
-  }
 `;
 
 const StyledBlockedPost = styled.div`
