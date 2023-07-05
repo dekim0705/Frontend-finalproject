@@ -23,7 +23,8 @@ const Container = styled.div`
 const SelectWrapper = styled.div`
   width: 90%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 20px;
   @media screen and (max-width: 768px) {
     flex-direction: column;
     gap: 20px;
@@ -48,6 +49,11 @@ const WriteForm = ({
 }) => {
   return (
     <Container>
+      <SelectWrapper>
+        <Region onRegionChange={onRegionChange} />
+        <Schedule onScheduleChange={onScheduleChange} />
+        <Theme onThemeChange={onThemeChange} />
+      </SelectWrapper>
       <InputField
         onTitleChange={onTitleChange}
         onDistrictChange={onDistrictChange}
@@ -60,11 +66,6 @@ const WriteForm = ({
         comment2Value={post.comment[1]}
         comment3Value={post.comment[2]}
       />
-      <SelectWrapper>
-        <Region onRegionChange={onRegionChange} />
-        <Schedule onScheduleChange={onScheduleChange} />
-        <Theme onThemeChange={onThemeChange} />
-      </SelectWrapper>
     </Container>
   );
 };
