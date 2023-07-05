@@ -87,13 +87,6 @@ const Title = styled.h1`
   }
 `;
 
-const ShareButton = styled.button`
-  display: flex;
-  align-items: center;
-  height: 30px;
-  background-color: transparent;
-  border: none;
-`;
 
 const FestivalSummary = ({ page, contentId, apiData }) => {
   const festivalData = apiData.find(item => item.contentid.toString() === contentId);
