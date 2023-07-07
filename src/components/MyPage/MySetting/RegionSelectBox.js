@@ -31,9 +31,10 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         root: {
-          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#FF62AD",
-          },
+          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: "#FF62AD",
+            },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "#818087",
           },
@@ -43,8 +44,7 @@ const theme = createTheme({
   },
 });
 
-const RegionSelectBox = ({ value, onRegionUpdate }) => {
-
+const RegionSelectBox = ({ value = "", onRegionUpdate }) => {
   const handleRegionChange = (event) => {
     onRegionUpdate(event.target.value);
   };
@@ -62,6 +62,7 @@ const RegionSelectBox = ({ value, onRegionUpdate }) => {
             label="관심 지역"
             value={value}
           >
+            <MenuItem value="NONE">없음</MenuItem>
             <MenuItem value="SEOUL">서울</MenuItem>
             <MenuItem value="INCHEON">인천</MenuItem>
             <MenuItem value="GYEONGGI">경기</MenuItem>
