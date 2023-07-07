@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const PopupContainer = styled.div`
   position: fixed;
@@ -61,10 +60,33 @@ const PopUpOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 200;
+  a {
+    text-decoration: none;
+  }
 `;
 
-const EmailVerificationPopup = () => {
-  const navigate = useNavigate();
+const EmailVerificationPopup = ({ email }) => {
+  console.log("입력된 이메일" + email);
+
+  const handleInboxBtn = () => {
+    const domain = email.split("@")[1];
+    let emailLink = "";
+    switch (domain) {
+      case "gmail.com":
+        emailLink = `https://mail.google.com/mail/u/${email}`;
+        break;
+      case "naver.com":
+        emailLink = `https://mail.naver.com/?n=12345678#list/INBOX`;
+        break;
+      case "kakao.com":
+        emailLink = `https://mail.kakao.com`;
+        break;
+      default:
+        emailLink = `mailto:${email}`;
+        break;
+    }
+    window.open(emailLink, "_self");
+  };
 
   return (
     <>
@@ -75,7 +97,7 @@ const EmailVerificationPopup = () => {
           <PopupContent>
             회원가입을 완료하기 위해 이메일 인증을 진행해 주세요.
           </PopupContent>
-          <PopupButton onClick={() => navigate("/")}>확인</PopupButton>
+          <PopupButton onClick={handleInboxBtn}>이메일 확인</PopupButton>
         </PopupContainer>
       </PopUpOverlay>
     </>
