@@ -50,6 +50,9 @@ const PopupButton = styled.button`
     background-color: var(--point-color);
     color: #fff;
   }
+  @media screen and (max-width: 768px) {
+    width: 40%;
+  }
 `;
 
 const PopUpOverlay = styled.div`
