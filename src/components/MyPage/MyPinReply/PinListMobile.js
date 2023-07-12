@@ -63,7 +63,9 @@ const PinListMobile = ({
                     />
                     <TitleLink to={`/post/${post.postNum}`}>
                       <span className="title">{post.title}</span>
-                      <span className="view_count">[{post.viewCount}]</span>
+                      <span className="view_count">
+                        [{post.replyCountPerPost}]
+                      </span>
                     </TitleLink>
                   </RowWrapper>
                   <RowWrapper gap="1rem">

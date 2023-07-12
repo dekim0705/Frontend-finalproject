@@ -57,7 +57,7 @@ const ProfileBar2 = () => {
   } = useContext(UserContext);
 
   return (
-    <Container width="60%" margin="0 auto" minWidth="370px">
+    <Container width="60%" margin="1rem auto" minWidth="21.5rem">
       <RowWrapper
         responsiveWidth="70%"
         responsiveGap="5px"

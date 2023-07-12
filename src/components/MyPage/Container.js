@@ -12,7 +12,7 @@ const StyledContainer = styled.div`
   min-width: ${({ minWidth }) => minWidth || ""};
   height: ${({ height }) => height || "100%"};
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 85%;
     height: 30%;
   }
 `;
