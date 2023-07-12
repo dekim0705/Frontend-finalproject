@@ -20,9 +20,17 @@ const MyPage = () => {
           <Route index path="pin-list/:pageNumber" element={<PinList />} />
           <Route index path="replies/:pageNumber" element={<ReplyList />} />
           <Route index path="bookmarks" element={<BookmarkPage />} />
-          <Route index path="bookmarks/:folderId" element={<BookmarkDetailPage />} />
+          <Route
+            index
+            path="bookmarks/:folderId"
+            element={<BookmarkDetailPage />}
+          />
           <Route index path="settings/membership" element={<Membership />} />
-          <Route index path="settings/notification" element={<Notification />} />
+          <Route
+            index
+            path="settings/notification"
+            element={<Notification />}
+          />
           <Route index path="settings/info" element={<EditInfo />} />
           <Route index path="settings/info/password" element={<EditPwd />} />
         </Routes>

@@ -2,13 +2,19 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ProfileBar2 from "./ProfileBar2";
 import { PinReplyNav } from "../Navs";
-import { StyledCheckbox, Button, TitleLink } from "./PinListWeb";
-import { RowWrapper, MapContainer, SelectAllButton } from "./PinListMobile";
+import {
+  StyledCheckbox,
+  Button,
+  TitleLink,
+  RowWrapper,
+  MapContainer,
+  SelectAllButton,
+} from "./CommonStyle";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import UserAxiosApi from "../../../api/UserAxiosApi";
 import Functions from "../../../util/Functions";
-import UserPopUp, {PopUpMessage} from "../../../util/modal/UserPopUp";
+import UserPopUp, { PopUpMessage } from "../../../util/modal/UserPopUp";
 
 const ParentContainer = styled.div`
   width: 70%;
@@ -22,6 +28,11 @@ const ParentContainer = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 500px;
+  }
+  .empty_reply {
+    margin: 2rem;
+    text-align: center;
+    font-size: 1.4rem;
   }
   @media screen and (max-width: 768px) {
     width: 80%;
@@ -161,44 +172,50 @@ const ReplyList = () => {
       <ProfileBar2 />
       <PinReplyNav />
       <ParentContainer>
-        {currentReplies.map((reply) => (
-          <div key={reply.replyNum}>
-            <MapContainer>
-              <RowWrapper>
+        {replies.length === 0 ? (
+          <div className="empty_reply">작성된 댓글이 없습니다. 😰</div>
+        ) : (
+          <>
+            {currentReplies.map((reply) => (
+              <div key={reply.replyNum}>
+                <MapContainer>
+                  <RowWrapper>
+                    <StyledCheckbox
+                      type="checkbox"
+                      checked={isReplySelected(reply.replyNum)}
+                      onChange={(event) =>
+                        handleCheckboxChange(event, reply.replyNum)
+                      }
+                    />
+                    <TitleLink to={`/post/${reply.postNum}`}>
+                      <span className="title">{reply.content}</span>
+                    </TitleLink>
+                  </RowWrapper>
+                  <Content className="content_align title">
+                    원문제목: {reply.title}
+                  </Content>
+                  <RowWrapper className="author_date" gap="1rem">
+                    <StyledP>{reply.nickname}</StyledP>
+                    <StyledP>{formatDate(reply.writeDate)}</StyledP>
+                  </RowWrapper>
+                </MapContainer>
+              </div>
+            ))}
+
+            <RowWrapper gap="1rem">
+              <SelectAllButton>
                 <StyledCheckbox
                   type="checkbox"
-                  checked={isReplySelected(reply.replyNum)}
-                  onChange={(event) =>
-                    handleCheckboxChange(event, reply.replyNum)
-                  }
+                  checked={selectAll}
+                  onChange={handleSelectAllChange}
                 />
-                <TitleLink to={`/post/${reply.postNum}`}>
-                  <span className="title">{reply.content}</span>
-                </TitleLink>
-              </RowWrapper>
-              <Content className="content_align title">
-                원문제목: {reply.title}
-              </Content>
-              <RowWrapper className="author_date" gap="1rem">
-                <StyledP>{reply.nickname}</StyledP>
-                <StyledP>{formatDate(reply.writeDate)}</StyledP>
-              </RowWrapper>
-            </MapContainer>
-          </div>
-        ))}
-
-        <RowWrapper gap="1rem">
-          <SelectAllButton>
-            <StyledCheckbox
-              type="checkbox"
-              checked={selectAll}
-              onChange={handleSelectAllChange}
-            />
-            <p>전체선택</p>
-          </SelectAllButton>
-          <Button onClick={handleDeleteBtn}>삭제</Button>
-        </RowWrapper>
-        <br />
+                <p>전체선택</p>
+              </SelectAllButton>
+              <Button onClick={handleDeleteBtn}>삭제</Button>
+            </RowWrapper>
+            <br />
+          </>
+        )}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
